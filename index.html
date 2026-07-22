@@ -11,10 +11,10 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Atlas — أطلس</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=El+Messiri:wght@400;500;600&family=Hanken+Grotesk:wght@400;500;600;700&family=Alexandria:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=El+Messiri:wght@400;500;600&family=Alexandria:wght@500;700&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
  :root{
-   --acc:#B85C38; --ok:#3E7D5C; --warn:#C15B4A;
+   --acc:#B85C38; --ok:#3E7D5C; --warn:#C15B4A; --gold:#C6862F;
    --ink:#241F17; --stone:#7A7160;
    --glass:rgba(253,250,242,.55); --glass2:rgba(253,250,242,.42);
    --gbord:rgba(255,255,255,.68);
@@ -33,434 +33,403 @@
  .atmo .dune{position:absolute;left:-10%;right:-10%;height:34%;filter:blur(28px);opacity:.55;border-radius:50%}
  .atmo .d1{bottom:20%;background:#CE9B62}
  .atmo .d2{bottom:2%;background:#7E8E76;height:30%}
- .atmo .grainy{position:absolute;inset:0;opacity:.5}
 
  .screen{position:absolute;inset:0;display:none;flex-direction:column}
- .screen.active{display:flex;animation:fade .32s ease}
- @keyframes fade{from{opacity:.5}to{opacity:1}}
- .scroll{flex:1;overflow-y:auto;padding-bottom:210px}
+ .screen.active{display:flex;animation:fade .3s ease}
+ @keyframes fade{from{opacity:.55}to{opacity:1}}
+ .scroll{flex:1;overflow-y:auto;padding-bottom:calc(env(safe-area-inset-bottom,16px) + 118px)}
  .scroll::-webkit-scrollbar{display:none}
- .status{height:calc(env(safe-area-inset-top,14px) + 8px);flex-shrink:0}
- .status *{display:none}
+ .safetop{height:calc(env(safe-area-inset-top,14px) + 8px);flex-shrink:0}
 
  .ic{width:20px;height:20px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
  .ic.s{width:15px;height:15px}
  .rtl .flip{transform:scaleX(-1)}
- .glass{background:var(--glass);backdrop-filter:blur(22px);border:1px solid var(--gbord);box-shadow:0 14px 34px rgba(60,44,20,.13), inset 0 1px 0 rgba(255,255,255,.7);border-radius:34px}
+ .glass{background:var(--glass);backdrop-filter:blur(22px);border:1px solid var(--gbord);box-shadow:0 14px 34px rgba(60,44,20,.13), inset 0 1px 0 rgba(255,255,255,.7);border-radius:30px}
 
- .toprow{padding:6px 26px 0;display:flex;align-items:center;justify-content:space-between}
- .toprow .who small{font-size:11.5px;color:var(--stone);display:block}
- .toprow .who b{font-family:var(--disp);font-weight:500;font-size:20px;letter-spacing:-.2px}
- .langsw{display:flex;background:var(--glass2);backdrop-filter:blur(14px);border:1px solid var(--gbord);border-radius:999px;overflow:hidden;font-size:10.5px;font-weight:600}
- .langsw div{padding:6px 12px;cursor:pointer;color:var(--stone)}
+ /* header */
+ .hd{padding:6px 24px 0;display:flex;align-items:center;justify-content:space-between;gap:10px}
+ .hd .who small{font-size:11px;color:var(--stone);display:block}
+ .hd .who b{font-family:var(--disp);font-weight:500;font-size:19px}
+ .rtl .hd .who b{font-size:16px}
+ .hd .right{display:flex;gap:8px;align-items:center}
+ .langsw{display:flex;background:var(--glass2);backdrop-filter:blur(14px);border:1px solid var(--gbord);border-radius:999px;overflow:hidden;font-size:10px;font-weight:600}
+ .langsw div{padding:6px 11px;cursor:pointer;color:var(--stone)}
  .langsw div.on{background:var(--ink);color:#F5EFE2}
+ .modechip{display:flex;background:var(--glass2);backdrop-filter:blur(14px);border:1px solid var(--gbord);border-radius:999px;overflow:hidden;font-size:10px;font-weight:700}
+ .modechip div{padding:6px 11px;cursor:pointer;color:var(--stone);white-space:nowrap}
+ .modechip div.on{background:var(--acc);color:#fff}
 
- .tiles{display:flex;gap:12px;padding:18px 24px 0}
- .tile{flex:1;padding:18px 10px 15px;text-align:center;cursor:pointer;transition:transform .25s var(--ease)}
- .tile:hover{transform:translateY(-3px)}
- .tile svg.spark{width:74px;height:26px;margin:0 auto 10px;display:block;stroke:var(--ink);fill:none;stroke-width:1.6}
- .tile svg.spark circle{fill:#FBF6EC;stroke:var(--ink)}
- .tile svg.spark circle.end{fill:var(--ink)}
- .tile .num{font-family:var(--disp);font-weight:400;font-size:31px;letter-spacing:-.5px;line-height:1}
- .tile .num small{font-size:12px;color:var(--stone);margin-inline-start:2px}
- .tile .lbl{font-size:11px;font-weight:500;color:var(--stone);margin-top:7px}
+ /* ask input */
+ .ask{margin:14px 24px 0;height:50px;border-radius:999px;display:flex;align-items:center;gap:11px;padding:0 8px 0 18px;color:var(--stone);font-size:13px;cursor:pointer}
+ .rtl .ask{padding:0 18px 0 8px}
+ .ask .go{margin-inline-start:auto;width:36px;height:36px;border-radius:50%;background:var(--ink);color:#F5EFE2;display:flex;align-items:center;justify-content:center}
 
- .insight{margin:16px 24px 0;padding:26px 26px 24px;text-align:center;cursor:pointer}
- .insight .k{font-size:12.5px;font-weight:500;opacity:.75}
- .insight p{font-family:var(--disp);font-weight:400;font-size:24px;line-height:1.32;letter-spacing:-.2px;margin-top:10px}
- .rtl .insight p{font-size:17px;line-height:1.7;font-weight:500}
- .insight .go{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#F5EFE2;display:flex;align-items:center;justify-content:center;margin:20px auto 0;transition:transform .2s}
- .insight:hover .go{transform:scale(1.06)}
+ /* featured story */
+ .story{margin:16px 24px 0;border-radius:32px;overflow:hidden;position:relative;height:300px;cursor:pointer;box-shadow:0 18px 44px rgba(60,44,20,.2)}
+ .story svg.bg{position:absolute;inset:0;width:100%;height:100%}
+ .story .veil{position:absolute;inset:0;background:linear-gradient(rgba(20,14,6,.06) 35%,rgba(20,14,6,.72))}
+ .story .body{position:absolute;bottom:0;left:0;right:0;padding:22px;color:#fff}
+ .story .kick{font-size:9.5px;font-weight:700;letter-spacing:2.4px;opacity:.85}
+ .rtl .story .kick{letter-spacing:0;font-size:11px}
+ .story h2{font-family:var(--disp);font-weight:500;font-size:24px;line-height:1.15;margin-top:8px;text-wrap:balance}
+ .rtl .story h2{font-size:19px;line-height:1.5}
+ .story p{font-size:12px;opacity:.85;margin-top:7px;line-height:1.55}
+ .story .cta{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:rgba(253,250,242,.92);color:var(--ink);border-radius:999px;padding:9px 16px;font-size:11.5px;font-weight:700}
 
- .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px 24px 0}
- .ptile{padding:9px 9px 4px;cursor:pointer;border-radius:28px;transition:transform .25s var(--ease)}
- .ptile:hover{transform:translateY(-3px)}
- .ptile .thumb{height:86px;border-radius:20px;overflow:hidden}
- .ptile .thumb svg{width:100%;height:100%;display:block}
- .ptile b{font-family:var(--disp);font-weight:500;font-size:14.5px;letter-spacing:-.1px;display:block;margin:10px 6px 0;line-height:1.2}
- .rtl .ptile b{font-weight:500;font-size:12px}
- .ptile small{font-size:10.5px;color:var(--stone);display:block;margin:3px 6px 0}
- .ptile .st{font-size:10.5px;font-weight:700;display:block;margin:5px 6px 10px}
- .st-ok{color:var(--ok)} .st-warn{color:var(--warn)} .st-mut{color:var(--stone)}
+ /* serendipity */
+ .sere{margin:14px 24px 0;padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer}
+ .sere .no{font-family:var(--disp);font-weight:400;font-size:26px;color:var(--gold);white-space:nowrap}
+ .rtl .sere .no{font-size:22px}
+ .sere b{font-size:13.5px;font-weight:600;display:block}
+ .sere small{font-size:11px;color:var(--stone)}
+ .sere .dice{margin-inline-start:auto;width:40px;height:40px;border-radius:50%;background:var(--ink);color:#F5EFE2;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
- .shead{padding:8px 26px 0}
- .shead h1{font-family:var(--disp);font-weight:500;font-size:30px;letter-spacing:-.3px}
- .rtl .shead h1{font-weight:500;font-size:20px}
- .searchp{margin:14px 24px 0;height:48px;border-radius:999px;display:flex;align-items:center;gap:10px;padding:0 18px;color:var(--stone);font-size:13px;cursor:text}
- .chips{display:flex;gap:8px;overflow-x:auto;padding:14px 24px 0}
+ .slabel{padding:24px 28px 12px;font-size:10.5px;font-weight:700;letter-spacing:2.2px;color:var(--stone);display:flex;justify-content:space-between;align-items:baseline}
+ .rtl .slabel{letter-spacing:0;font-size:11.5px}
+ .slabel a{font-size:11px;color:var(--acc);font-weight:700;cursor:pointer;letter-spacing:.3px}
+
+ /* place tiles */
+ .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 24px}
+ .pt{padding:9px 9px 4px;border-radius:26px;cursor:pointer;transition:transform .22s var(--ease);position:relative}
+ .pt:active{transform:scale(.97)}
+ .pt .th{height:86px;border-radius:18px;overflow:hidden;position:relative}
+ .pt .th svg{width:100%;height:100%;display:block}
+ .pt b{font-family:var(--disp);font-weight:500;font-size:14px;display:block;margin:9px 5px 0;line-height:1.2}
+ .rtl .pt b{font-size:12.5px}
+ .pt small{font-size:10.5px;color:var(--stone);display:block;margin:3px 5px 9px}
+ .pt .st{position:absolute;top:16px;inset-inline-end:16px;width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,.9)}
+ .st.saved{background:var(--gold)} .st.been{background:var(--ok)} .st.none{background:rgba(255,255,255,.4)}
+
+ /* explore */
+ .chips{display:flex;gap:8px;overflow-x:auto;padding:12px 24px}
  .chips::-webkit-scrollbar{display:none}
- .chip{white-space:nowrap;padding:9px 15px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;color:var(--stone);background:var(--glass2);backdrop-filter:blur(12px);border:1px solid var(--gbord);transition:all .2s}
+ .chip{white-space:nowrap;padding:9px 15px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;color:var(--stone);background:var(--glass2);backdrop-filter:blur(12px);border:1px solid var(--gbord)}
  .chip.on{background:var(--ink);color:#F5EFE2;border-color:var(--ink)}
+ .bigt{font-family:var(--disp);font-weight:500;font-size:28px;padding:8px 26px 0}
+ .rtl .bigt{font-size:22px}
+ .counter{padding:2px 26px 0;font-size:12px;color:var(--stone)}
+ .counter b{color:var(--ok);font-weight:700}
 
- .dheadwrap{padding:4px 26px 0}
- .dhead .kick{font-size:10.5px;font-weight:600;letter-spacing:2.4px;color:var(--stone)}
- .rtl .dhead .kick{letter-spacing:0;font-size:12px}
- .dhead h1{font-family:var(--disp);font-weight:400;font-size:38px;letter-spacing:-.5px;line-height:1.05;margin-top:6px;text-wrap:balance}
- .rtl .dhead h1{font-weight:500;font-size:23px;line-height:1.45}
+ /* detail */
+ .dhero{height:250px;position:relative;flex-shrink:0}
+ .dhero svg{width:100%;height:100%;display:block}
+ .dhero .veil{position:absolute;inset:0;background:linear-gradient(rgba(20,14,6,.14),transparent 35%,transparent 55%,rgba(20,14,6,.62))}
+ .dtop{position:absolute;top:calc(env(safe-area-inset-top,14px) + 8px);inset-inline-start:16px;inset-inline-end:16px;display:flex;justify-content:space-between;z-index:5}
+ .gbtn{width:40px;height:40px;border-radius:50%;background:rgba(20,14,6,.32);backdrop-filter:blur(12px);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+ .dlock{position:absolute;bottom:18px;inset-inline-start:24px;inset-inline-end:24px;color:#fff;z-index:4}
+ .dlock .kick{font-size:9.5px;font-weight:700;letter-spacing:2.4px;opacity:.85;display:block;margin-bottom:8px}
+ .rtl .dlock .kick{letter-spacing:0;font-size:11px}
+ .dlock h1{font-family:var(--disp);font-weight:500;font-size:30px;line-height:1.08}
+ .rtl .dlock h1{font-size:23px;line-height:1.4}
  .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px 24px 0}
- .dcell{padding:18px 14px 16px;text-align:center}
- .dcell .chipb{display:inline-block;background:rgba(253,250,242,.82);border:1px solid var(--gbord);border-radius:999px;font-size:10.5px;font-weight:600;padding:4px 12px}
- .dcell .num{font-family:var(--disp);font-weight:400;font-size:29px;letter-spacing:-.4px;margin-top:10px}
- .dcell .state{font-size:11px;font-weight:600;margin-top:6px}
- .dstoryc{margin:16px 24px 0;padding:24px 26px;text-align:center}
- .dstoryc .k{font-size:12px;font-weight:500;opacity:.72}
- .dstoryc p{font-family:var(--disp);font-weight:400;font-size:19.5px;line-height:1.5;margin-top:9px}
- .rtl .dstoryc p{font-family:"IBM Plex Sans Arabic",sans-serif;font-weight:400;font-size:15px;line-height:1.95}
- .dcta{margin:16px 24px 0;padding:9px 9px 9px 24px;display:flex;align-items:center;border-radius:999px;cursor:pointer}
- .rtl .dcta{padding:9px 24px 9px 9px}
- .dcta b{font-size:14px;font-weight:600}
- .dcta small{font-size:11px;color:var(--stone);display:block;margin-top:1px}
- .dcta .btn{margin-inline-start:auto;background:var(--ink);color:#F5EFE2;border-radius:999px;padding:14px 24px;font-size:13px;font-weight:600}
- .gbtnrow{padding:8px 20px 0;display:flex;justify-content:space-between}
- .gbtn{width:42px;height:42px;border-radius:50%;background:var(--glass2);backdrop-filter:blur(14px);border:1px solid var(--gbord);display:flex;align-items:center;justify-content:center;cursor:pointer}
- .gbtn.on{color:var(--acc)}
+ .dcell{padding:15px 12px 13px;text-align:center}
+ .dcell .cb{display:inline-block;background:rgba(253,250,242,.82);border:1px solid var(--gbord);border-radius:999px;font-size:10px;font-weight:600;padding:3px 11px}
+ .dcell .nm{font-family:var(--disp);font-weight:400;font-size:24px;margin-top:8px}
+ .rtl .dcell .nm{font-size:19px;font-weight:500}
+ .dcell .stt{font-size:10.5px;font-weight:600;margin-top:5px}
+ .stok{color:var(--ok)} .stmut{color:var(--stone)}
+ .dstory{margin:16px 24px 0;padding:20px 24px;text-align:center}
+ .dstory .k{font-size:11.5px;font-weight:500;opacity:.72}
+ .dstory p{font-family:var(--disp);font-weight:400;font-size:17px;line-height:1.55;margin-top:8px}
+ .rtl .dstory p{font-family:"IBM Plex Sans Arabic",sans-serif;font-size:14px;line-height:1.9}
+ .exits{padding:16px 24px 0;display:flex;flex-direction:column;gap:10px}
+ .exit{padding:14px 18px;display:flex;align-items:center;gap:13px;cursor:pointer;border-radius:22px}
+ .exit .ic{color:var(--acc)}
+ .exit b{font-size:13px;font-weight:600;display:block}
+ .exit small{font-size:10.5px;color:var(--stone)}
+ .exit .chev{margin-inline-start:auto;color:var(--stone)}
+ .stickybar{position:absolute;bottom:0;left:0;right:0;background:var(--glass);backdrop-filter:blur(20px);border-top:1px solid var(--gbord);border-radius:24px 24px 0 0;padding:12px 20px calc(env(safe-area-inset-bottom,16px) + 12px);display:flex;gap:9px;z-index:30}
+ .sb{flex:1;padding:13px 6px;border-radius:999px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;background:rgba(253,250,242,.8);border:1px solid var(--gbord)}
+ .sb.primary{background:var(--ink);color:#F5EFE2;border-color:var(--ink)}
+ .sb.saved{background:var(--gold);color:#fff;border-color:var(--gold)}
 
- /* routes */
- .rcard{margin:16px 24px 0;padding:20px 22px;cursor:pointer}
- .rcard .toprow2{display:flex;align-items:baseline;justify-content:space-between}
- .rcard b.nm{font-family:var(--disp);font-weight:500;font-size:19px;letter-spacing:-.2px}
- .rtl .rcard b.nm{font-weight:500;font-size:15.5px}
- .rcard .tag{font-size:10px;font-weight:700;border-radius:999px;padding:4px 11px;background:rgba(253,250,242,.85);border:1px solid var(--gbord)}
- .rcard .tag.gold{color:#8A5E14}
- .rcard .meta2{font-size:11.5px;color:var(--stone);margin-top:5px}
- .tl{margin-top:16px;border-top:1px solid rgba(120,100,70,.16);padding-top:14px}
- .tstop{display:flex;gap:13px}
- .tstop .rail{display:flex;flex-direction:column;align-items:center}
- .tnum{width:26px;height:26px;border-radius:50%;background:var(--ink);color:#F5EFE2;font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
- .tline{width:2px;flex:1;border-inline-start:2px dotted rgba(120,100,70,.35);min-height:22px}
- .tinfo{padding-bottom:14px}
- .tinfo b{font-size:13.5px;font-weight:600;display:block}
- .tinfo small{font-size:11px;color:var(--stone)}
- .drivec{display:inline-block;font-size:10px;color:var(--ok);font-weight:700;margin-top:3px}
+ /* trip */
+ .trip-empty{margin:18px 24px 0;padding:30px 26px;text-align:center}
+ .trip-empty p{font-family:var(--disp);font-size:17px;line-height:1.5;color:#4A4438}
+ .rtl .trip-empty p{font-size:14.5px;line-height:1.85}
+ .trip-empty small{display:block;font-size:11.5px;color:var(--stone);margin-top:9px}
+ .trip-empty .cta2{display:inline-block;margin-top:16px;background:var(--ink);color:#F5EFE2;border-radius:999px;padding:12px 22px;font-size:12.5px;font-weight:700;cursor:pointer}
+ .plan{margin:14px 24px 0;padding:18px 20px}
+ .plan .stop{display:flex;gap:13px}
+ .plan .rail{display:flex;flex-direction:column;align-items:center}
+ .plan .n{width:26px;height:26px;border-radius:50%;background:var(--ink);color:#F5EFE2;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+ .plan .l{width:2px;flex:1;border-inline-start:2px dotted rgba(120,100,70,.35);min-height:18px}
+ .plan .inf{padding-bottom:14px;flex:1;cursor:pointer}
+ .plan .inf b{font-size:13.5px;font-weight:600;display:block}
+ .plan .inf small{font-size:10.5px;color:var(--stone)}
+ .plan .x{color:var(--faint,#B5B0A2);cursor:pointer;font-size:15px;padding:0 4px}
+ .routecard{margin:14px 24px 0;padding:18px 20px;cursor:pointer}
+ .routecard .tp{display:flex;align-items:baseline;justify-content:space-between}
+ .routecard b.nm{font-family:var(--disp);font-weight:500;font-size:17px}
+ .rtl .routecard b.nm{font-size:15px}
+ .routecard .tag{font-size:9.5px;font-weight:700;border-radius:999px;padding:4px 10px;background:rgba(253,250,242,.85);border:1px solid var(--gbord);color:var(--stone)}
+ .routecard .mt{font-size:11px;color:var(--stone);margin-top:4px}
+ .routecard .startbtn{margin-top:14px;background:var(--acc);color:#fff;border-radius:999px;padding:12px;text-align:center;font-size:12.5px;font-weight:700}
+
+ /* follow mode */
+ #follow{background:#171209}
+ #follow .fhero{height:44%;position:relative;flex-shrink:0}
+ #follow .fhero svg{width:100%;height:100%;display:block}
+ #follow .fhero .veil{position:absolute;inset:0;background:linear-gradient(rgba(20,14,6,.3),transparent 40%,rgba(23,18,9,.95))}
+ .fprog{position:absolute;top:calc(env(safe-area-inset-top,14px) + 10px);left:0;right:0;display:flex;justify-content:center;z-index:6}
+ .fprog span{background:rgba(20,14,6,.5);backdrop-filter:blur(10px);color:#F5EFE2;font-size:11px;font-weight:700;border-radius:999px;padding:7px 16px}
+ .fclose{position:absolute;top:calc(env(safe-area-inset-top,14px) + 6px);inset-inline-end:16px;z-index:6}
+ .fbody{flex:1;padding:0 26px;color:#F5EFE2;display:flex;flex-direction:column}
+ .fbody .kick{font-size:9.5px;font-weight:700;letter-spacing:2.4px;color:#C9B98A;margin-top:6px}
+ .rtl .fbody .kick{letter-spacing:0;font-size:11px}
+ .fbody h1{font-family:var(--disp);font-weight:500;font-size:30px;margin-top:6px}
+ .rtl .fbody h1{font-size:23px}
+ .fbody p{font-size:13.5px;line-height:1.65;color:#CFC5AE;margin-top:10px}
+ .rtl .fbody p{font-size:12.5px;line-height:1.85}
+ .fbtns{margin-top:auto;padding-bottom:calc(env(safe-area-inset-bottom,16px) + 18px);display:flex;gap:10px}
+ .fb{flex:1;padding:15px;border-radius:999px;text-align:center;font-size:13px;font-weight:700;cursor:pointer}
+ .fb.arr{background:var(--ok);color:#fff}
+ .fb.ghost{background:rgba(253,250,242,.12);color:#F5EFE2;border:1px solid rgba(253,250,242,.2)}
+ .fdone{text-align:center;padding:40px 30px 0}
+ .fdone .big{font-family:var(--disp);font-size:56px;color:#E8D9B0}
+ .fdone h2{font-family:var(--disp);font-weight:500;font-size:24px;color:#F5EFE2;margin-top:10px}
+ .rtl .fdone h2{font-size:20px}
+ .fdone p{color:#AFA98F;font-size:13px;margin-top:10px;line-height:1.6}
+
+ /* my atlas */
+ .macount{margin:16px 24px 0;padding:26px;text-align:center}
+ .macount .n{font-family:var(--disp);font-weight:400;font-size:52px;line-height:1}
+ .rtl .macount .n{font-size:42px;font-weight:500}
+ .macount .n b{color:var(--ok);font-weight:500}
+ .macount small{display:block;font-size:11.5px;color:var(--stone);margin-top:8px}
+ .seg{display:flex;margin:14px 24px 0;background:var(--glass2);border:1px solid var(--gbord);border-radius:999px;padding:4px}
+ .seg div{flex:1;text-align:center;padding:9px;border-radius:999px;font-size:12px;font-weight:700;color:var(--stone);cursor:pointer}
+ .seg div.on{background:var(--ink);color:#F5EFE2}
+ .marow{margin:10px 24px 0;padding:13px 16px;display:flex;align-items:center;gap:12px;border-radius:20px;cursor:pointer}
+ .marow .dotc{width:10px;height:10px;border-radius:50%}
+ .marow b{font-size:13.5px;font-weight:600}
+ .marow small{margin-inline-start:auto;font-size:10.5px;color:var(--stone)}
+ .maempty{margin:14px 24px 0;padding:26px;text-align:center;font-size:12.5px;color:var(--stone);line-height:1.7}
 
  /* chat */
  .chead{display:flex;align-items:center;gap:12px;padding:8px 24px 0}
- .chead .ava{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#F0C98C;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:19px}
- .chead b{font-size:15px;font-weight:600;display:block}
- .chead small{font-size:11px;color:var(--ok);font-weight:600}
- .msgs{padding:18px 24px 0;display:flex;flex-direction:column;gap:12px}
- .msg{max-width:78%;padding:13px 17px;font-size:13.5px;line-height:1.6;border-radius:24px}
+ .chead .ava{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#F0C98C;display:flex;align-items:center;justify-content:center;font-family:"Alexandria",sans-serif;font-size:17px;font-weight:700}
+ .chead b{font-size:14px;font-weight:600;display:block}
+ .chead small{font-size:10.5px;color:var(--ok);font-weight:600}
+ .msgs{padding:16px 24px 0;display:flex;flex-direction:column;gap:11px}
+ .msg{max-width:80%;padding:12px 16px;font-size:13px;line-height:1.65;border-radius:22px}
+ .rtl .msg{font-size:12.5px;line-height:1.85}
  .msg.bot{align-self:flex-start;border-start-start-radius:8px}
- .msg.me{align-self:flex-end;background:var(--ink);color:#F5EFE2;border-start-end-radius:8px;border-radius:24px;border-start-end-radius:8px}
- .msg .cite{display:block;font-size:10.5px;color:var(--stone);margin-top:7px}
- .msg.me .cite{color:#C9BFA8}
- .inputbar{margin:16px 24px 0;height:52px;border-radius:999px;display:flex;align-items:center;gap:10px;padding:0 8px 0 20px;color:var(--stone);font-size:13px}
- .rtl .inputbar{padding:0 20px 0 8px}
- .inputbar .send{margin-inline-start:auto;width:38px;height:38px;border-radius:50%;background:var(--acc);color:#fff;display:flex;align-items:center;justify-content:center}
-
- /* nav */
- .navfade{position:absolute;bottom:0;left:0;right:0;height:130px;background:linear-gradient(transparent,rgba(196,178,146,.92) 78%);z-index:35;pointer-events:none}
- .navwrap{position:absolute;bottom:calc(env(safe-area-inset-bottom,16px) + 12px);left:24px;right:24px;display:flex;justify-content:space-between;align-items:center;z-index:40}
- .pillnav{display:flex;gap:2px;padding:7px;border-radius:999px}
- .nitem{display:flex;flex-direction:column;align-items:center;gap:3px;border-radius:999px;padding:8px 13px;cursor:pointer;color:var(--stone);font-size:9.5px;font-weight:600;transition:all .25s}
- .nitem .nic{width:28px;height:28px;border-radius:10px;display:flex;align-items:center;justify-content:center}
- .nitem.on{background:rgba(253,250,242,.88)}
- .nitem.on .nic{background:var(--acc);color:#fff}
- .nitem.on span{color:var(--acc)}
- .chatb{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s}
- .chatb:hover{transform:scale(1.06)}
+ .msg.me{align-self:flex-end;background:var(--ink);color:#F5EFE2;border-start-end-radius:8px}
+ .msg .cite{display:block;font-size:10px;color:var(--stone);margin-top:6px}
+ .seeds{display:flex;gap:8px;overflow-x:auto;padding:12px 24px 0}
+ .seeds::-webkit-scrollbar{display:none}
+ .seed{white-space:nowrap;padding:9px 14px;border-radius:999px;font-size:11.5px;font-weight:600;cursor:pointer;background:var(--glass2);border:1px solid var(--gbord);color:#4A4438}
+ .inputbar{margin:14px 24px 0;height:50px;border-radius:999px;display:flex;align-items:center;gap:10px;padding:0 8px 0 18px;color:var(--stone);font-size:12.5px}
+ .rtl .inputbar{padding:0 18px 0 8px}
+ .inputbar .send{margin-inline-start:auto;width:36px;height:36px;border-radius:50%;background:var(--acc);color:#fff;display:flex;align-items:center;justify-content:center}
 
  /* onboarding */
- .ob{justify-content:flex-end;padding:0;cursor:default}
- .obscene{position:absolute;inset:0;z-index:1}
- .obveil{position:absolute;inset:0;background:linear-gradient(rgba(240,228,206,0) 30%,rgba(240,228,206,.55) 62%,rgba(238,224,198,.96) 82%)}
- .ob .obinner{position:relative;z-index:3;padding:0 26px 46px}
- .ob .brandmark{font-family:"Alexandria",sans-serif;font-weight:700;font-size:46px;color:var(--ink);letter-spacing:-.5px;line-height:1}
- .ob .brandsub{font-size:11px;font-weight:700;letter-spacing:6px;color:var(--stone);margin-top:6px}
- .ob .arline{font-family:"IBM Plex Sans Arabic",sans-serif}
- .obfloat{position:absolute;z-index:2;inset-inline-start:34px;top:120px;width:210px;border-radius:26px;padding:14px 16px;animation:obdrift 5s ease-in-out infinite alternate}
- @keyframes obdrift{from{transform:translateY(0) rotate(-1.5deg)}to{transform:translateY(-14px) rotate(1deg)}}
- .obfloat .k2{font-size:10px;font-weight:700;letter-spacing:1.8px;color:var(--stone)}
- .obfloat p{font-family:var(--disp);font-size:16.5px;line-height:1.4;margin-top:6px}
- .rtl .obfloat p{font-size:15px;line-height:1.7}
- .obmosaic{position:absolute;z-index:2;top:96px;inset-inline-start:24px;inset-inline-end:24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
- .obmosaic .m{border-radius:20px;overflow:hidden;height:86px;position:relative;box-shadow:0 10px 26px rgba(60,44,20,.18)}
- .obmosaic .m svg{width:100%;height:100%;display:block}
- .obmosaic .m span{position:absolute;bottom:6px;inset-inline-start:9px;color:#fff;font-size:10px;font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,.5)}
- .obmosaic .m.soon::after{content:"";position:absolute;inset:0;background:rgba(238,224,198,.45)}
- .obmosaic .m:nth-child(2){transform:translateY(16px)}
- .obmosaic .m:nth-child(5){transform:translateY(16px)}
- .ob h1{font-family:var(--disp);font-weight:400;font-size:34px;letter-spacing:-.4px;line-height:1.14;margin-top:14px;text-wrap:balance}
- .rtl .ob h1{font-weight:500;font-size:22px;line-height:1.55}
- .ob .sub{font-size:14px;color:var(--stone);margin-top:12px;line-height:1.6;max-width:300px}
- .ob .langbtns{display:flex;gap:10px;margin-top:26px}
- .obbtn{flex:1;padding:16px;border-radius:999px;text-align:center;font-size:14.5px;font-weight:600;cursor:pointer;transition:transform .2s}
- .obbtn:hover{transform:translateY(-2px)}
- .obbtn.dark{background:var(--ink);color:#F5EFE2}
- .obbtn .arf{font-family:"IBM Plex Sans Arabic",sans-serif;font-size:15.5px}
- .obskip{text-align:center;margin-top:16px;font-size:12px;font-weight:600;color:var(--stone);cursor:pointer}
- .obdots{display:flex;gap:6px;margin-top:26px}
- .obdots i{width:6px;height:6px;border-radius:3px;background:rgba(36,31,23,.25);transition:all .3s}
- .obdots i.on{width:18px;background:var(--ink)}
- .citypick{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;max-height:400px;overflow-y:auto;padding-bottom:4px}
- .citypick::-webkit-scrollbar{display:none}
- .ccard{padding:9px 9px 4px;border-radius:26px;cursor:pointer;transition:transform .22s var(--ease);position:relative}
- .ccard:hover{transform:translateY(-3px)}
- .ccard .thumb{height:74px;border-radius:18px;overflow:hidden}
- .ccard .thumb svg{width:100%;height:100%;display:block}
- .ccard b{font-family:var(--disp);font-weight:500;font-size:14px;display:block;margin:9px 6px 0}
- .rtl .ccard b{font-weight:500;font-size:12px}
- .ccard small{font-size:10px;color:var(--stone);display:block;margin:2px 6px 9px}
- .ccard .soon{position:absolute;top:16px;inset-inline-end:16px;background:rgba(253,250,242,.9);border-radius:999px;font-size:9px;font-weight:700;padding:3px 9px;color:var(--stone)}
- .ccard.sel{outline:2px solid var(--acc);outline-offset:2px}
+ .ob{justify-content:flex-end}
+ .obscene{position:absolute;inset:0}
+ .obscene svg{width:100%;height:100%}
+ .obveil{position:absolute;inset:0;background:linear-gradient(rgba(240,228,206,0) 28%,rgba(240,228,206,.55) 60%,rgba(238,224,198,.97) 82%)}
+ .obin{position:relative;z-index:3;padding:0 26px calc(env(safe-area-inset-bottom,16px) + 34px)}
+ .obmark{font-family:"Alexandria",sans-serif;font-weight:700;font-size:44px;line-height:1}
+ .obsub{font-size:10.5px;font-weight:700;letter-spacing:6px;color:var(--stone);margin-top:6px}
+ .obin h1{font-family:var(--disp);font-weight:500;font-size:30px;line-height:1.16;margin-top:14px;text-wrap:balance}
+ .rtl .obin h1{font-size:23px;line-height:1.5}
+ .obin .sub{font-size:13px;color:var(--stone);margin-top:10px;line-height:1.6}
+ .obtns{display:flex;flex-direction:column;gap:10px;margin-top:22px}
+ .obtn{padding:16px;border-radius:999px;text-align:center;font-size:14px;font-weight:600;cursor:pointer}
+ .obtn.dark{background:var(--ink);color:#F5EFE2}
+ .obtn .arf{font-family:"IBM Plex Sans Arabic",sans-serif}
+ .obtn small{display:block;font-size:10.5px;font-weight:500;opacity:.7;margin-top:2px}
 
- /* rtl numeral & label refinements */
- .rtl .tile .num{font-size:23px;font-weight:500}
- .rtl .tile .lbl{font-size:10.5px}
- .rtl .dcell .num{font-size:20px;font-weight:500;margin-top:8px}
- .rtl .dcell .chipb{font-size:10px}
- .rtl .dcell .state{font-size:10.5px}
- .rtl .toprow .who b{font-size:17px}
- .rtl .dstoryc p{font-size:14px}
- .rtl .msg{font-size:13px;line-height:1.75}
- /* exploration home */
- .bigask{font-family:var(--disp);font-weight:400;font-size:34px;letter-spacing:-.4px;line-height:1.14;padding:16px 26px 0;text-wrap:balance}
- .rtl .bigask{font-weight:500;font-size:22px;line-height:1.55}
- .ctabs{display:flex;gap:22px;padding:12px 28px 2px;overflow-x:auto}
- .ctabs::-webkit-scrollbar{display:none}
- .ctab{white-space:nowrap;font-size:13.5px;font-weight:600;color:var(--stone);cursor:pointer;padding-bottom:8px;border-bottom:2px solid transparent;transition:all .25s}
- .ctab.on{color:var(--ink);border-bottom-color:var(--acc)}
- .rtl .ctab{font-size:13px}
- .citygrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 24px 0}
- .citycard{padding:9px 9px 4px;border-radius:28px;cursor:pointer;transition:transform .25s var(--ease);position:relative}
- .citycard:hover{transform:translateY(-3px)}
- .citycard .thumb{height:96px;border-radius:20px;overflow:hidden;position:relative}
- .citycard .thumb svg{width:100%;height:100%;display:block}
- .citycard.dim .thumb::after{content:"";position:absolute;inset:0;background:rgba(240,228,206,.42)}
- .citycard b{font-family:var(--disp);font-weight:500;font-size:15px;display:block;margin:10px 6px 0}
- .rtl .citycard b{font-size:13.5px}
- .citycard small{font-size:10.5px;color:var(--stone);display:block;margin:3px 6px 10px}
- .citycard .dot{position:absolute;top:17px;inset-inline-start:17px;display:flex;gap:6px;align-items:center;background:rgba(20,14,6,.4);backdrop-filter:blur(8px);border-radius:999px;font-size:9px;font-weight:700;padding:4px 10px;color:#fff}
- .citycard .dot i{width:5px;height:5px;border-radius:50%;background:#7FC69B}
- .citycard .soonb{position:absolute;top:17px;inset-inline-end:17px;background:rgba(253,250,242,.92);border-radius:999px;font-size:9px;font-weight:700;padding:4px 10px;color:var(--stone)}
- .cempty{grid-column:1/-1;padding:30px 24px;text-align:center}
- .cempty p{font-family:var(--disp);font-size:17px;line-height:1.55;color:#4A4438}
- .rtl .cempty p{font-size:15px;line-height:1.8}
- .cempty small{display:block;font-size:11.5px;color:var(--stone);margin-top:10px}
- .dest{min-width:262px;scroll-snap-align:start;border-radius:32px;overflow:hidden;position:relative;height:330px;cursor:pointer;box-shadow:0 18px 44px rgba(60,44,20,.2);transition:transform .3s var(--ease)}
- .dest:hover{transform:translateY(-4px)}
- .dest svg.bg{position:absolute;inset:0;width:100%;height:100%}
- .dest .veil{position:absolute;inset:0;background:linear-gradient(rgba(20,14,6,.05) 40%,rgba(20,14,6,.68))}
- .dest .body3{position:absolute;bottom:0;left:0;right:0;padding:20px;color:#fff}
- .dest .body3 .cn{font-family:var(--disp);font-weight:500;font-size:26px;letter-spacing:-.3px}
- .rtl .dest .body3 .cn{font-weight:500;font-size:17px}
- .dest .body3 .cs{font-size:11.5px;opacity:.85;margin-top:3px}
- .dest .body3 .cta3{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:rgba(253,250,242,.92);color:var(--ink);border-radius:999px;padding:9px 16px;font-size:12px;font-weight:700}
- .dest .soon3{position:absolute;top:16px;inset-inline-end:16px;background:rgba(253,250,242,.92);border-radius:999px;font-size:10px;font-weight:700;padding:5px 12px;color:var(--stone)}
- .dest .live3{position:absolute;top:16px;inset-inline-start:16px;display:flex;gap:6px;align-items:center;background:rgba(20,14,6,.4);backdrop-filter:blur(8px);border-radius:999px;font-size:10px;font-weight:700;padding:5px 12px;color:#fff}
- .dest .live3 i{width:6px;height:6px;border-radius:50%;background:#7FC69B}
- .dest.soonc{filter:saturate(.75)}
- .cityhero{margin:16px 24px 0;padding:22px 24px 20px;cursor:pointer;position:relative;overflow:hidden}
- .cityhero .kick{font-size:10px;font-weight:700;letter-spacing:2.2px;color:var(--stone);display:block;padding-inline-end:58px}
- .rtl .cityhero .kick{letter-spacing:0;font-size:11.5px}
- .cityhero h2{font-family:var(--disp);font-weight:400;font-size:34px;letter-spacing:-.4px;margin-top:4px}
- .rtl .cityhero h2{font-weight:600;font-size:30px}
- .cityhero .sub2{font-size:12px;color:var(--stone);margin-top:3px}
- .cityhero .vitals{display:flex;gap:18px;margin-top:16px}
- .cityhero .v b{font-family:var(--disp);font-weight:400;font-size:19px;display:block}
- .cityhero .v small{font-size:10px;color:var(--stone);font-weight:600}
- .cityhero .goarr{position:absolute;inset-inline-end:20px;top:24px;width:42px;height:42px;border-radius:50%;background:var(--ink);color:#F5EFE2;display:flex;align-items:center;justify-content:center}
- .hrow2{display:flex;gap:12px;overflow-x:auto;padding:14px 24px 4px;scroll-snap-type:x mandatory}
- .hrow2::-webkit-scrollbar{display:none}
- .hrow2 .ccard{min-width:150px;scroll-snap-align:start}
- .slabel2{padding:22px 28px 2px;font-size:10.5px;font-weight:700;letter-spacing:2.2px;color:var(--stone);display:flex;justify-content:space-between}
- .rtl .slabel2{letter-spacing:0;font-size:12px}
- .cpills{display:flex;gap:8px;padding:12px 24px 0;overflow-x:auto}
- .cpills::-webkit-scrollbar{display:none}
- .cpill{display:flex;gap:8px;align-items:center;white-space:nowrap;padding:9px 15px;border-radius:999px;font-size:12px;font-weight:600;background:var(--glass2);backdrop-filter:blur(12px);border:1px solid var(--gbord);color:var(--stone);cursor:pointer}
- .cpill.on{background:var(--ink);color:#F5EFE2;border-color:var(--ink)}
- .cpill .flag{font-size:13px}
+ /* tab bar */
+ .navfade{position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(transparent,rgba(196,178,146,.92) 78%);z-index:35;pointer-events:none}
+ .tabbar{position:absolute;bottom:calc(env(safe-area-inset-bottom,16px) + 10px);left:50%;transform:translateX(-50%);background:rgba(20,14,6,.92);backdrop-filter:blur(18px);border-radius:26px;padding:8px 10px;display:flex;gap:4px;box-shadow:0 18px 44px rgba(0,0,0,.38);z-index:40}
+ .ti{display:flex;flex-direction:column;align-items:center;gap:3px;border-radius:18px;padding:8px 13px;cursor:pointer;color:#A9A28A;font-size:9.5px;font-weight:600;min-width:60px;position:relative}
+ .ti.on{background:var(--acc);color:#fff}
+ .ti .bdg{position:absolute;top:4px;inset-inline-end:8px;min-width:15px;height:15px;border-radius:8px;background:var(--gold);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px}
 
- .toast{position:absolute;bottom:110px;left:0;right:0;display:flex;justify-content:center;z-index:60;pointer-events:none}
- .toast span{background:rgba(36,31,23,.92);backdrop-filter:blur(8px);color:#F5EFE2;font-size:12px;font-weight:500;border-radius:999px;padding:10px 18px;opacity:0;transform:translateY(8px);transition:all .3s var(--ease)}
+ .toast{position:absolute;bottom:calc(env(safe-area-inset-bottom,16px) + 104px);left:0;right:0;display:flex;justify-content:center;z-index:60;pointer-events:none}
+ .toast span{background:rgba(36,31,23,.94);color:#F5EFE2;font-size:12px;font-weight:500;border-radius:999px;padding:11px 19px;opacity:0;transform:translateY(8px);transition:all .3s var(--ease);max-width:84%;text-align:center}
  .toast.show span{opacity:1;transform:none}
 </style>
 </head>
 <body>
 <svg width="0" height="0"><defs>
- <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5M5.5 9v11h13V9"/></symbol>
+ <symbol id="i-today" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"/></symbol>
  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></symbol>
- <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h6.5" stroke-dasharray="2.5 3"/></symbol>
- <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v8a2.5 2.5 0 0 1-2.5 2.5H12l-4.5 3.5V17H6.5A2.5 2.5 0 0 1 4 14.5z" fill="currentColor" stroke="none"/></symbol>
+ <symbol id="i-trip" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h6.5" stroke-dasharray="2.5 3"/></symbol>
+ <symbol id="i-me" viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></symbol>
  <symbol id="i-back" viewBox="0 0 24 24"><path d="M14.5 5 8 12l6.5 7"/></symbol>
- <symbol id="i-bmk" viewBox="0 0 24 24"><path d="M6.5 3.5h11V21L12 16.5 6.5 21z"/></symbol>
  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13.5 6 19.5 12l-6 6"/></symbol>
- <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
- <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></symbol>
- <filter id="gr"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.25 0 0 0 0 0.2 0 0 0 0 0.12 0 0 0 0.05 0"/><feComposite operator="over" in2="SourceGraphic"/></filter>
- <linearGradient id="phQ" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9A16B"/><stop offset=".55" stop-color="#A97B4B"/><stop offset="1" stop-color="#7E5630"/></linearGradient>
- <g id="scQ"><rect width="400" height="200" fill="url(#phQ)"/><path d="M-10 128 Q70 84 150 104 T320 96 T415 110 V200 H-10 Z" fill="#6E4526" opacity=".8"/><path d="M-10 162 Q100 132 210 146 T415 150 V200 H-10 Z" fill="#4A2D14"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
- <linearGradient id="phS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A6A38"/><stop offset="1" stop-color="#4E3416"/></linearGradient>
- <g id="scS"><rect width="400" height="200" fill="url(#phS)"/><path d="M30 200 V116 a34 34 0 0 1 68 0 V200 M166 200 V116 a34 34 0 0 1 68 0 V200 M302 200 V116 a34 34 0 0 1 68 0 V200" fill="#38220C"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
- <linearGradient id="phL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7C9FB0"/><stop offset="1" stop-color="#41707C"/></linearGradient>
- <g id="scL"><rect width="400" height="200" fill="url(#phL)"/><path d="M-10 108 Q120 96 250 106 T415 102 V200 H-10 Z" fill="#37606A"/><path d="M-10 158 Q140 144 290 154 T415 152 V200 H-10 Z" fill="#25443C"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
- <linearGradient id="phJ" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93A46C"/><stop offset="1" stop-color="#4C5A30"/></linearGradient>
- <g id="scJ"><rect width="400" height="200" fill="url(#phJ)"/><rect x="150" y="92" width="100" height="108" fill="#5E4426"/><path d="M150 95 C172 58 228 58 250 95 Z" fill="#4A3218"/><rect x="120" y="56" width="14" height="144" fill="#4A3218"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
- <linearGradient id="phU" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C98F6A"/><stop offset="1" stop-color="#8A4E30"/></linearGradient>
- <g id="scU"><rect width="400" height="200" fill="url(#phU)"/><path d="M60 200 V90 C60 60 90 52 104 78 C118 50 150 56 152 88 L156 200 Z" fill="#6E3A20"/><path d="M240 200 V110 C240 84 268 78 280 98 C292 76 320 82 322 108 L326 200 Z" fill="#5C2F16"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
- <linearGradient id="phT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9BAB92"/><stop offset="1" stop-color="#5C7258"/></linearGradient>
- <g id="scT"><rect width="400" height="200" fill="url(#phT)"/><path d="M-10 132 L70 70 L140 118 L210 58 L290 112 L360 76 L415 110 V200 H-10 Z" fill="#4C6248"/><path d="M-10 168 Q120 146 260 160 T415 156 V200 H-10 Z" fill="#38492F"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
- <linearGradient id="phR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C4A87E"/><stop offset="1" stop-color="#6E5A3A"/></linearGradient>
- <g id="scR"><rect width="400" height="200" fill="url(#phR)"/><path d="M50 200 V120 h30 V200 M110 200 V88 h26 V200 M166 200 V60 l16 -18 16 18 V200 M228 200 V96 h26 V200 M284 200 V126 h30 V200" fill="#4A3A1E"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
- <linearGradient id="obsky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A4152"/><stop offset=".4" stop-color="#B4674A"/><stop offset=".7" stop-color="#E2A75C"/><stop offset="1" stop-color="#EEDBB2"/></linearGradient>
- <g id="obQarah"><rect width="400" height="480" fill="url(#obsky1)"/><circle cx="290" cy="140" r="34" fill="#F7E3B0" opacity=".9"/>
-   <path d="M-10 300 Q70 230 150 258 T330 246 T415 268 V480 H-10 Z" fill="#8A5530" opacity=".6"/>
-   <path d="M-10 352 Q100 300 220 322 T415 330 V480 H-10 Z" fill="#5E3A1E" opacity=".8"/>
-   <rect width="400" height="480" filter="url(#gr)" fill="transparent"/></g>
- <linearGradient id="obsky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A1C10"/><stop offset=".6" stop-color="#7E5228"/><stop offset="1" stop-color="#D9A45C"/></linearGradient>
- <g id="obCave"><rect width="400" height="480" fill="url(#obsky2)"/>
-   <path d="M-10 -10 H410 V480 H330 C316 340 300 260 258 200 C226 156 190 150 158 176 C110 216 90 330 84 480 H-10 Z" fill="#180E06"/>
-   <path d="M180 480 C186 350 206 270 248 226 C278 196 310 202 328 240 C352 290 360 400 362 480 Z" fill="#E8B96A" opacity=".28"/>
-   <rect width="400" height="480" filter="url(#gr)" fill="transparent"/></g>
- <linearGradient id="obsky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3E3548"/><stop offset=".5" stop-color="#A05F43"/><stop offset="1" stop-color="#EDD9AE"/></linearGradient>
- <g id="obDusk"><rect width="400" height="480" fill="url(#obsky3)"/><circle cx="120" cy="150" r="26" fill="#F7E3B0" opacity=".8"/>
-   <path d="M-10 380 Q120 350 260 366 T415 362 V480 H-10 Z" fill="#5E3A1E" opacity=".7"/>
-   <rect width="400" height="480" filter="url(#gr)" fill="transparent"/></g>
- <linearGradient id="phQm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D2B478"/><stop offset="1" stop-color="#8A6C36"/></linearGradient>
- <g id="scQm"><rect width="400" height="200" fill="url(#phQm)"/><g stroke="#5C4A1E" stroke-width="2.4" fill="none"><path d="M60 200 c2 -30 2 -50 0 -70 M60 130 c-12 -10 -24 -12 -34 -8 M60 130 c12 -10 24 -12 34 -8 M60 130 c-8 -16 -18 -20 -28 -20 M60 130 c8 -16 18 -20 28 -20"/><path d="M200 200 c2 -34 2 -56 0 -78 M200 122 c-13 -11 -26 -13 -37 -9 M200 122 c13 -11 26 -13 37 -9 M200 122 c-9 -17 -20 -22 -31 -22 M200 122 c9 -17 20 -22 31 -22"/><path d="M330 200 c2 -28 2 -46 0 -64 M330 136 c-11 -9 -22 -11 -31 -7 M330 136 c11 -9 22 -11 31 -7"/></g><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
+ <symbol id="i-bmk" viewBox="0 0 24 24"><path d="M6.5 3.5h11V21L12 16.5 6.5 21z"/></symbol>
+ <symbol id="i-dice" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1.3" fill="currentColor"/><circle cx="15" cy="15" r="1.3" fill="currentColor"/><circle cx="15" cy="9" r="1.3" fill="currentColor"/><circle cx="9" cy="15" r="1.3" fill="currentColor"/></symbol>
+ <symbol id="i-dir" viewBox="0 0 24 24"><path d="M12 2.5 21.5 12 12 21.5 2.5 12z"/><path d="m9.5 12 5-.01M12.5 9.5 15 12l-2.5 2.5"/></symbol>
+ <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v8a2.5 2.5 0 0 1-2.5 2.5H12l-4.5 3.5V17H6.5A2.5 2.5 0 0 1 4 14.5z"/></symbol>
+ <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+ <symbol id="i-wa" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.7-1.2A9 9 0 1 0 12 3z"/></symbol>
+ <filter id="gr"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.07 0 0 0 0 0.06 0 0 0 0 0.05 0 0 0 0.04 0"/><feComposite operator="over" in2="SourceGraphic"/></filter>
+ <linearGradient id="skyQ" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A4152"/><stop offset=".42" stop-color="#B4674A"/><stop offset=".72" stop-color="#E2A75C"/><stop offset="1" stop-color="#EEDBB2"/></linearGradient>
+ <g id="scQ"><rect width="400" height="300" fill="url(#skyQ)"/><circle cx="292" cy="98" r="30" fill="#F7E3B0" opacity=".9"/>
+   <path d="M-10 196 Q66 138 140 160 T300 152 T415 168 V300 H-10 Z" fill="#8A5530" opacity=".65"/>
+   <path d="M-10 232 Q92 190 200 206 T415 214 V300 H-10 Z" fill="#5E3A1E"/>
+   <path d="M-10 268 Q116 246 230 256 T415 258 V300 H-10 Z" fill="#33200E"/>
+   <rect width="400" height="300" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="skyS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B2013"/><stop offset=".52" stop-color="#87591F"/><stop offset="1" stop-color="#E0B364"/></linearGradient>
+ <g id="scS"><rect width="400" height="300" fill="url(#skyS)"/>
+   <path d="M22 300 V186 a40 40 0 0 1 80 0 V300 M162 300 V186 a40 40 0 0 1 80 0 V300 M302 300 V186 a40 40 0 0 1 80 0 V300" fill="#4A3016"/>
+   <path d="M22 186 a40 40 0 0 1 80 0 M162 186 a40 40 0 0 1 80 0 M302 186 a40 40 0 0 1 80 0" fill="none" stroke="#E8C070" stroke-width="2.2" opacity=".38"/>
+   <rect x="-10" y="276" width="425" height="24" fill="#2B2013"/>
+   <rect width="400" height="300" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="skyL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2C4756"/><stop offset=".5" stop-color="#6E98A0"/><stop offset="1" stop-color="#DAE4D4"/></linearGradient>
+ <g id="scL"><rect width="400" height="300" fill="url(#skyL)"/><circle cx="200" cy="104" r="26" fill="#F7EECB" opacity=".7"/>
+   <path d="M-10 182 Q120 168 246 178 T415 174 V300 H-10 Z" fill="#476E76" opacity=".92"/>
+   <path d="M-10 258 Q142 242 284 254 T415 252 V300 H-10 Z" fill="#2B443B"/>
+   <rect width="400" height="300" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="skyJ" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3E5844"/><stop offset=".6" stop-color="#8FA372"/><stop offset="1" stop-color="#E6DCAC"/></linearGradient>
+ <g id="scJ"><rect width="400" height="300" fill="url(#skyJ)"/><circle cx="308" cy="88" r="24" fill="#F6EDC8" opacity=".7"/>
+   <rect x="132" y="156" width="136" height="144" fill="#6E4E2E"/>
+   <path d="M132 160 C160 108 240 108 268 160 Z" fill="#5A3C20"/>
+   <rect x="98" y="100" width="17" height="200" fill="#5A3C20"/><path d="M98 100 a8.5 11 0 0 1 17 0 Z" fill="#42280F"/>
+   <path d="M-10 276 H415 V300 H-10 Z" fill="#3C4A2C"/>
+   <rect width="400" height="300" filter="url(#gr)" fill="transparent"/></g>
 </defs></svg>
 
 <div class="phone" id="phone" dir="ltr">
-  <div class="atmo"><div class="dune d1"></div><div class="dune d2"></div>
-    <svg class="grainy" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#gr)" fill="transparent"/></svg>
-  </div>
+  <div class="atmo"><div class="dune d1"></div><div class="dune d2"></div></div>
 
-  <!-- ONBOARDING 1: brand + language -->
+  <!-- OB 1: language -->
   <div class="screen ob active" id="ob1">
-    <div class="obscene">
-      <svg viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%"><use href="#obQarah"/></svg>
-      <div class="obveil"></div>
-    </div>
-    <div class="obinner">
-      <div class="brandmark">أطلس</div>
-      <div class="brandsub">ATLAS</div>
-      <h1>The places you haven't<br>met yet.</h1>
-      <p class="sub arline">أماكن لم تلتقِ بها بعد</p>
-      <div class="langbtns">
-        <div class="obbtn dark" onclick="setLang('en');swap('ob2')">Continue in English</div>
-        <div class="obbtn glass" onclick="setLang('ar');swap('ob2')"><span class="arf">المتابعة بالعربية</span></div>
+    <div class="obscene"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use href="#scQ"/></svg><div class="obveil"></div></div>
+    <div class="obin">
+      <div class="obmark">أطلس</div><div class="obsub">ATLAS</div>
+      <h1>The places you haven't met yet.</h1>
+      <div class="obtns">
+        <div class="obtn dark" onclick="setLang('en');swap('ob2')">Continue in English</div>
+        <div class="obtn glass" onclick="setLang('ar');swap('ob2')"><span class="arf">المتابعة بالعربية</span></div>
       </div>
-      <div class="obdots"><i class="on"></i><i></i><i></i></div>
     </div>
   </div>
 
-  <!-- ONBOARDING 2: stories not pins -->
-  <div class="screen ob" id="ob2" onclick="swap('ob3')">
-    <div class="obscene">
-      <svg viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%"><use href="#obCave"/></svg>
-      <div class="obveil"></div>
-    </div>
-    <div class="obfloat glass" id="obCard2"></div>
-    <div class="obinner">
-      <h1 id="ob2T"></h1>
-      <p class="sub" id="ob2S"></p>
-      <div class="obdots"><i></i><i class="on"></i><i></i></div>
-      <div class="obskip" id="ob2Tap"></div>
-    </div>
-  </div>
-
-  <!-- ONBOARDING 3: the world -->
-  <div class="screen ob" id="ob3">
-    <div class="obscene">
-      <svg viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%"><use href="#obDusk"/></svg>
-      <div class="obveil"></div>
-    </div>
-    <div class="obmosaic" id="obMosaic"></div>
-    <div class="obinner">
-      <h1 id="ob3T"></h1>
-      <p class="sub" id="ob3S"></p>
-      <div class="obbtn dark" style="margin-top:22px" id="ob3Go" onclick="swap('home')"></div>
-      <div class="obdots"><i></i><i></i><i class="on"></i></div>
+  <!-- OB 2: mode -->
+  <div class="screen ob" id="ob2">
+    <div class="obscene"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use href="#scS"/></svg><div class="obveil"></div></div>
+    <div class="obin">
+      <h1 id="obmT"></h1>
+      <p class="sub" id="obmS"></p>
+      <div class="obtns">
+        <div class="obtn dark" onclick="mode='here';finishOb()"><span id="obm1"></span><small id="obm1s"></small></div>
+        <div class="obtn glass" onclick="mode='plan';finishOb()"><span id="obm2"></span><small id="obm2s"></small></div>
+        <div class="obtn glass" onclick="mode='plan';finishOb()"><span id="obm3"></span><small id="obm3s"></small></div>
+      </div>
     </div>
   </div>
 
-  <!-- HOME -->
-  <div class="screen" id="home">
+  <!-- TODAY -->
+  <div class="screen" id="today">
     <div class="scroll">
-      <div class="status"><span>9:41</span><svg viewBox="0 0 40 12"><path d="M1 8.5c2.6-2.4 6-2.4 8.6 0" stroke="currentColor" fill="none" stroke-linecap="round"/><circle cx="5.3" cy="10.6" r="1.2" fill="currentColor"/><rect x="15" y="2" width="20" height="9" rx="2.5" fill="none" stroke="currentColor"/><rect x="16.8" y="3.8" width="13" height="5.4" rx="1.2" fill="currentColor"/><rect x="36" y="4.6" width="2.4" height="3.8" rx="1.1" fill="currentColor"/></svg></div>
-      <div class="toprow">
+      <div class="safetop"></div>
+      <div class="hd">
         <div class="who"><small id="tHi"></small><b id="tCity"></b></div>
-        <div class="langsw"><div id="swEn" class="on" onclick="setLang('en')">EN</div><div id="swAr" onclick="setLang('ar')">عربي</div></div>
+        <div class="right">
+          <div class="modechip"><div id="mHere" onclick="mode='here';renderAll()"></div><div id="mPlan" onclick="mode='plan';renderAll()"></div></div>
+          <div class="langsw"><div id="swEn" class="on" onclick="setLang('en')">EN</div><div id="swAr" onclick="setLang('ar')">ع</div></div>
+        </div>
       </div>
-      <div class="bigask" id="hAsk"></div>
-      <div class="searchp glass" style="margin-top:14px" onclick="toast(T.xSearchT)"><svg class="ic s"><use href="#i-search"/></svg><span id="hSearch"></span></div>
-
-      <div class="slabel2" style="padding-top:24px"><span id="tDest"></span></div>
-      <div class="ctabs" id="countryRow"></div>
-      <div class="citygrid" id="destCar"></div>
-
-      <div class="insight glass" onclick="openPlace('qarah')">
-        <div class="k" id="insK"></div><p id="insP"></p>
-        <div class="go"><svg class="ic flip"><use href="#i-arrow"/></svg></div>
+      <div class="ask glass" onclick="swap('chat')"><span id="askPh"></span><div class="go"><svg class="ic s flip"><use href="#i-arrow"/></svg></div></div>
+      <div class="story" id="featured"></div>
+      <div class="sere glass" onclick="serendipity()">
+        <span class="no" id="sereNo"></span>
+        <div><b id="sereT"></b><small id="sereS"></small></div>
+        <div class="dice"><svg class="ic"><use href="#i-dice"/></svg></div>
       </div>
-      <div class="slabel2"><span id="tNear"></span></div>
-      <div class="pgrid" id="homeGrid" style="padding-top:12px"></div>
+      <div class="slabel"><span id="tRail"></span><a onclick="swap('explore')" id="tAll"></a></div>
+      <div class="grid2" id="todayGrid"></div>
     </div>
-    <div class="navfade"></div>
-    <div class="navwrap">
-      <div class="pillnav glass" id="navHome"></div>
-      <div class="chatb glass" onclick="swap('chat')"><svg class="ic"><use href="#i-chat"/></svg></div>
-    </div>
+    <div class="navfade"></div><div class="tabbar" id="tb1"></div>
   </div>
 
   <!-- EXPLORE -->
   <div class="screen" id="explore">
     <div class="scroll">
-      <div class="status"><span>9:41</span><span></span></div>
-      <div class="shead"><h1 id="xTitle"></h1></div>
-      <div class="searchp glass" onclick="toast(T.xSearchT)"><svg class="ic s"><use href="#i-search"/></svg><span id="xSearch"></span></div>
+      <div class="safetop"></div>
+      <div class="bigt" id="xT"></div>
+      <div class="counter" id="xC"></div>
       <div class="chips" id="xChips"></div>
-      <div class="pgrid" id="xGrid"></div>
+      <div class="grid2" id="xGrid"></div>
     </div>
-    <div class="navfade"></div>
-    <div class="navwrap">
-      <div class="pillnav glass" id="navExplore"></div>
-      <div class="chatb glass" onclick="swap('chat')"><svg class="ic"><use href="#i-chat"/></svg></div>
-    </div>
+    <div class="navfade"></div><div class="tabbar" id="tb2"></div>
   </div>
 
-  <!-- ROUTES -->
-  <div class="screen" id="routes">
+  <!-- TRIP -->
+  <div class="screen" id="trip">
     <div class="scroll">
-      <div class="status"><span>9:41</span><span></span></div>
-      <div class="shead"><h1 id="rTitle"></h1></div>
-      <div id="rCards"></div>
+      <div class="safetop"></div>
+      <div class="bigt" id="trT"></div>
+      <div class="counter" id="trC"></div>
+      <div id="tripBody"></div>
+      <div class="slabel"><span id="trRoutes"></span></div>
+      <div class="routecard glass" onclick="startRoute()">
+        <div class="tp"><b class="nm" id="rN"></b><span class="tag" id="rTag"></span></div>
+        <div class="mt" id="rM"></div>
+        <div class="startbtn" id="rGo"></div>
+      </div>
     </div>
-    <div class="navfade"></div>
-    <div class="navwrap">
-      <div class="pillnav glass" id="navRoutes"></div>
-      <div class="chatb glass" onclick="swap('chat')"><svg class="ic"><use href="#i-chat"/></svg></div>
-    </div>
+    <div class="navfade"></div><div class="tabbar" id="tb3"></div>
   </div>
 
-  <!-- CHAT -->
-  <div class="screen" id="chat">
-    <div class="scroll" style="padding-bottom:120px">
-      <div class="status"><span>9:41</span><span></span></div>
-      <div class="gbtnrow"><div class="gbtn" onclick="swap('home')"><svg class="ic flip"><use href="#i-back"/></svg></div><div></div></div>
-      <div class="chead"><div class="ava">أ</div><div><b id="cName"></b><small id="cOn"></small></div></div>
-      <div class="msgs" id="cMsgs"></div>
-      <div class="inputbar glass"><span id="cPh"></span><svg class="ic s" style="margin-inline-start:auto;color:var(--stone)"><use href="#i-mic"/></svg><div class="send"><svg class="ic s flip"><use href="#i-arrow"/></svg></div></div>
+  <!-- MY ATLAS -->
+  <div class="screen" id="matlas">
+    <div class="scroll">
+      <div class="safetop"></div>
+      <div class="bigt" id="maT"></div>
+      <div class="macount glass">
+        <div class="n"><b id="maN">0</b><span id="maOf"> / 71</span></div>
+        <small id="maSub"></small>
+      </div>
+      <div class="seg"><div class="on" id="segS" onclick="maSeg='saved';renderMa()"></div><div id="segB" onclick="maSeg='been';renderMa()"></div></div>
+      <div id="maList"></div>
     </div>
+    <div class="navfade"></div><div class="tabbar" id="tb4"></div>
   </div>
 
   <!-- DETAIL -->
   <div class="screen" id="detail">
-    <div class="scroll">
-      <div class="status"><span>9:41</span><span></span></div>
-      <div class="gbtnrow">
-        <div class="gbtn" onclick="swap(lastList)"><svg class="ic flip"><use href="#i-back"/></svg></div>
-        <div class="gbtn" onclick="saveTap(event,this)"><svg class="ic"><use href="#i-bmk"/></svg></div>
+    <div class="scroll" style="padding-bottom:calc(env(safe-area-inset-bottom,16px) + 130px)">
+      <div class="dhero">
+        <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use id="dScene" href="#scQ"/></svg>
+        <div class="veil"></div>
+        <div class="dtop"><div class="gbtn" onclick="swap(lastTab)"><svg class="ic flip"><use href="#i-back"/></svg></div><div></div></div>
+        <div class="dlock"><span class="kick" id="dKick"></span><h1 id="dTitle"></h1></div>
       </div>
-      <div class="dheadwrap"><div class="dhead"><span class="kick" id="dKick"></span><h1 id="dTitle"></h1></div></div>
       <div class="dgrid" id="dGrid"></div>
-      <div class="dstoryc glass"><div class="k" id="dSk"></div><p id="dStory"></p></div>
-      <div class="dcta glass" onclick="toast(T.bookToast)"><div><b id="dCtaT"></b><small id="dCtaS"></small></div><div class="btn" id="dCtaB"></div></div>
+      <div class="dstory glass"><div class="k" id="dSk"></div><p id="dStory"></p></div>
+      <div class="exits" id="dExits"></div>
     </div>
-    <div class="navfade"></div>
-    <div class="navwrap">
-      <div class="pillnav glass" id="navDetail"></div>
-      <div class="chatb glass" onclick="swap('chat')"><svg class="ic"><use href="#i-chat"/></svg></div>
+    <div class="stickybar">
+      <div class="sb" id="dSave" onclick="toggleSave()"></div>
+      <div class="sb" onclick="toast(T.dirToast)" id="dDir"></div>
+      <div class="sb primary" onclick="swap('chat')" id="dAsk"></div>
+    </div>
+  </div>
+
+  <!-- FOLLOW MODE -->
+  <div class="screen" id="follow">
+    <div class="fhero"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use id="fScene" href="#scQ"/></svg><div class="veil"></div>
+      <div class="fprog"><span id="fProg"></span></div>
+      <div class="fclose"><div class="gbtn" onclick="swap('trip')"><svg class="ic"><use href="#i-x"/></svg></div></div>
+    </div>
+    <div class="fbody" id="fBody"></div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="screen" id="chat">
+    <div class="scroll" style="padding-bottom:calc(env(safe-area-inset-bottom,16px) + 30px)">
+      <div class="safetop"></div>
+      <div class="dtop" style="position:static;padding:0 16px"><div class="gbtn" style="background:var(--glass2);color:var(--ink);border:1px solid var(--gbord)" onclick="swap(lastTab)"><svg class="ic flip"><use href="#i-back"/></svg></div><div></div></div>
+      <div class="chead"><div class="ava">أ</div><div><b id="cN"></b><small id="cO"></small></div></div>
+      <div class="msgs" id="cMsgs"></div>
+      <div class="seeds" id="cSeeds"></div>
+      <div class="inputbar glass"><span id="cPh"></span><div class="send"><svg class="ic s flip"><use href="#i-arrow"/></svg></div></div>
     </div>
   </div>
 
@@ -468,220 +437,236 @@
 </div>
 
 <script>
-const STR={
- en:{tHi:"Good evening from",tCity:"Al-Ahsa",u1:"°C",l1:"Caves",l2:"Golden hour",l3:"Places",
-  insK:"Today in the Oasis",insP:"Golden hour is at 5:48. The caves will hold twenty degrees.",
-  nav:["Home","Explore","Routes"],
-  ob2T:"Stories, not pins.",ob2S:"Every place opens with what makes it matter — told by the people who live there.",ob2Tap:"Tap anywhere to continue",
-  obCard2:["AL-QARAH · THE STORY","Passages that stay cool while the desert burns. Caravans rested here…"],
-  ob3T:"From the oasis, outward.",ob3S:"Al-Ahsa is live today. New cities and countries join as their people bring the stories.",ob3Go:"Start exploring",
-  hAsk:"Where to next?",hSearch:"Search cities, places, stories…",
-  tNear:"TONIGHT IN AL-AHSA",
-  tDest:"DESTINATIONS",
-  countries:[["sa","Saudi Arabia"],["ae","UAE"],["eg","Egypt"],["jo","Jordan"]],
-  citiesBy:{sa:[["alahsa","scQ","Al-Ahsa","71 places · UNESCO oasis",0],["alula","scU","AlUla","The rock-carved wonder",1],["taif","scT","Taif","Roses & mountain air",1],["qassim","scQm","Qassim","Capital of dates",1],["riyadh","scR","Riyadh","The capital",1],["jeddah","scL","Jeddah","Gate of the Red Sea",1]],ae:[],eg:[],jo:[]},
-  cempty:["One city at a time, done beautifully.","Atlas grows country by country as local storytellers join. Be first to know."],
-  mosaic:[["scQ","Al-Ahsa",0],["scU","AlUla",1],["scT","Taif",1],["scQm","Qassim",1],["scR","Riyadh",1],["scL","+ more",1]],
-  soonToast:"Launching with local partners — the platform is ready",
-  xTitle:"Explore",xSearch:"Where to, today?",xSearchT:"Search all 71 places",
-  chips:[["all","All"],["heritage","Heritage"],["nature","Nature"],["mosques","Mosques"],["services","Eat & Stay"]],
-  rTitle:"Routes",bookToast:"Your request goes to the host on WhatsApp",
-  cName:"Atlas Concierge",cOn:"Knows all 71 places",cPh:"Ask about the oasis…",
-  msgs:[["me","Friday afternoon with kids — what's the plan?"],
-        ["bot","Start at Al-Qarah at 3:30 — the caves stay at twenty degrees, and kids love the passages. Then the Honey Factory tour at 5:00 (they do tastings). Finish at the lake for sunset at 5:48.","Al-Qarah · Honey Factory · Asfar Lake"],
-        ["me","Is the souq open after isha?"],
-        ["bot","Yes — Al-Qaisariya stays lively until 11 PM. Fridays peak after 8. The gahwa stalls near the west arcade are the ones locals queue for.","Souq Al-Qaisariya · open till 11 PM"]],
-  routes:[
-   {n:"The Heritage Loop",tag:"Free",gold:0,meta:"4 stops · half a day · 34 km",
-    stops:[["Al-Qarah Mountain","Caves & viewpoints · 90 min","14 min drive"],["Al-Ahsa Museum","The oasis story · 60 min","9 min drive"],["Mohairos Castle","Fortress history · 45 min","11 min drive"],["Jawatha Mosque","Finish at sunset",""]]},
-   {n:"The Oasis Farm Trail",tag:"Sponsored",gold:1,meta:"5 stops · 4 hrs · tastings included",stops:[]},
-   {n:"Three Perfect Days",tag:"Atlas Pass",gold:1,meta:"14 stops · offline & audio",stops:[]}],
-  places:[
-   ["qarah","scQ","Al-Qarah Mountain","Natural wonder · 18 min","Quiet now","ok","nature"],
-   ["souq","scS","Souq Al-Qaisariya","Heritage souq · 9 min","Lively","warn","heritage"],
-   ["lake","scL","Asfar Lake","Desert lake · 30 min","Sunset 5:48","ok","nature"],
-   ["jawatha","scJ","Jawatha Mosque","7th century · 22 min","Open","ok","mosques"],
-   ["palace","scS","Ibrahim Palace","Fortress · 7 min","Open now","ok","heritage"],
-   ["honey","scJ","Date's Honey Factory","Tour & tasting · 15 min","Tours 5 PM","mut","services"],
-   ["farm","scL","Hasawi Farm","Farm visit · 12 min","Booking","mut","services"],
-   ["castle","scQ","Mohairos Castle","Heritage fort · 11 min","Open now","ok","heritage"]],
- },
- ar:{tHi:"مساء الخير من",tCity:"الأحساء",u1:"°م",l1:"الكهوف",l2:"الساعة الذهبية",l3:"الأماكن",
-  insK:"اليوم في الواحة",insP:"الساعة الذهبية عند ٥:٤٨، والكهوف على عشرين درجة.",
-  nav:["الرئيسية","استكشف","المسارات"],
-  ob2T:"قصصٌ، لا مجرد نقاط على خريطة.",ob2S:"كل مكان يبدأ بما يجعله يستحق الزيارة — بكلمات أهله.",ob2Tap:"اضغط في أي مكان للمتابعة",
-  obCard2:["جبل القارة · القصة","ممرات تبقى باردة والصحراء تشتعل. استراحت هنا القوافل…"],
-  ob3T:"من الواحة إلى العالم.",ob3S:"الأحساء متاحة اليوم، ومدنٌ ودولٌ جديدة تنضم كلما حمل أهلها قصصهم.",ob3Go:"ابدأ الاستكشاف",
-  hAsk:"إلى أين وجهتك القادمة؟",hSearch:"ابحث عن مدن وأماكن وقصص…",
-  tNear:"الليلة في الأحساء",
-  tDest:"الوجهات",
-  countries:[["sa","السعودية"],["ae","الإمارات"],["eg","مصر"],["jo","الأردن"]],
-  citiesBy:{sa:[["alahsa","scQ","الأحساء","٧١ مكاناً · واحة اليونسكو",0],["alula","scU","العلا","أعجوبة الصخور",1],["taif","scT","الطائف","الورد والجبال",1],["qassim","scQm","القصيم","عاصمة التمور",1],["riyadh","scR","الرياض","العاصمة",1],["jeddah","scL","جدة","بوابة البحر الأحمر",1]],ae:[],eg:[],jo:[]},
-  cempty:["مدينة واحدة في كل مرة، بإتقان.","أطلس ينمو بلداً بعد بلد كلما انضم رواة محليون. كن أول من يعرف."],
-  mosaic:[["scQ","الأحساء",0],["scU","العلا",1],["scT","الطائف",1],["scQm","القصيم",1],["scR","الرياض",1],["scL","+ المزيد",1]],
-  soonToast:"تُطلق مع شركاء محليين — المنصة جاهزة",
-  xTitle:"استكشف",xSearch:"إلى أين اليوم؟",xSearchT:"ابحث في ٧١ مكاناً",
-  chips:[["all","الكل"],["heritage","تراث"],["nature","طبيعة"],["mosques","مساجد"],["services","مطاعم وإقامة"]],
-  rTitle:"المسارات",bookToast:"طلبك يصل للمضيف عبر واتساب",
-  cName:"مرشد أطلس",cOn:"يعرف الأماكن الـ٧١ كلها",cPh:"اسأل عن الواحة…",
-  msgs:[["me","عصر الجمعة مع الأطفال — ما الخطة؟"],
-        ["bot","ابدأوا بجبل القارة عند ٣:٣٠ — الكهوف على عشرين درجة والأطفال يعشقون الممرات. ثم جولة مصنع عسل التمر عند ٥:٠٠ (فيها تذوق). واختموا عند البحيرة لغروبٍ عند ٥:٤٨.","جبل القارة · مصنع العسل · بحيرة الأصفر"],
-        ["me","هل السوق مفتوح بعد العشاء؟"],
-        ["bot","نعم — القيصرية نشِطة حتى ١١ مساءً، وذروة الجمعة بعد الثامنة. أكشاك القهوة عند الرواق الغربي هي التي يصطف عليها أهل البلد.","سوق القيصرية · حتى ١١ مساءً"]],
-  routes:[
-   {n:"درب التراث",tag:"مجاني",gold:0,meta:"٤ محطات · نصف يوم · ٣٤ كم",
-    stops:[["جبل القارة","الكهوف والمطلات · ٩٠ دقيقة","١٤ دقيقة بالسيارة"],["متحف الأحساء","قصة الواحة · ٦٠ دقيقة","٩ دقائق بالسيارة"],["قلعة محيرس","تاريخ القلعة · ٤٥ دقيقة","١١ دقيقة بالسيارة"],["مسجد جواثا","الختام مع الغروب",""]]},
-   {n:"درب مزارع الواحة",tag:"برعاية",gold:1,meta:"٥ محطات · ٤ ساعات · يشمل التذوق",stops:[]},
-   {n:"ثلاثة أيام مثالية",tag:"أطلس باس",gold:1,meta:"١٤ محطة · بدون إنترنت وصوتيات",stops:[]}],
-  places:[
-   ["qarah","scQ","جبل القارة","أعجوبة طبيعية · ١٨ دقيقة","هادئ الآن","ok","nature"],
-   ["souq","scS","سوق القيصرية","سوق تراثي · ٩ دقائق","نشِط","warn","heritage"],
-   ["lake","scL","بحيرة الأصفر","بحيرة صحراوية · ٣٠ دقيقة","الغروب ٥:٤٨","ok","nature"],
-   ["jawatha","scJ","مسجد جواثا","القرن الأول الهجري · ٢٢ دقيقة","مفتوح","ok","mosques"],
-   ["palace","scS","قصر إبراهيم","قلعة · ٧ دقائق","مفتوح الآن","ok","heritage"],
-   ["honey","scJ","مصنع عسل التمر","جولة وتذوق · ١٥ دقيقة","الجولات ٥م","mut","services"],
-   ["farm","scL","مزرعة حساوي","زيارة مزرعة · ١٢ دقيقة","بالحجز","mut","services"],
-   ["castle","scQ","قلعة محيرس","قلعة تراثية · ١١ دقيقة","مفتوح الآن","ok","heritage"]],
- }};
-const PL={
- qarah:{en:{kick:"UNESCO WORLD HERITAGE",title:"Al-Qarah Mountain",
-   grid:[["Caves","20°C","Steady","ok"],["Crowd","Quiet","Best before noon","ok"],["Entry","SAR 15","Per person","mut"],["Drive","18 min","From city center","mut"]],
-   sk:"The story",story:"Two million palms, one mountain — and passages that stay cool while the desert burns. Caravans rested here; so should you.",
-   ctaT:"Guided cave tour",ctaS:"45 min · local guide",ctaB:"Reserve"},
-  ar:{kick:"موقع تراث عالمي — اليونسكو",title:"جبل القارة",
-   grid:[["الكهوف","٢٠ درجة","ثابتة","ok"],["الزحام","هادئ","الأفضل قبل الظهر","ok"],["الدخول","١٥ ريال","للشخص","mut"],["المسافة","١٨ دقيقة","من وسط المدينة","mut"]],
-   sk:"القصة",story:"مليونا نخلة وجبلٌ واحد — وممرات تبقى باردة والصحراء تشتعل. استراحت هنا القوافل، فاسترح أنت أيضاً.",
-   ctaT:"جولة الكهوف مع مرشد",ctaS:"٤٥ دقيقة · مرشد محلي",ctaB:"احجز"}},
- souq:{en:{kick:"TRADING SINCE 1822",title:"Souq Al-Qaisariya",
-   grid:[["Stalls","Open","Until 11 PM","ok"],["Crowd","Lively","Evenings peak","warn"],["Entry","Free","Walk right in","mut"],["Drive","9 min","From city center","mut"]],
-   sk:"The story",story:"Two hundred years of bargaining under one arcade. Bisht tailors, date merchants, and gahwa poured the old way.",
-   ctaT:"Souq walking tour",ctaS:"60 min · evenings",ctaB:"Reserve"},
-  ar:{kick:"تجارة منذ عام ١٨٢٢",title:"سوق القيصرية",
-   grid:[["المحلات","مفتوحة","حتى ١١ مساءً","ok"],["الزحام","نشِط","ذروة المساء","warn"],["الدخول","مجاني","تفضل مباشرة","mut"],["المسافة","٩ دقائق","من وسط المدينة","mut"]],
-   sk:"القصة",story:"مئتا سنة من المساومة تحت رواقٍ واحد. خيّاطو البشوت وتجّار التمر وقهوةٌ تُصبّ على الطريقة الأولى.",
-   ctaT:"جولة السوق سيراً",ctaS:"٦٠ دقيقة · مساءً",ctaB:"احجز"}},
- lake:{en:{kick:"THE DESERT'S QUIETEST HOUR",title:"Asfar Lake",
-   grid:[["Best hour","5:48","Golden light","ok"],["Crowd","Sparse","Weekdays quietest","ok"],["Entry","Free","Open access","mut"],["Drive","30 min","Bring water","mut"]],
-   sk:"The story",story:"A lake where no lake should be — dunes on one shore, reeds on the other, and an hour each evening when the water turns to molten glass.",
-   ctaT:"Sunset photo spot",ctaS:"Pin & parking",ctaB:"Directions"},
-  ar:{kick:"أهدأ ساعات الصحراء",title:"بحيرة الأصفر",
-   grid:[["أجمل ساعة","٥:٤٨","الضوء الذهبي","ok"],["الزحام","قليل","أيام الأسبوع أهدأ","ok"],["الدخول","مجاني","دخول حر","mut"],["المسافة","٣٠ دقيقة","خذ معك ماءً","mut"]],
-   sk:"القصة",story:"بحيرة في غير موضع البحيرات — كثبان على ضفة وقصب على الأخرى، وساعةٌ كل مساء يتحول فيها الماء إلى زجاجٍ مذاب.",
-   ctaT:"موقع الغروب للتصوير",ctaS:"الموقع والمواقف",ctaB:"الاتجاهات"}},
- jawatha:{en:{kick:"SEVENTH CENTURY",title:"Jawatha Mosque",
-   grid:[["Status","Open","Outside prayers","ok"],["Dress","Modest","Visitors welcome","mut"],["Entry","Free","All welcome","mut"],["Drive","22 min","Via palm groves","mut"]],
-   sk:"The story",story:"Among the oldest mosques in Eastern Arabia — the second Friday prayer in Islam's history was held on this ground, fourteen centuries ago.",
-   ctaT:"Heritage Loop route",ctaS:"Final stop · sunset",ctaB:"View route"},
-  ar:{kick:"القرن الأول الهجري",title:"مسجد جواثا",
-   grid:[["الحالة","مفتوح","خارج أوقات الصلاة","ok"],["اللباس","محتشم","الزوّار مرحّب بهم","mut"],["الدخول","مجاني","للجميع","mut"],["المسافة","٢٢ دقيقة","عبر النخيل","mut"]],
-   sk:"القصة",story:"من أقدم مساجد شرق الجزيرة — أُقيمت على هذه الأرض ثاني جمعة في تاريخ الإسلام، قبل أربعة عشر قرناً.",
-   ctaT:"درب التراث",ctaS:"المحطة الأخيرة · الغروب",ctaB:"عرض المسار"}}
+const PLACES={
+ qarah:{sc:"scQ",cat:"nature",dist:18,
+  en:{n:"Al-Qarah Mountain",kick:"UNESCO WORLD HERITAGE",m:"Caves at 20° · 18 min",open:"Open now",
+    grid:[["Caves","20°","Steady all summer","stok"],["Crowd","Quiet","Best before noon","stok"],["Entry","SAR 15","Per person","stmut"],["Drive","18 min","From city center","stmut"]],
+    story:"Two million palms, one mountain — and passages that stay cool while the desert burns. Caravans rested here; so should you.",book:"Guided cave tour · SAR 40"},
+  ar:{n:"جبل القارة",kick:"تراث عالمي — اليونسكو",m:"الكهوف ٢٠° · ١٨ دقيقة",open:"مفتوح الآن",
+    grid:[["الكهوف","٢٠°","ثابتة طوال الصيف","stok"],["الزحام","هادئ","الأفضل قبل الظهر","stok"],["الدخول","١٥ ريال","للشخص","stmut"],["المسافة","١٨ دقيقة","من وسط المدينة","stmut"]],
+    story:"مليونا نخلة وجبلٌ واحد — وممرات تبقى باردة والصحراء تشتعل. استراحت هنا القوافل، فاسترح أنت أيضاً.",book:"جولة الكهوف · ٤٠ ريال"}},
+ souq:{sc:"scS",cat:"heritage",dist:9,
+  en:{n:"Souq Al-Qaisariya",kick:"TRADING SINCE 1822",m:"Lively evenings · 9 min",open:"Open till 11 PM",
+    grid:[["Stalls","Open","Until 11 PM","stok"],["Crowd","Lively","Evenings peak","stmut"],["Entry","Free","Walk right in","stmut"],["Drive","9 min","From city center","stmut"]],
+    story:"Two hundred years of bargaining under one arcade. Bisht tailors, date merchants, and gahwa poured the old way.",book:"Souq walking tour · SAR 30"},
+  ar:{n:"سوق القيصرية",kick:"تجارة منذ ١٨٢٢",m:"أمسيات نشِطة · ٩ دقائق",open:"حتى ١١ مساءً",
+    grid:[["المحلات","مفتوحة","حتى ١١ مساءً","stok"],["الزحام","نشِط","ذروة المساء","stmut"],["الدخول","مجاني","تفضل مباشرة","stmut"],["المسافة","٩ دقائق","من وسط المدينة","stmut"]],
+    story:"مئتا سنة من المساومة تحت رواقٍ واحد. خيّاطو البشوت وتجّار التمر وقهوةٌ تُصبّ على الطريقة الأولى.",book:"جولة السوق · ٣٠ ريال"}},
+ lake:{sc:"scL",cat:"nature",dist:30,
+  en:{n:"Asfar Lake",kick:"THE DESERT'S QUIETEST HOUR",m:"Sunset 5:48 · 30 min",open:"Open access",
+    grid:[["Best hour","5:48","Golden light","stok"],["Crowd","Sparse","Weekdays quietest","stok"],["Entry","Free","Open access","stmut"],["Drive","30 min","Bring water","stmut"]],
+    story:"A lake where no lake should be — dunes on one shore, reeds on the other, and an hour each evening when the water turns to molten glass.",book:""},
+  ar:{n:"بحيرة الأصفر",kick:"أهدأ ساعات الصحراء",m:"الغروب ٥:٤٨ · ٣٠ دقيقة",open:"دخول حر",
+    grid:[["أجمل ساعة","٥:٤٨","الضوء الذهبي","stok"],["الزحام","قليل","أيام الأسبوع أهدأ","stok"],["الدخول","مجاني","دخول حر","stmut"],["المسافة","٣٠ دقيقة","خذ ماءً","stmut"]],
+    story:"بحيرة في غير موضع البحيرات — كثبان على ضفة وقصب على الأخرى، وساعةٌ كل مساء يتحول فيها الماء إلى زجاجٍ مذاب.",book:""}},
+ jawatha:{sc:"scJ",cat:"heritage",dist:22,
+  en:{n:"Jawatha Mosque",kick:"SEVENTH CENTURY",m:"7th century · 22 min",open:"Open",
+    grid:[["Status","Open","Outside prayers","stok"],["Dress","Modest","Visitors welcome","stmut"],["Entry","Free","All welcome","stmut"],["Drive","22 min","Via palm groves","stmut"]],
+    story:"Among the oldest mosques in Eastern Arabia — the second Friday prayer in Islam's history was held on this ground, fourteen centuries ago.",book:""},
+  ar:{n:"مسجد جواثا",kick:"القرن الأول الهجري",m:"القرن الأول · ٢٢ دقيقة",open:"مفتوح",
+    grid:[["الحالة","مفتوح","خارج أوقات الصلاة","stok"],["اللباس","محتشم","الزوّار مرحّب بهم","stmut"],["الدخول","مجاني","للجميع","stmut"],["المسافة","٢٢ دقيقة","عبر النخيل","stmut"]],
+    story:"من أقدم مساجد شرق الجزيرة — أُقيمت على هذه الأرض ثاني جمعة في تاريخ الإسلام، قبل أربعة عشر قرناً.",book:""}}
 };
-let lang="en",T=STR.en,curPlace="qarah",xFilter="all",lastList="home";
-function navHTML(active){
- return T.nav.map((lbl,i)=>{
-  const id=["home","explore","routes"][i];
-  return `<div class="nitem ${active===id?"on":""}" onclick="swap('${id}')">
-    <div class="nic"><svg class="ic s"><use href="#i-${["home","compass","route"][i]}"/></svg></div><span>${lbl}</span></div>`;
- }).join("");
+const ROUTE={stops:["qarah","souq","jawatha"],en:{n:"The Heritage Loop",tag:"CURATED",m:"3 stops · half a day · free",go:"Start route",
+  legs:["Begin in the cool of the caves — 90 minutes before the crowds.","Drive 14 min to the souq — gahwa first, then the bisht arcade.","End at Jawatha as the sun drops behind the palms."]},
+ ar:{n:"درب التراث",tag:"مُنسّق",m:"٣ محطات · نصف يوم · مجاني",go:"ابدأ المسار",
+  legs:["ابدأ ببرودة الكهوف — ٩٠ دقيقة قبل الزحام.","١٤ دقيقة بالسيارة إلى السوق — القهوة أولاً ثم رواق البشوت.","اختم عند جواثا والشمس تغيب خلف النخيل."]}};
+const STR={
+ en:{tHi:"Good evening from",tCity:"Al-Ahsa",mHere:"I'm here",mPlan:"Planning",
+  askPh:"Ask Atlas — “quiet coffee near the springs?”",
+  featKick:"TONIGHT'S STORY",featCta:"Read the story",
+  sereT:"A place you don't know yet",sereS:"Tap the dice — let the oasis choose",
+  tRailHere:"OPEN NOW · NEAREST FIRST",tRailPlan:"START WITH THESE",tAll:"All 71",
+  xT:"Explore",xCount:(s,b)=>`<b>${b} been</b> · ${s} saved · 71 places`,
+  chips:[["all","All"],["heritage","Heritage"],["nature","Nature"]],
+  trT:"Your Al-Ahsa Trip",trCount:n=>n?`${n} places · auto-planned by geography`:"",
+  trEmptyP:"Your trip builds itself.",trEmptyS:"Save any place — it lands here, sequenced into a day plan.",trEmptyCta:"Find tonight's story",
+  trRoutes:"CURATED ROUTES",
+  maT:"My Atlas",maSub:"places of Al-Ahsa met so far",segS:"Saved",segB:"Been",
+  maEmptyS:"Nothing saved yet — stories you save land here.",maEmptyB:"Mark places “I was here” as you go — your map fills in.",
+  dSave:"Save",dSaved:"Saved ✓",dDir:"Directions",dAsk:"Ask Atlas",dSk:"The story",
+  exRoute:(r)=>[`On route: ${r}`,"Join the Heritage Loop here"],exNear:"Within 15 minutes",exBook:"Book this experience",exBookS:"Reply in minutes on WhatsApp",
+  savedToast:"Added to Your Al-Ahsa Trip",beenToast:"Marked as been — your map grows",dirToast:"Opening directions…",bookToast:"Pre-filled message ready in WhatsApp",
+  fStop:(i,n)=>`Stop ${i} of ${n}`,fArr:"I've arrived",fNext:"Next stop",fAskR:"Ask Atlas",
+  fDoneH:"The loop is closed.",fDoneP:"Three stories walked. Every stop is now on your Been map — 3 more places near this route are waiting.",fDoneCta:"See what's nearby",
+  cN:"Atlas Concierge",cO:"Knows all 71 places",cPh:"Ask about the oasis…",
+  seeds:["Plan my Friday evening","Best with kids?","Quiet coffee near the springs","Is the souq open after isha?"],
+  msgs:[["me","Friday afternoon with kids — what's the plan?"],
+   ["bot","Start at Al-Qarah at 3:30 — the caves hold twenty degrees and kids love the passages. Honey factory tastings at 5:00, then the lake for the 5:48 sunset.","Al-Qarah · Honey Factory · Asfar Lake"]]},
+ ar:{tHi:"مساء الخير من",tCity:"الأحساء",mHere:"أنا هنا",mPlan:"أخطط",
+  askPh:"اسأل أطلس — «قهوة هادئة قرب العيون؟»",
+  featKick:"قصة الليلة",featCta:"اقرأ القصة",
+  sereT:"مكان لا تعرفه بعد",sereS:"اضغط النرد — دع الواحة تختار",
+  tRailHere:"مفتوح الآن · الأقرب أولاً",tRailPlan:"ابدأ بهذه",tAll:"الكل ٧١",
+  xT:"استكشف",xCount:(s,b)=>`<b>${b} زرتها</b> · ${s} محفوظة · ٧١ مكاناً`,
+  chips:[["all","الكل"],["heritage","تراث"],["nature","طبيعة"]],
+  trT:"رحلتك في الأحساء",trCount:n=>n?`${n} أماكن · مرتبة جغرافياً`:"",
+  trEmptyP:"رحلتك تبني نفسها.",trEmptyS:"احفظ أي مكان — يصل هنا مرتباً في خطة يوم.",trEmptyCta:"اقرأ قصة الليلة",
+  trRoutes:"مسارات منسقة",
+  maT:"أطلسي",maSub:"من أماكن الأحساء التقيت بها حتى الآن",segS:"محفوظة",segB:"زرتها",
+  maEmptyS:"لا محفوظات بعد — القصص التي تحفظها تصل هنا.",maEmptyB:"علّم الأماكن «كنت هنا» أثناء تجوالك — وخريطتك تكتمل.",
+  dSave:"احفظ",dSaved:"محفوظ ✓",dDir:"الاتجاهات",dAsk:"اسأل أطلس",dSk:"القصة",
+  exRoute:(r)=>[`على مسار: ${r}`,"انضم لدرب التراث من هنا"],exNear:"في حدود ١٥ دقيقة",exBook:"احجز هذه التجربة",exBookS:"يردّون خلال دقائق عبر واتساب",
+  savedToast:"أُضيف إلى رحلتك في الأحساء",beenToast:"سُجّلت زيارتك — خريطتك تكبر",dirToast:"جارٍ فتح الاتجاهات…",bookToast:"رسالة جاهزة في واتساب",
+  fStop:(i,n)=>`المحطة ${i} من ${n}`,fArr:"وصلت",fNext:"المحطة التالية",fAskR:"اسأل أطلس",
+  fDoneH:"اكتمل الدرب.",fDoneP:"ثلاث قصص مشيتها. كل محطة الآن على خريطة زياراتك — وثلاثة أماكن قرب هذا المسار بانتظارك.",fDoneCta:"ماذا يوجد قريباً؟",
+  cN:"مرشد أطلس",cO:"يعرف الأماكن الـ٧١ كلها",cPh:"اسأل عن الواحة…",
+  seeds:["خطط لي مساء الجمعة","الأفضل مع الأطفال؟","قهوة هادئة قرب العيون","هل السوق مفتوح بعد العشاء؟"],
+  msgs:[["me","عصر الجمعة مع الأطفال — ما الخطة؟"],
+   ["bot","ابدأوا بجبل القارة عند ٣:٣٠ — الكهوف على عشرين درجة والأطفال يعشقون الممرات. تذوق العسل عند ٥:٠٠، ثم البحيرة لغروب ٥:٤٨.","جبل القارة · مصنع العسل · البحيرة"]]}
+};
+let lang="en",T=STR.en,mode="here",saved=[],been=[],cur="qarah",lastTab="today",maSeg="saved",xF="all",fIdx=0,fActive=false;
+const $=id=>document.getElementById(id);
+const ARN=["٠","١","٢","٣","٤","٥","٦","٧","٨","٩"];
+const num=n=>lang==="ar"?String(n).split("").map(d=>ARN[+d]??d).join(""):String(n);
+
+function stOf(k){return been.includes(k)?"been":saved.includes(k)?"saved":"none"}
+function tile(k){
+ const p=PLACES[k],L=p[lang];
+ return `<div class="pt glass" onclick="openPlace('${k}')">
+   <div class="th"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use href="#${p.sc}"/></svg></div>
+   <span class="st ${stOf(k)}"></span><b>${L.n}</b><small>${mode==="here"?L.open+" · "+num(p.dist)+(lang==="ar"?" د":" min"):L.m}</small></div>`;
 }
-function renderNavs(active){
- ({home:"navHome",explore:"navExplore",routes:"navRoutes",detail:"navDetail"});
- document.getElementById("navHome").innerHTML=navHTML("home");
- document.getElementById("navExplore").innerHTML=navHTML("explore");
- document.getElementById("navRoutes").innerHTML=navHTML("routes");
- document.getElementById("navDetail").innerHTML=navHTML("explore");
+function tabbar(active){
+ const items=[["today","i-today",lang==="ar"?"اليوم":"Today"],["explore","i-compass",lang==="ar"?"استكشف":"Explore"],["trip","i-trip",lang==="ar"?"رحلتي":"Trip"],["matlas","i-me",lang==="ar"?"أطلسي":"My Atlas"]];
+ return items.map(([id,ic,lb])=>`<div class="ti ${active===id?"on":""}" onclick="swap('${id}')">
+   ${id==="trip"&&saved.length?`<span class="bdg">${num(saved.length)}</span>`:""}
+   <svg class="ic s"><use href="#${ic}"/></svg>${lb}</div>`).join("");
 }
-function tileHTML(p){
- return `<div class="ptile glass" onclick="openPlace('${p[0]}')">
-   <div class="thumb"><svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice"><use href="#${p[1]}"/></svg></div>
-   <b>${p[2]}</b><small>${p[3]}</small><span class="st st-${p[5]}">${p[4]}</span></div>`;
-}
-let curCountry="sa";
-function cityCard(c){
- const soon=c[4];
- return `<div class="citycard glass ${soon?"dim":""}" onclick="${soon?"toast(T.soonToast)":"swap('explore')"}">
-   <div class="thumb"><svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice"><use href="#${c[1]}"/></svg></div>
-   ${soon?`<span class="soonb">${lang==="ar"?"قريباً":"SOON"}</span>`:`<span class="dot"><i></i>${lang==="ar"?"متاحة":"LIVE"}</span>`}
-   <b>${c[2]}</b><small>${c[3]}</small></div>`;
-}
-function renderDest(){
- document.getElementById("countryRow").innerHTML=T.countries.map(c=>
-  `<div class="ctab ${curCountry===c[0]?"on":""}" onclick="curCountry='${c[0]}';renderDest()">${c[1]}</div>`).join("");
- const cities=T.citiesBy[curCountry];
- document.getElementById("destCar").innerHTML=cities.length?cities.map(cityCard).join(""):
-  `<div class="cempty glass"><p>${T.cempty[0]}</p><small>${T.cempty[1]}</small></div>`;
-}
-function renderHome(){
- ["tHi","tCity","insK","insP","hAsk","hSearch","tNear"].forEach(k=>{const el=document.getElementById(k);if(el)el.textContent=T[k]});
- document.getElementById("tDest").textContent=T.tDest;
- renderDest();
- document.getElementById("homeGrid").innerHTML=T.places.slice(0,4).map(tileHTML).join("");
- // onboarding
- document.getElementById("ob2T").textContent=T.ob2T;
- document.getElementById("ob2S").textContent=T.ob2S;
- document.getElementById("ob2Tap").textContent=T.ob2Tap;
- document.getElementById("obCard2").innerHTML=`<div class="k2">${T.obCard2[0]}</div><p>${T.obCard2[1]}</p>`;
- document.getElementById("ob3T").textContent=T.ob3T;
- document.getElementById("ob3S").textContent=T.ob3S;
- document.getElementById("ob3Go").textContent=T.ob3Go;
- document.getElementById("obMosaic").innerHTML=T.mosaic.map(m=>`<div class="m ${m[2]?"soon":""}"><svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice"><use href="#${m[0]}"/></svg><span>${m[1]}</span></div>`).join("");
+function renderToday(){
+ $("tHi").textContent=T.tHi;$("tCity").textContent=T.tCity;
+ $("mHere").textContent=T.mHere;$("mPlan").textContent=T.mPlan;
+ $("mHere").classList.toggle("on",mode==="here");$("mPlan").classList.toggle("on",mode==="plan");
+ $("askPh").textContent=T.askPh;
+ const f=PLACES.qarah[lang];
+ $("featured").innerHTML=`<svg class="bg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use href="#scQ"/></svg><div class="veil"></div>
+  <div class="body"><span class="kick">${T.featKick}</span><h2>${lang==="ar"?"الليلة تبرد الواحة — والكهوف تحفظ سرّها.":"Tonight the oasis cools — and the caves keep their secret."}</h2>
+  <p>${f.story.slice(0,80)}…</p><span class="cta">${T.featCta} <svg class="ic s flip"><use href="#i-arrow"/></svg></span></div>`;
+ $("featured").onclick=()=>openPlace("qarah");
+ const unseen=Object.keys(PLACES).filter(k=>!been.includes(k)&&!saved.includes(k));
+ $("sereNo").textContent=num(String(unseen.length?Object.keys(PLACES).indexOf(unseen[0])+7:12).padStart(2,"0"))+" / "+num(71);
+ $("sereT").textContent=T.sereT;$("sereS").textContent=T.sereS;
+ $("tRail").textContent=mode==="here"?T.tRailHere:T.tRailPlan;$("tAll").textContent=T.tAll;
+ const keys=Object.keys(PLACES).sort((a,b)=>mode==="here"?PLACES[a].dist-PLACES[b].dist:0);
+ $("todayGrid").innerHTML=keys.map(tile).join("");
+ $("tb1").innerHTML=tabbar("today");
 }
 function renderExplore(){
- document.getElementById("xTitle").textContent=T.xTitle;
- document.getElementById("xSearch").textContent=T.xSearch;
- document.getElementById("xChips").innerHTML=T.chips.map(c=>`<div class="chip ${xFilter===c[0]?"on":""}" onclick="xFilter='${c[0]}';renderExplore()">${c[1]}</div>`).join("");
- document.getElementById("xGrid").innerHTML=T.places.filter(p=>xFilter==="all"||p[6]===xFilter).map(tileHTML).join("");
+ $("xT").textContent=T.xT;
+ $("xC").innerHTML=T.xCount(num(saved.length),num(been.length));
+ $("xChips").innerHTML=T.chips.map(c=>`<div class="chip ${xF===c[0]?"on":""}" onclick="xF='${c[0]}';renderExplore()">${c[1]}</div>`).join("");
+ $("xGrid").innerHTML=Object.keys(PLACES).filter(k=>xF==="all"||PLACES[k].cat===xF).map(tile).join("");
+ $("tb2").innerHTML=tabbar("explore");
 }
-function renderRoutes(){
- document.getElementById("rTitle").textContent=T.rTitle;
- document.getElementById("rCards").innerHTML=T.routes.map((r,i)=>`
-  <div class="rcard glass" onclick="${r.stops.length?"":"toast(T.routes["+i+"].n)"}">
-   <div class="toprow2"><b class="nm">${r.n}</b><span class="tag ${r.gold?"gold":""}">${r.tag}</span></div>
-   <div class="meta2">${r.meta}</div>
-   ${r.stops.length?`<div class="tl">${r.stops.map((s,j)=>`
-     <div class="tstop"><div class="rail"><div class="tnum">${lang==="ar"?["١","٢","٣","٤"][j]:j+1}</div>${j<r.stops.length-1?'<div class="tline"></div>':""}</div>
-     <div class="tinfo"><b>${s[0]}</b><small>${s[1]}</small>${s[2]?`<span class="drivec">→ ${s[2]}</span>`:""}</div></div>`).join("")}</div>`:""}
-  </div>`).join("");
+function renderTrip(){
+ $("trT").textContent=T.trT;$("trC").textContent=T.trCount(num(saved.length));
+ const R=ROUTE[lang];
+ $("trRoutes").textContent=T.trRoutes;$("rN").textContent=R.n;$("rTag").textContent=R.tag;$("rM").textContent=R.m;$("rGo").textContent=R.go;
+ if(!saved.length){
+  $("tripBody").innerHTML=`<div class="trip-empty glass"><p>${T.trEmptyP}</p><small>${T.trEmptyS}</small>
+   <span class="cta2" onclick="swap('today')">${T.trEmptyCta}</span></div>`;
+ }else{
+  const seq=[...saved].sort((a,b)=>PLACES[a].dist-PLACES[b].dist);
+  $("tripBody").innerHTML=`<div class="plan glass">${seq.map((k,i)=>`
+   <div class="stop"><div class="rail"><div class="n">${num(i+1)}</div>${i<seq.length-1?'<div class="l"></div>':""}</div>
+   <div class="inf" onclick="openPlace('${k}')"><b>${PLACES[k][lang].n}</b><small>${PLACES[k][lang].m}</small></div>
+   <span class="x" onclick="unsave('${k}')">✕</span></div>`).join("")}</div>`;
+ }
+ $("tb3").innerHTML=tabbar("trip");
 }
-function renderChat(){
- document.getElementById("cName").textContent=T.cName;
- document.getElementById("cOn").textContent=T.cOn;
- document.getElementById("cPh").textContent=T.cPh;
- document.getElementById("cMsgs").innerHTML=T.msgs.map(m=>`
-  <div class="msg ${m[0]} ${m[0]==="bot"?"glass":""}">${m[1]}${m[2]?`<span class="cite">${m[2]}</span>`:""}</div>`).join("");
+function renderMa(){
+ $("maT").textContent=T.maT;$("maN").textContent=num(been.length);$("maOf").textContent=" / "+num(71);
+ $("maSub").textContent=T.maSub;
+ $("segS").textContent=T.segS+(saved.length?` · ${num(saved.length)}`:"");
+ $("segB").textContent=T.segB+(been.length?` · ${num(been.length)}`:"");
+ $("segS").classList.toggle("on",maSeg==="saved");$("segB").classList.toggle("on",maSeg==="been");
+ const list=maSeg==="saved"?saved:been;
+ $("maList").innerHTML=list.length?list.map(k=>`
+  <div class="marow glass" onclick="openPlace('${k}')"><span class="dotc" style="background:${maSeg==="been"?"var(--ok)":"var(--gold)"}"></span>
+  <b>${PLACES[k][lang].n}</b><small>${PLACES[k][lang].m}</small></div>`).join("")
+  :`<div class="maempty glass">${maSeg==="saved"?T.maEmptyS:T.maEmptyB}</div>`;
+ $("tb4").innerHTML=tabbar("matlas");
 }
 function openPlace(k){
- if(!PL[k]){toast(lang==="ar"?"الصفحة الكاملة مع الدليل الكامل":"Full page ships with the full catalog");return}
- lastList=document.querySelector(".screen.active").id;if(lastList==="detail")lastList="home";
- curPlace=k;const L=PL[k][lang];
- document.getElementById("dKick").textContent=L.kick;
- document.getElementById("dTitle").textContent=L.title;
- document.getElementById("dGrid").innerHTML=L.grid.map(g=>`<div class="dcell glass"><span class="chipb">${g[0]}</span><div class="num">${g[1]}</div><div class="state st-${g[3]}">${g[2]}</div></div>`).join("");
- document.getElementById("dSk").textContent=L.sk;
- document.getElementById("dStory").textContent=L.story;
- document.getElementById("dCtaT").textContent=L.ctaT;
- document.getElementById("dCtaS").textContent=L.ctaS;
- document.getElementById("dCtaB").textContent=L.ctaB;
+ cur=k;const p=PLACES[k],L=p[lang];
+ const at=document.querySelector(".screen.active");if(at&&["today","explore","trip","matlas"].includes(at.id))lastTab=at.id;
+ $("dScene").setAttribute("href","#"+p.sc);
+ $("dKick").textContent=L.kick;$("dTitle").textContent=L.n;
+ $("dGrid").innerHTML=L.grid.map(g=>`<div class="dcell glass"><span class="cb">${g[0]}</span><div class="nm">${g[1]}</div><div class="stt ${g[3]}">${g[2]}</div></div>`).join("");
+ $("dSk").textContent=T.dSk;$("dStory").textContent=L.story;
+ const R=ROUTE[lang];const onR=ROUTE.stops.includes(k);
+ const near=Object.keys(PLACES).filter(x=>x!==k).slice(0,2);
+ $("dExits").innerHTML=
+  (onR?`<div class="exit glass" onclick="startRoute()"><svg class="ic s"><use href="#i-trip"/></svg><div><b>${T.exRoute(R.n)[0]}</b><small>${T.exRoute(R.n)[1]}</small></div><svg class="ic s chev flip"><use href="#i-arrow"/></svg></div>`:"")+
+  `<div class="exit glass" onclick="openPlace('${near[0]}')"><svg class="ic s"><use href="#i-me"/></svg><div><b>${T.exNear}</b><small>${near.map(x=>PLACES[x][lang].n).join(" · ")}</small></div><svg class="ic s chev flip"><use href="#i-arrow"/></svg></div>`+
+  (L.book?`<div class="exit glass" onclick="toast(T.bookToast)"><svg class="ic s"><use href="#i-wa"/></svg><div><b>${T.exBook}</b><small>${L.book} — ${T.exBookS}</small></div><svg class="ic s chev flip"><use href="#i-arrow"/></svg></div>`:"");
+ updSaveBtn();$("dDir").textContent=T.dDir;$("dAsk").textContent=T.dAsk;
  swap("detail");
 }
-function renderAll(){renderNavs();renderHome();renderExplore();renderRoutes();renderChat()}
+function updSaveBtn(){const s=saved.includes(cur)||been.includes(cur);
+ $("dSave").textContent=s?T.dSaved:T.dSave;$("dSave").classList.toggle("saved",s)}
+function toggleSave(){
+ if(been.includes(cur))return;
+ if(saved.includes(cur)){saved=saved.filter(x=>x!==cur);toast(lang==="ar"?"أُزيل من الرحلة":"Removed from trip")}
+ else{saved.push(cur);toast(T.savedToast+" · "+num(saved.length))}
+ updSaveBtn();
+}
+function unsave(k){saved=saved.filter(x=>x!==k);renderTrip()}
+function serendipity(){
+ const keys=Object.keys(PLACES),pick=keys[Math.floor(Math.random()*keys.length)];
+ openPlace(pick);
+}
+function startRoute(){fIdx=0;fActive=true;renderFollow();swap("follow")}
+function renderFollow(){
+ const R=ROUTE[lang],n=ROUTE.stops.length;
+ if(fIdx>=n){ // finish
+  $("fScene").setAttribute("href","#scJ");
+  $("fProg").textContent=num(n)+" / "+num(n);
+  $("fBody").innerHTML=`<div class="fdone"><div class="big">${num(n)}/${num(n)}</div><h2>${T.fDoneH}</h2><p>${T.fDoneP}</p></div>
+   <div class="fbtns"><div class="fb arr" onclick="swap('today')">${T.fDoneCta}</div></div>`;
+  return;
+ }
+ const k=ROUTE.stops[fIdx],L=PLACES[k][lang];
+ $("fScene").setAttribute("href","#"+PLACES[k].sc);
+ $("fProg").textContent=T.fStop(num(fIdx+1),num(n));
+ $("fBody").innerHTML=`<span class="kick">${L.kick}</span><h1>${L.n}</h1><p>${R.legs[fIdx]}</p>
+  <div class="fbtns"><div class="fb ghost" onclick="toast(T.dirToast)">${T.dDir}</div>
+  <div class="fb arr" onclick="arrive()">${T.fArr}</div></div>`;
+}
+function arrive(){
+ const k=ROUTE.stops[fIdx];
+ if(!been.includes(k)){been.push(k);saved=saved.filter(x=>x!==k)}
+ toast(T.beenToast+" · "+num(been.length)+" / "+num(71));
+ fIdx++;renderFollow();
+}
+function renderChat(){
+ $("cN").textContent=T.cN;$("cO").textContent=T.cO;$("cPh").textContent=T.cPh;
+ $("cMsgs").innerHTML=T.msgs.map(m=>`<div class="msg ${m[0]} ${m[0]==="bot"?"glass":""}">${m[1]}${m[2]?`<span class="cite">${m[2]}</span>`:""}</div>`).join("");
+ $("cSeeds").innerHTML=T.seeds.map(s=>`<div class="seed" onclick="toast('${s}')">${s}</div>`).join("");
+}
+function renderAll(){renderToday();renderExplore();renderTrip();renderMa();renderChat()}
+function finishOb(){renderAll();swap("today")}
 function setLang(l){
  lang=l;T=STR[l];
- const ph=document.getElementById("phone");
+ const ph=$("phone");
  ph.setAttribute("dir",l==="ar"?"rtl":"ltr");
  ph.classList.toggle("rtl",l==="ar");
- document.getElementById("swEn").classList.toggle("on",l==="en");
- document.getElementById("swAr").classList.toggle("on",l==="ar");
+ $("swEn").classList.toggle("on",l==="en");$("swAr").classList.toggle("on",l==="ar");
+ $("obmT").textContent=l==="ar"?"الأحساء — متى؟":"Al-Ahsa — when?";
+ $("obmS").textContent=l==="ar"?"سؤال واحد، ونرتب لك كل شيء.":"One question — we'll arrange everything around it.";
+ $("obm1").textContent=l==="ar"?"أنا هنا الآن":"I'm here now";$("obm1s").textContent=l==="ar"?"رتّب ليلتي":"Sort my evening";
+ $("obm2").textContent=l==="ar"?"أخطط لزيارة":"Planning a visit";$("obm2s").textContent=l==="ar"?"ابنِ رحلتي":"Build my trip";
+ $("obm3").textContent=l==="ar"?"أحلم فقط":"Just dreaming";$("obm3s").textContent=l==="ar"?"أريني القصص":"Show me the stories";
  renderAll();
- if(document.getElementById("detail").classList.contains("active"))openPlace(curPlace);
+ const act=document.querySelector(".screen.active");
+ if(act&&act.id==="detail")openPlace(cur);
+ if(act&&act.id==="follow")renderFollow();
 }
-function swap(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");
+function swap(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(id).classList.add("active");
+ if(["today","explore","trip","matlas"].includes(id)){lastTab=id;renderAll()}
  const sc=document.querySelector("#"+id+" .scroll");if(sc)sc.scrollTop=0}
-function saveTap(e,el){e.stopPropagation();el.classList.toggle("on")}
-let tt;function toast(m){const t=document.getElementById("toast");document.getElementById("toasttxt").textContent=m;
- t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),2100)}
-renderAll();
+let tt;function toast(m){$("toasttxt").textContent=m;$("toast").classList.add("show");clearTimeout(tt);tt=setTimeout(()=>$("toast").classList.remove("show"),2100)}
+setLang("en");
 </script>
 </body>
 </html>
