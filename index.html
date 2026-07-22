@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Atlas">
-<meta name="theme-color" content="#171209">
+<meta name="theme-color" content="#3A2A44">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Atlas — أطلس</title>
@@ -16,7 +16,7 @@
  :root{
    --acc:#B85C38; --ok:#3E7D5C; --warn:#C15B4A; --gold:#C6862F;
    --ink:#241F17; --stone:#7A7160;
-   --glass:rgba(253,250,242,.55); --glass2:rgba(253,250,242,.42);
+   --glass:rgba(253,250,242,.58); --glass2:rgba(253,250,242,.42);
    --gbord:rgba(255,255,255,.68);
    --disp:"Playfair Display",Georgia,serif; --ui:"Hanken Grotesk",-apple-system,sans-serif;
    --ease:cubic-bezier(.32,.72,.24,1);
@@ -24,160 +24,191 @@
  .rtl{--disp:"El Messiri","IBM Plex Sans Arabic",sans-serif;--ui:"IBM Plex Sans Arabic",-apple-system,sans-serif}
  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
  html,body{height:100%}
- body{background:#171209;font-family:"Hanken Grotesk",sans-serif;color:var(--ink);overscroll-behavior:none}
+ body{background:#2B2136;font-family:"Hanken Grotesk",sans-serif;color:var(--ink);overscroll-behavior:none}
  .phone{width:100%;height:100dvh;overflow:hidden;position:relative;font-family:var(--ui);color:var(--ink)}
  .atmo{position:absolute;inset:0;background:
-   radial-gradient(110% 60% at 80% 0%, rgba(248,211,158,.95), rgba(248,211,158,0) 52%),
-   radial-gradient(130% 90% at 10% 100%, rgba(103,133,116,.5), rgba(103,133,116,0) 62%),
-   linear-gradient(170deg,#F0E4CE 0%,#EBD6B4 32%,#DDBE94 58%,#C0AB8C 80%,#A5A08C 100%)}
- .atmo .dune{position:absolute;left:-10%;right:-10%;height:34%;filter:blur(28px);opacity:.55;border-radius:50%}
- .atmo .d1{bottom:20%;background:#CE9B62}
- .atmo .d2{bottom:2%;background:#7E8E76;height:30%}
+   radial-gradient(120% 55% at 82% -4%, rgba(248,211,158,.9), rgba(248,211,158,0) 50%),
+   radial-gradient(130% 90% at 8% 104%, rgba(103,133,116,.5), rgba(103,133,116,0) 60%),
+   linear-gradient(168deg,#4A4152 0%,#8A5540 26%,#C88E56 52%,#E1C08C 74%,#EAD9B4 100%)}
+ .atmo .dune{position:absolute;left:-10%;right:-10%;height:32%;filter:blur(30px);opacity:.5;border-radius:50%}
+ .atmo .d1{bottom:22%;background:#CE9B62}
+ .atmo .d2{bottom:1%;background:#7E8E76;height:28%}
 
  .screen{position:absolute;inset:0;display:none;flex-direction:column}
  .screen.active{display:flex;animation:fade .3s ease}
  @keyframes fade{from{opacity:.55}to{opacity:1}}
- .scroll{flex:1;overflow-y:auto;padding-bottom:calc(env(safe-area-inset-bottom,16px) + 118px)}
+ .scroll{flex:1;overflow-y:auto;padding-bottom:calc(env(safe-area-inset-bottom,16px) + 120px)}
  .scroll::-webkit-scrollbar{display:none}
- .safetop{height:calc(env(safe-area-inset-top,14px) + 8px);flex-shrink:0}
 
  .ic{width:20px;height:20px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
  .ic.s{width:15px;height:15px}
  .rtl .flip{transform:scaleX(-1)}
- .glass{background:var(--glass);backdrop-filter:blur(22px);border:1px solid var(--gbord);box-shadow:0 14px 34px rgba(60,44,20,.13), inset 0 1px 0 rgba(255,255,255,.7);border-radius:30px}
+ .glass{background:var(--glass);backdrop-filter:blur(22px);border:1px solid var(--gbord);box-shadow:0 14px 34px rgba(50,36,24,.14), inset 0 1px 0 rgba(255,255,255,.7);border-radius:30px}
 
- /* header */
- .hd{padding:6px 24px 0;display:flex;align-items:center;justify-content:space-between;gap:10px}
- .hd .who small{font-size:11px;color:var(--stone);display:block}
- .hd .who b{font-family:var(--disp);font-weight:500;font-size:19px}
- .rtl .hd .who b{font-size:16px}
- .hd .right{display:flex;gap:8px;align-items:center}
- .langsw{display:flex;background:var(--glass2);backdrop-filter:blur(14px);border:1px solid var(--gbord);border-radius:999px;overflow:hidden;font-size:10px;font-weight:600}
- .langsw div{padding:6px 11px;cursor:pointer;color:var(--stone)}
- .langsw div.on{background:var(--ink);color:#F5EFE2}
- .modechip{display:flex;background:var(--glass2);backdrop-filter:blur(14px);border:1px solid var(--gbord);border-radius:999px;overflow:hidden;font-size:10px;font-weight:700}
- .modechip div{padding:6px 11px;cursor:pointer;color:var(--stone);white-space:nowrap}
- .modechip div.on{background:var(--acc);color:#fff}
+ /* ---------- top header that BLEEDS to the very top ---------- */
+ .topbar{padding:calc(env(safe-area-inset-top,14px) + 10px) 22px 0;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-shrink:0}
+ .city{display:flex;align-items:center;gap:7px;cursor:pointer;color:#fff}
+ .city .dot{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center}
+ .city b{font-family:var(--disp);font-weight:500;font-size:18px;text-shadow:0 1px 10px rgba(0,0,0,.3)}
+ .rtl .city b{font-size:16px;font-weight:600}
+ .city small{font-size:10px;opacity:.85;display:block;margin-top:-1px}
+ .hactions{display:flex;gap:8px}
+ .hbtn{width:38px;height:38px;border-radius:50%;background:rgba(20,14,6,.24);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;position:relative}
+ .hbtn .bd{position:absolute;top:6px;inset-inline-end:7px;width:7px;height:7px;border-radius:50%;background:var(--acc);border:1.5px solid #fff}
 
- /* ask input */
- .ask{margin:14px 24px 0;height:50px;border-radius:999px;display:flex;align-items:center;gap:11px;padding:0 8px 0 18px;color:var(--stone);font-size:13px;cursor:pointer}
- .rtl .ask{padding:0 18px 0 8px}
- .ask .go{margin-inline-start:auto;width:36px;height:36px;border-radius:50%;background:var(--ink);color:#F5EFE2;display:flex;align-items:center;justify-content:center}
+ /* today hero */
+ .hero{padding:14px 22px 0}
+ .hero .greet{color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.25)}
+ .hero .greet small{font-size:12px;opacity:.9}
+ .hero .greet h1{font-family:var(--disp);font-weight:500;font-size:30px;line-height:1.1;margin-top:3px}
+ .rtl .hero .greet h1{font-size:25px;line-height:1.4;font-weight:500}
+ .ask-inline{margin:16px 22px 0;height:50px;border-radius:999px;display:flex;align-items:center;gap:11px;padding:0 8px 0 18px;color:var(--stone);font-size:13px;cursor:pointer}
+ .rtl .ask-inline{padding:0 18px 0 8px}
+ .ask-inline .go{margin-inline-start:auto;width:36px;height:36px;border-radius:50%;background:var(--ink);color:#F5EFE2;display:flex;align-items:center;justify-content:center}
 
- /* featured story */
- .story{margin:16px 24px 0;border-radius:32px;overflow:hidden;position:relative;height:300px;cursor:pointer;box-shadow:0 18px 44px rgba(60,44,20,.2)}
+ .story{margin:18px 22px 0;border-radius:30px;overflow:hidden;position:relative;height:290px;cursor:pointer;box-shadow:0 18px 44px rgba(50,36,24,.24)}
  .story svg.bg{position:absolute;inset:0;width:100%;height:100%}
- .story .veil{position:absolute;inset:0;background:linear-gradient(rgba(20,14,6,.06) 35%,rgba(20,14,6,.72))}
+ .story .veil{position:absolute;inset:0;background:linear-gradient(rgba(20,14,6,.05) 34%,rgba(20,14,6,.74))}
+ .story .tag{position:absolute;top:14px;inset-inline-start:14px;background:rgba(20,14,6,.42);backdrop-filter:blur(8px);color:#fff;font-size:10px;font-weight:700;letter-spacing:1.4px;border-radius:999px;padding:6px 12px}
+ .rtl .story .tag{letter-spacing:0;font-size:11px}
  .story .body{position:absolute;bottom:0;left:0;right:0;padding:22px;color:#fff}
- .story .kick{font-size:9.5px;font-weight:700;letter-spacing:2.4px;opacity:.85}
- .rtl .story .kick{letter-spacing:0;font-size:11px}
- .story h2{font-family:var(--disp);font-weight:500;font-size:24px;line-height:1.15;margin-top:8px;text-wrap:balance}
+ .story h2{font-family:var(--disp);font-weight:500;font-size:23px;line-height:1.15;text-wrap:balance}
  .rtl .story h2{font-size:19px;line-height:1.5}
- .story p{font-size:12px;opacity:.85;margin-top:7px;line-height:1.55}
- .story .cta{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:rgba(253,250,242,.92);color:var(--ink);border-radius:999px;padding:9px 16px;font-size:11.5px;font-weight:700}
+ .story p{font-size:12px;opacity:.86;margin-top:7px;line-height:1.5}
+ .story .cta{display:inline-flex;align-items:center;gap:8px;margin-top:13px;background:rgba(253,250,242,.94);color:var(--ink);border-radius:999px;padding:9px 16px;font-size:11.5px;font-weight:700}
 
- /* serendipity */
- .sere{margin:14px 24px 0;padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer}
- .sere .no{font-family:var(--disp);font-weight:400;font-size:26px;color:var(--gold);white-space:nowrap}
- .rtl .sere .no{font-size:22px}
- .sere b{font-size:13.5px;font-weight:600;display:block}
+ .slabel{padding:26px 24px 12px;font-size:10.5px;font-weight:700;letter-spacing:2px;color:var(--stone);display:flex;justify-content:space-between;align-items:baseline}
+ .rtl .slabel{letter-spacing:0;font-size:12px}
+ .slabel a{font-size:11px;color:var(--acc);font-weight:700;cursor:pointer;letter-spacing:.3px}
+
+ .events{display:flex;gap:12px;overflow-x:auto;padding:2px 22px 2px}
+ .events::-webkit-scrollbar{display:none}
+ .evc{min-width:220px;border-radius:22px;padding:14px 16px;cursor:pointer}
+ .evc .d{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--acc)}
+ .rtl .evc .d{letter-spacing:0}
+ .evc b{font-family:var(--disp);font-weight:500;font-size:15px;display:block;margin-top:5px}
+ .rtl .evc b{font-size:14px;font-weight:600}
+ .evc small{font-size:11px;color:var(--stone);display:block;margin-top:3px}
+
+ .sere{margin:2px 22px 0;padding:16px 18px;display:flex;align-items:center;gap:14px;cursor:pointer}
+ .sere .no{font-family:var(--disp);font-size:24px;color:var(--gold);white-space:nowrap}
+ .rtl .sere .no{font-size:20px}
+ .sere b{font-size:13px;font-weight:600;display:block}
  .sere small{font-size:11px;color:var(--stone)}
  .sere .dice{margin-inline-start:auto;width:40px;height:40px;border-radius:50%;background:var(--ink);color:#F5EFE2;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 
- .slabel{padding:24px 28px 12px;font-size:10.5px;font-weight:700;letter-spacing:2.2px;color:var(--stone);display:flex;justify-content:space-between;align-items:baseline}
- .rtl .slabel{letter-spacing:0;font-size:11.5px}
- .slabel a{font-size:11px;color:var(--acc);font-weight:700;cursor:pointer;letter-spacing:.3px}
-
  /* place tiles */
- .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 24px}
+ .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 22px}
  .pt{padding:9px 9px 4px;border-radius:26px;cursor:pointer;transition:transform .22s var(--ease);position:relative}
  .pt:active{transform:scale(.97)}
- .pt .th{height:86px;border-radius:18px;overflow:hidden;position:relative}
+ .pt .th{height:88px;border-radius:18px;overflow:hidden;position:relative}
  .pt .th svg{width:100%;height:100%;display:block}
  .pt b{font-family:var(--disp);font-weight:500;font-size:14px;display:block;margin:9px 5px 0;line-height:1.2}
- .rtl .pt b{font-size:12.5px}
+ .rtl .pt b{font-size:12.5px;font-weight:600}
  .pt small{font-size:10.5px;color:var(--stone);display:block;margin:3px 5px 9px}
- .pt .st{position:absolute;top:16px;inset-inline-end:16px;width:10px;height:10px;border-radius:50%;border:2px solid rgba(255,255,255,.9)}
- .st.saved{background:var(--gold)} .st.been{background:var(--ok)} .st.none{background:rgba(255,255,255,.4)}
+ .pt .st{position:absolute;top:16px;inset-inline-end:16px;width:11px;height:11px;border-radius:50%;border:2px solid rgba(255,255,255,.92)}
+ .st.saved{background:var(--gold)} .st.been{background:var(--ok)} .st.none{background:rgba(255,255,255,.35)}
 
- /* explore */
- .chips{display:flex;gap:8px;overflow-x:auto;padding:12px 24px}
+ /* section header (non-today screens) */
+ .shead{padding:calc(env(safe-area-inset-top,14px) + 14px) 24px 0;display:flex;align-items:flex-end;justify-content:space-between}
+ .shead h1{font-family:var(--disp);font-weight:500;font-size:30px;color:#fff;text-shadow:0 1px 12px rgba(0,0,0,.28)}
+ .rtl .shead h1{font-size:25px;font-weight:600}
+ .shead .sub{color:rgba(255,255,255,.85);font-size:12px;margin-top:3px}
+ .toggle{display:flex;background:rgba(20,14,6,.24);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.2);border-radius:999px;padding:4px;gap:2px}
+ .toggle div{padding:7px 12px;border-radius:999px;font-size:11px;font-weight:700;color:#fff;cursor:pointer;display:flex;align-items:center;gap:5px}
+ .toggle div.on{background:#fff;color:var(--ink)}
+
+ .chips{display:flex;gap:8px;overflow-x:auto;padding:16px 22px 6px}
  .chips::-webkit-scrollbar{display:none}
  .chip{white-space:nowrap;padding:9px 15px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;color:var(--stone);background:var(--glass2);backdrop-filter:blur(12px);border:1px solid var(--gbord)}
  .chip.on{background:var(--ink);color:#F5EFE2;border-color:var(--ink)}
- .bigt{font-family:var(--disp);font-weight:500;font-size:28px;padding:8px 26px 0}
- .rtl .bigt{font-size:22px}
- .counter{padding:2px 26px 0;font-size:12px;color:var(--stone)}
- .counter b{color:var(--ok);font-weight:700}
+
+ .suggest{margin:16px 22px 0;padding:16px 18px;display:flex;align-items:center;gap:13px;cursor:pointer;border:1px dashed rgba(120,100,70,.4);background:rgba(253,250,242,.32)}
+ .suggest .ic{color:var(--acc)}
+ .suggest b{font-size:13px;font-weight:600;display:block}
+ .suggest small{font-size:11px;color:var(--stone)}
+
+ /* map view */
+ .mapwrap{margin:14px 22px 0;border-radius:26px;overflow:hidden;position:relative;height:calc(100dvh - 320px);min-height:340px}
+ .mapwrap svg{width:100%;height:100%;display:block}
+ .mpin{cursor:pointer;transition:transform .2s var(--ease);transform-box:fill-box;transform-origin:center bottom}
+ .mpin.on{transform:scale(1.3)}
+ .mdeck{position:absolute;bottom:12px;left:0;right:0;display:flex;gap:10px;overflow-x:auto;padding:0 16px;scroll-snap-type:x mandatory}
+ .mdeck::-webkit-scrollbar{display:none}
+ .mcard{min-width:210px;scroll-snap-align:center;border-radius:20px;padding:12px 14px;cursor:pointer}
+ .mcard b{font-family:var(--disp);font-weight:500;font-size:14px}
+ .rtl .mcard b{font-size:13px;font-weight:600}
+ .mcard small{font-size:10.5px;color:var(--stone);display:block;margin-top:2px}
 
  /* detail */
- .dhero{height:250px;position:relative;flex-shrink:0}
+ .dhero{height:248px;position:relative;flex-shrink:0}
  .dhero svg{width:100%;height:100%;display:block}
- .dhero .veil{position:absolute;inset:0;background:linear-gradient(rgba(20,14,6,.14),transparent 35%,transparent 55%,rgba(20,14,6,.62))}
+ .dhero .veil{position:absolute;inset:0;background:linear-gradient(rgba(20,14,6,.14),transparent 34%,transparent 54%,rgba(20,14,6,.64))}
  .dtop{position:absolute;top:calc(env(safe-area-inset-top,14px) + 8px);inset-inline-start:16px;inset-inline-end:16px;display:flex;justify-content:space-between;z-index:5}
- .gbtn{width:40px;height:40px;border-radius:50%;background:rgba(20,14,6,.32);backdrop-filter:blur(12px);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
- .dlock{position:absolute;bottom:18px;inset-inline-start:24px;inset-inline-end:24px;color:#fff;z-index:4}
- .dlock .kick{font-size:9.5px;font-weight:700;letter-spacing:2.4px;opacity:.85;display:block;margin-bottom:8px}
+ .gbtn{width:40px;height:40px;border-radius:50%;background:rgba(20,14,6,.34);backdrop-filter:blur(12px);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+ .dlock{position:absolute;bottom:18px;inset-inline-start:22px;inset-inline-end:22px;color:#fff;z-index:4}
+ .dlock .kick{font-size:9.5px;font-weight:700;letter-spacing:2.2px;opacity:.85;display:block;margin-bottom:8px}
  .rtl .dlock .kick{letter-spacing:0;font-size:11px}
- .dlock h1{font-family:var(--disp);font-weight:500;font-size:30px;line-height:1.08}
+ .dlock h1{font-family:var(--disp);font-weight:500;font-size:29px;line-height:1.06}
  .rtl .dlock h1{font-size:23px;line-height:1.4}
- .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px 24px 0}
+ .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px 22px 0}
  .dcell{padding:15px 12px 13px;text-align:center}
  .dcell .cb{display:inline-block;background:rgba(253,250,242,.82);border:1px solid var(--gbord);border-radius:999px;font-size:10px;font-weight:600;padding:3px 11px}
- .dcell .nm{font-family:var(--disp);font-weight:400;font-size:24px;margin-top:8px}
+ .dcell .nm{font-family:var(--disp);font-weight:400;font-size:23px;margin-top:8px}
  .rtl .dcell .nm{font-size:19px;font-weight:500}
  .dcell .stt{font-size:10.5px;font-weight:600;margin-top:5px}
  .stok{color:var(--ok)} .stmut{color:var(--stone)}
- .dstory{margin:16px 24px 0;padding:20px 24px;text-align:center}
+ .dstory{margin:16px 22px 0;padding:20px 22px;text-align:center}
  .dstory .k{font-size:11.5px;font-weight:500;opacity:.72}
  .dstory p{font-family:var(--disp);font-weight:400;font-size:17px;line-height:1.55;margin-top:8px}
  .rtl .dstory p{font-family:"IBM Plex Sans Arabic",sans-serif;font-size:14px;line-height:1.9}
- .exits{padding:16px 24px 0;display:flex;flex-direction:column;gap:10px}
+ .exits{padding:16px 22px 0;display:flex;flex-direction:column;gap:10px}
  .exit{padding:14px 18px;display:flex;align-items:center;gap:13px;cursor:pointer;border-radius:22px}
  .exit .ic{color:var(--acc)}
  .exit b{font-size:13px;font-weight:600;display:block}
  .exit small{font-size:10.5px;color:var(--stone)}
  .exit .chev{margin-inline-start:auto;color:var(--stone)}
- .stickybar{position:absolute;bottom:0;left:0;right:0;background:var(--glass);backdrop-filter:blur(20px);border-top:1px solid var(--gbord);border-radius:24px 24px 0 0;padding:12px 20px calc(env(safe-area-inset-bottom,16px) + 12px);display:flex;gap:9px;z-index:30}
+ .stickybar{position:absolute;bottom:0;left:0;right:0;background:var(--glass);backdrop-filter:blur(20px);border-top:1px solid var(--gbord);border-radius:24px 24px 0 0;padding:12px 18px calc(env(safe-area-inset-bottom,16px) + 12px);display:flex;gap:9px;z-index:30}
  .sb{flex:1;padding:13px 6px;border-radius:999px;text-align:center;font-size:12px;font-weight:700;cursor:pointer;background:rgba(253,250,242,.8);border:1px solid var(--gbord)}
  .sb.primary{background:var(--ink);color:#F5EFE2;border-color:var(--ink)}
  .sb.saved{background:var(--gold);color:#fff;border-color:var(--gold)}
 
- /* trip */
- .trip-empty{margin:18px 24px 0;padding:30px 26px;text-align:center}
- .trip-empty p{font-family:var(--disp);font-size:17px;line-height:1.5;color:#4A4438}
- .rtl .trip-empty p{font-size:14.5px;line-height:1.85}
- .trip-empty small{display:block;font-size:11.5px;color:var(--stone);margin-top:9px}
- .trip-empty .cta2{display:inline-block;margin-top:16px;background:var(--ink);color:#F5EFE2;border-radius:999px;padding:12px 22px;font-size:12.5px;font-weight:700;cursor:pointer}
- .plan{margin:14px 24px 0;padding:18px 20px}
+ /* trip / paths */
+ .empty{margin:18px 22px 0;padding:28px 24px;text-align:center}
+ .empty p{font-family:var(--disp);font-size:17px;line-height:1.5;color:#3A3225}
+ .rtl .empty p{font-size:14.5px;line-height:1.8}
+ .empty small{display:block;font-size:11.5px;color:var(--stone);margin-top:9px}
+ .empty .cta2{display:inline-block;margin-top:16px;background:var(--ink);color:#F5EFE2;border-radius:999px;padding:12px 22px;font-size:12.5px;font-weight:700;cursor:pointer}
+ .plan{margin:14px 22px 0;padding:18px 20px}
  .plan .stop{display:flex;gap:13px}
  .plan .rail{display:flex;flex-direction:column;align-items:center}
  .plan .n{width:26px;height:26px;border-radius:50%;background:var(--ink);color:#F5EFE2;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
  .plan .l{width:2px;flex:1;border-inline-start:2px dotted rgba(120,100,70,.35);min-height:18px}
  .plan .inf{padding-bottom:14px;flex:1;cursor:pointer}
  .plan .inf b{font-size:13.5px;font-weight:600;display:block}
+ .rtl .plan .inf b{font-size:12.5px}
  .plan .inf small{font-size:10.5px;color:var(--stone)}
- .plan .x{color:var(--faint,#B5B0A2);cursor:pointer;font-size:15px;padding:0 4px}
- .routecard{margin:14px 24px 0;padding:18px 20px;cursor:pointer}
+ .plan .x{color:#B5B0A2;cursor:pointer;font-size:15px;padding:0 4px}
+ .routecard{margin:14px 22px 0;padding:18px 20px;cursor:pointer}
  .routecard .tp{display:flex;align-items:baseline;justify-content:space-between}
  .routecard b.nm{font-family:var(--disp);font-weight:500;font-size:17px}
- .rtl .routecard b.nm{font-size:15px}
+ .rtl .routecard b.nm{font-size:15px;font-weight:600}
  .routecard .tag{font-size:9.5px;font-weight:700;border-radius:999px;padding:4px 10px;background:rgba(253,250,242,.85);border:1px solid var(--gbord);color:var(--stone)}
  .routecard .mt{font-size:11px;color:var(--stone);margin-top:4px}
  .routecard .startbtn{margin-top:14px;background:var(--acc);color:#fff;border-radius:999px;padding:12px;text-align:center;font-size:12.5px;font-weight:700}
 
  /* follow mode */
- #follow{background:#171209}
- #follow .fhero{height:44%;position:relative;flex-shrink:0}
+ #follow{background:#1B1410}
+ #follow .fhero{height:42%;position:relative;flex-shrink:0}
  #follow .fhero svg{width:100%;height:100%;display:block}
- #follow .fhero .veil{position:absolute;inset:0;background:linear-gradient(rgba(20,14,6,.3),transparent 40%,rgba(23,18,9,.95))}
+ #follow .fhero .veil{position:absolute;inset:0;background:linear-gradient(rgba(20,14,6,.3),transparent 40%,rgba(27,20,16,.96))}
  .fprog{position:absolute;top:calc(env(safe-area-inset-top,14px) + 10px);left:0;right:0;display:flex;justify-content:center;z-index:6}
  .fprog span{background:rgba(20,14,6,.5);backdrop-filter:blur(10px);color:#F5EFE2;font-size:11px;font-weight:700;border-radius:999px;padding:7px 16px}
  .fclose{position:absolute;top:calc(env(safe-area-inset-top,14px) + 6px);inset-inline-end:16px;z-index:6}
- .fbody{flex:1;padding:0 26px;color:#F5EFE2;display:flex;flex-direction:column}
- .fbody .kick{font-size:9.5px;font-weight:700;letter-spacing:2.4px;color:#C9B98A;margin-top:6px}
+ .fbody{flex:1;padding:0 24px;color:#F5EFE2;display:flex;flex-direction:column}
+ .fbody .kick{font-size:9.5px;font-weight:700;letter-spacing:2.2px;color:#C9B98A;margin-top:6px}
  .rtl .fbody .kick{letter-spacing:0;font-size:11px}
- .fbody h1{font-family:var(--disp);font-weight:500;font-size:30px;margin-top:6px}
+ .fbody h1{font-family:var(--disp);font-weight:500;font-size:29px;margin-top:6px}
  .rtl .fbody h1{font-size:23px}
  .fbody p{font-size:13.5px;line-height:1.65;color:#CFC5AE;margin-top:10px}
  .rtl .fbody p{font-size:12.5px;line-height:1.85}
@@ -185,68 +216,103 @@
  .fb{flex:1;padding:15px;border-radius:999px;text-align:center;font-size:13px;font-weight:700;cursor:pointer}
  .fb.arr{background:var(--ok);color:#fff}
  .fb.ghost{background:rgba(253,250,242,.12);color:#F5EFE2;border:1px solid rgba(253,250,242,.2)}
- .fdone{text-align:center;padding:40px 30px 0}
- .fdone .big{font-family:var(--disp);font-size:56px;color:#E8D9B0}
- .fdone h2{font-family:var(--disp);font-weight:500;font-size:24px;color:#F5EFE2;margin-top:10px}
- .rtl .fdone h2{font-size:20px}
+ .fdone{text-align:center;padding:36px 28px 0}
+ .fdone .big{font-family:var(--disp);font-size:52px;color:#E8D9B0}
+ .fdone h2{font-family:var(--disp);font-weight:500;font-size:23px;color:#F5EFE2;margin-top:10px}
+ .rtl .fdone h2{font-size:19px}
  .fdone p{color:#AFA98F;font-size:13px;margin-top:10px;line-height:1.6}
+ .rtl .fdone p{font-size:12px;line-height:1.8}
 
- /* my atlas */
- .macount{margin:16px 24px 0;padding:26px;text-align:center}
- .macount .n{font-family:var(--disp);font-weight:400;font-size:52px;line-height:1}
- .rtl .macount .n{font-size:42px;font-weight:500}
+ /* saved / my atlas */
+ .macount{margin:16px 22px 0;padding:24px;text-align:center}
+ .macount .n{font-family:var(--disp);font-weight:400;font-size:50px;line-height:1}
+ .rtl .macount .n{font-size:40px;font-weight:500}
  .macount .n b{color:var(--ok);font-weight:500}
  .macount small{display:block;font-size:11.5px;color:var(--stone);margin-top:8px}
- .seg{display:flex;margin:14px 24px 0;background:var(--glass2);border:1px solid var(--gbord);border-radius:999px;padding:4px}
+ .seg{display:flex;margin:14px 22px 0;background:var(--glass2);border:1px solid var(--gbord);border-radius:999px;padding:4px}
  .seg div{flex:1;text-align:center;padding:9px;border-radius:999px;font-size:12px;font-weight:700;color:var(--stone);cursor:pointer}
  .seg div.on{background:var(--ink);color:#F5EFE2}
- .marow{margin:10px 24px 0;padding:13px 16px;display:flex;align-items:center;gap:12px;border-radius:20px;cursor:pointer}
+ .marow{margin:10px 22px 0;padding:13px 16px;display:flex;align-items:center;gap:12px;border-radius:20px;cursor:pointer}
  .marow .dotc{width:10px;height:10px;border-radius:50%}
  .marow b{font-size:13.5px;font-weight:600}
+ .rtl .marow b{font-size:12.5px}
  .marow small{margin-inline-start:auto;font-size:10.5px;color:var(--stone)}
- .maempty{margin:14px 24px 0;padding:26px;text-align:center;font-size:12.5px;color:var(--stone);line-height:1.7}
+ .maempty{margin:14px 22px 0;padding:26px;text-align:center;font-size:12.5px;color:var(--stone);line-height:1.7}
 
- /* chat */
- .chead{display:flex;align-items:center;gap:12px;padding:8px 24px 0}
- .chead .ava{width:42px;height:42px;border-radius:50%;background:var(--ink);color:#F0C98C;display:flex;align-items:center;justify-content:center;font-family:"Alexandria",sans-serif;font-size:17px;font-weight:700}
- .chead b{font-size:14px;font-weight:600;display:block}
- .chead small{font-size:10.5px;color:var(--ok);font-weight:600}
- .msgs{padding:16px 24px 0;display:flex;flex-direction:column;gap:11px}
- .msg{max-width:80%;padding:12px 16px;font-size:13px;line-height:1.65;border-radius:22px}
- .rtl .msg{font-size:12.5px;line-height:1.85}
+ /* ask / chat */
+ .chead{display:flex;align-items:center;gap:12px;padding:calc(env(safe-area-inset-top,14px) + 14px) 24px 0}
+ .chead .ava{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#F0C98C;display:flex;align-items:center;justify-content:center;font-family:"Alexandria",sans-serif;font-size:17px;font-weight:700}
+ .chead b{font-size:15px;font-weight:600;display:block;color:#fff}
+ .chead small{font-size:10.5px;color:rgba(255,255,255,.85);font-weight:600}
+ .msgs{padding:16px 22px 0;display:flex;flex-direction:column;gap:11px}
+ .msg{max-width:82%;padding:12px 16px;font-size:13px;line-height:1.6;border-radius:22px}
+ .rtl .msg{font-size:12.5px;line-height:1.8}
  .msg.bot{align-self:flex-start;border-start-start-radius:8px}
  .msg.me{align-self:flex-end;background:var(--ink);color:#F5EFE2;border-start-end-radius:8px}
  .msg .cite{display:block;font-size:10px;color:var(--stone);margin-top:6px}
- .seeds{display:flex;gap:8px;overflow-x:auto;padding:12px 24px 0}
+ .seeds{display:flex;gap:8px;overflow-x:auto;padding:12px 22px 0}
  .seeds::-webkit-scrollbar{display:none}
- .seed{white-space:nowrap;padding:9px 14px;border-radius:999px;font-size:11.5px;font-weight:600;cursor:pointer;background:var(--glass2);border:1px solid var(--gbord);color:#4A4438}
- .inputbar{margin:14px 24px 0;height:50px;border-radius:999px;display:flex;align-items:center;gap:10px;padding:0 8px 0 18px;color:var(--stone);font-size:12.5px}
+ .seed{white-space:nowrap;padding:9px 14px;border-radius:999px;font-size:11.5px;font-weight:600;cursor:pointer;background:var(--glass2);border:1px solid var(--gbord);color:#3A3225}
+ .inputbar{margin:14px 22px 0;height:50px;border-radius:999px;display:flex;align-items:center;gap:10px;padding:0 8px 0 18px;color:var(--stone);font-size:12.5px}
  .rtl .inputbar{padding:0 18px 0 8px}
  .inputbar .send{margin-inline-start:auto;width:36px;height:36px;border-radius:50%;background:var(--acc);color:#fff;display:flex;align-items:center;justify-content:center}
+
+ /* settings */
+ .setgrp{margin:16px 22px 0;padding:6px 4px;overflow:hidden}
+ .setrow{padding:14px 16px;display:flex;align-items:center;gap:13px;cursor:pointer;border-bottom:1px solid rgba(120,100,70,.12)}
+ .setrow:last-child{border-bottom:none}
+ .setrow .ic{color:var(--acc)}
+ .setrow b{font-size:13.5px;font-weight:600}
+ .rtl .setrow b{font-size:12.5px}
+ .setrow .val{margin-inline-start:auto;font-size:12px;color:var(--stone);display:flex;align-items:center;gap:6px}
+ .langpick{display:flex;background:var(--glass2);border:1px solid var(--gbord);border-radius:999px;padding:3px;margin-inline-start:auto}
+ .langpick div{padding:6px 13px;border-radius:999px;font-size:11px;font-weight:700;color:var(--stone);cursor:pointer}
+ .langpick div.on{background:var(--ink);color:#F5EFE2}
+ .setgrp .glabel{font-size:10px;font-weight:700;letter-spacing:1.6px;color:var(--stone);padding:8px 16px 4px}
+ .rtl .setgrp .glabel{letter-spacing:0;font-size:11px}
 
  /* onboarding */
  .ob{justify-content:flex-end}
  .obscene{position:absolute;inset:0}
  .obscene svg{width:100%;height:100%}
- .obveil{position:absolute;inset:0;background:linear-gradient(rgba(240,228,206,0) 28%,rgba(240,228,206,.55) 60%,rgba(238,224,198,.97) 82%)}
+ .obveil{position:absolute;inset:0;background:linear-gradient(rgba(240,228,206,0) 26%,rgba(238,224,198,.6) 58%,rgba(236,222,196,.98) 84%)}
  .obin{position:relative;z-index:3;padding:0 26px calc(env(safe-area-inset-bottom,16px) + 34px)}
- .obmark{font-family:"Alexandria",sans-serif;font-weight:700;font-size:44px;line-height:1}
+ .obmark{font-family:"Alexandria",sans-serif;font-weight:700;font-size:46px;line-height:1}
  .obsub{font-size:10.5px;font-weight:700;letter-spacing:6px;color:var(--stone);margin-top:6px}
  .obin h1{font-family:var(--disp);font-weight:500;font-size:30px;line-height:1.16;margin-top:14px;text-wrap:balance}
- .rtl .obin h1{font-size:23px;line-height:1.5}
+ .rtl .obin h1{font-size:25px;line-height:1.5}
  .obin .sub{font-size:13px;color:var(--stone);margin-top:10px;line-height:1.6}
  .obtns{display:flex;flex-direction:column;gap:10px;margin-top:22px}
  .obtn{padding:16px;border-radius:999px;text-align:center;font-size:14px;font-weight:600;cursor:pointer}
  .obtn.dark{background:var(--ink);color:#F5EFE2}
  .obtn .arf{font-family:"IBM Plex Sans Arabic",sans-serif}
- .obtn small{display:block;font-size:10.5px;font-weight:500;opacity:.7;margin-top:2px}
+
+ /* sheet */
+ .sheetwrap{position:absolute;inset:0;background:rgba(20,14,6,.5);z-index:80;display:none;align-items:flex-end}
+ .sheetwrap.open{display:flex}
+ .sheet{background:#F3ECDD;border-radius:28px 28px 0 0;width:100%;padding:10px 22px calc(env(safe-area-inset-bottom,16px) + 22px);animation:up .34s var(--ease);max-height:80%;overflow-y:auto}
+ .sheet::-webkit-scrollbar{display:none}
+ @keyframes up{from{transform:translateY(60px);opacity:.5}to{transform:none;opacity:1}}
+ .grab{width:38px;height:4px;border-radius:2px;background:#D8CFBC;margin:0 auto 10px}
+ .sheet h3{font-family:var(--disp);font-weight:500;font-size:21px;text-align:center;margin-bottom:4px}
+ .rtl .sheet h3{font-size:18px;font-weight:600}
+ .sheet .ssub{text-align:center;font-size:12px;color:var(--stone);margin-bottom:14px}
+ .cityrow{padding:14px 16px;display:flex;align-items:center;gap:13px;cursor:pointer;border-radius:18px;margin-bottom:8px;background:rgba(255,255,255,.5);border:1px solid var(--gbord)}
+ .cityrow.on{outline:2px solid var(--acc);outline-offset:1px}
+ .cityrow .fl{font-size:22px}
+ .cityrow b{font-size:14px;font-weight:600;display:block}
+ .rtl .cityrow b{font-size:13px}
+ .cityrow small{font-size:10.5px;color:var(--stone)}
+ .cityrow .soon{margin-inline-start:auto;font-size:9.5px;font-weight:700;color:var(--stone);background:rgba(120,100,70,.12);border-radius:999px;padding:4px 10px}
+ .cityrow .live{margin-inline-start:auto;display:flex;gap:5px;align-items:center;font-size:9.5px;font-weight:700;color:var(--ok)}
+ .cityrow .live i{width:6px;height:6px;border-radius:50%;background:var(--ok)}
 
  /* tab bar */
- .navfade{position:absolute;bottom:0;left:0;right:0;height:120px;background:linear-gradient(transparent,rgba(196,178,146,.92) 78%);z-index:35;pointer-events:none}
- .tabbar{position:absolute;bottom:calc(env(safe-area-inset-bottom,16px) + 10px);left:50%;transform:translateX(-50%);background:rgba(20,14,6,.92);backdrop-filter:blur(18px);border-radius:26px;padding:8px 10px;display:flex;gap:4px;box-shadow:0 18px 44px rgba(0,0,0,.38);z-index:40}
- .ti{display:flex;flex-direction:column;align-items:center;gap:3px;border-radius:18px;padding:8px 13px;cursor:pointer;color:#A9A28A;font-size:9.5px;font-weight:600;min-width:60px;position:relative}
+ .navfade{position:absolute;bottom:0;left:0;right:0;height:118px;background:linear-gradient(transparent,rgba(228,192,140,.92) 76%);z-index:35;pointer-events:none}
+ .tabbar{position:absolute;bottom:calc(env(safe-area-inset-bottom,16px) + 10px);left:50%;transform:translateX(-50%);background:rgba(20,14,6,.92);backdrop-filter:blur(18px);border-radius:26px;padding:7px 8px;display:flex;gap:2px;box-shadow:0 18px 44px rgba(0,0,0,.4);z-index:40}
+ .ti{display:flex;flex-direction:column;align-items:center;gap:3px;border-radius:18px;padding:8px 11px;cursor:pointer;color:#A9A28A;font-size:9px;font-weight:600;min-width:56px;position:relative}
  .ti.on{background:var(--acc);color:#fff}
- .ti .bdg{position:absolute;top:4px;inset-inline-end:8px;min-width:15px;height:15px;border-radius:8px;background:var(--gold);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px}
+ .ti .bd{position:absolute;top:4px;inset-inline-end:9px;min-width:15px;height:15px;border-radius:8px;background:var(--gold);color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;padding:0 4px}
 
  .toast{position:absolute;bottom:calc(env(safe-area-inset-bottom,16px) + 104px);left:0;right:0;display:flex;justify-content:center;z-index:60;pointer-events:none}
  .toast span{background:rgba(36,31,23,.94);color:#F5EFE2;font-size:12px;font-weight:500;border-radius:999px;padding:11px 19px;opacity:0;transform:translateY(8px);transition:all .3s var(--ease);max-width:84%;text-align:center}
@@ -257,47 +323,50 @@
 <svg width="0" height="0"><defs>
  <symbol id="i-today" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1"/></symbol>
  <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></symbol>
+ <symbol id="i-ask" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v8a2.5 2.5 0 0 1-2.5 2.5H12l-4.5 3.5V17H6.5A2.5 2.5 0 0 1 4 14.5z"/><path d="M9 9.5h6M9 12.5h4"/></symbol>
  <symbol id="i-trip" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h6.5" stroke-dasharray="2.5 3"/></symbol>
- <symbol id="i-me" viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+ <symbol id="i-bmk" viewBox="0 0 24 24"><path d="M6.5 3.5h11V21L12 16.5 6.5 21z"/></symbol>
  <symbol id="i-back" viewBox="0 0 24 24"><path d="M14.5 5 8 12l6.5 7"/></symbol>
  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13.5 6 19.5 12l-6 6"/></symbol>
- <symbol id="i-bmk" viewBox="0 0 24 24"><path d="M6.5 3.5h11V21L12 16.5 6.5 21z"/></symbol>
  <symbol id="i-dice" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1.3" fill="currentColor"/><circle cx="15" cy="15" r="1.3" fill="currentColor"/><circle cx="15" cy="9" r="1.3" fill="currentColor"/><circle cx="9" cy="15" r="1.3" fill="currentColor"/></symbol>
  <symbol id="i-dir" viewBox="0 0 24 24"><path d="M12 2.5 21.5 12 12 21.5 2.5 12z"/><path d="m9.5 12 5-.01M12.5 9.5 15 12l-2.5 2.5"/></symbol>
- <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v8a2.5 2.5 0 0 1-2.5 2.5H12l-4.5 3.5V17H6.5A2.5 2.5 0 0 1 4 14.5z"/></symbol>
- <symbol id="i-x" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
  <symbol id="i-wa" viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 0-7.8 13.5L3 21l4.7-1.2A9 9 0 1 0 12 3z"/></symbol>
+ <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v2.5M12 19v2.5M4.2 7l2.1 1.2M17.7 15.8l2.1 1.2M4.2 17l2.1-1.2M17.7 8.2l2.1-1.2"/></symbol>
+ <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 20a2 2 0 0 0 4 0"/></symbol>
+ <symbol id="i-chev" viewBox="0 0 24 24"><path d="m9.5 5 6.5 7-6.5 7"/></symbol>
+ <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11a7 7 0 0 1 14 0c0 4.9-7 11-7 11z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+ <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+ <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01"/></symbol>
+ <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4 3.5 6v14L9 18l6 2 5.5-2V4L15 6zM9 4v14M15 6v14"/></symbol>
+ <symbol id="i-share" viewBox="0 0 24 24"><path d="M12 3v12M8 6.5 12 3l4 3.5M5 12v8h14v-8"/></symbol>
+ <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+ <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6 3h3l2 5-2.5 1.5a11 11 0 0 0 5 5L16 14l5 2v3a2 2 0 0 1-2 2A16 16 0 0 1 4 5a2 2 0 0 1 2-2z"/></symbol>
+ <symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 4 5.6 4 9s-1.5 6.5-4 9c-2.5-2.5-4-5.6-4-9s1.5-6.5 4-9z"/></symbol>
+ <symbol id="i-tools" viewBox="0 0 24 24"><path d="M14 6a3.5 3.5 0 0 1 4.6 4.6L21 13l-2 2-2.4-2.4A3.5 3.5 0 0 1 12 8l2-2z"/><path d="M8.5 11.5 4 16a2 2 0 0 0 3 3l4.5-4.5"/></symbol>
+ <symbol id="i-news" viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="14" rx="2"/><path d="M8 9h8M8 12h8M8 15h5"/></symbol>
+
  <filter id="gr"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.07 0 0 0 0 0.06 0 0 0 0 0.05 0 0 0 0.04 0"/><feComposite operator="over" in2="SourceGraphic"/></filter>
  <linearGradient id="skyQ" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A4152"/><stop offset=".42" stop-color="#B4674A"/><stop offset=".72" stop-color="#E2A75C"/><stop offset="1" stop-color="#EEDBB2"/></linearGradient>
- <g id="scQ"><rect width="400" height="300" fill="url(#skyQ)"/><circle cx="292" cy="98" r="30" fill="#F7E3B0" opacity=".9"/>
-   <path d="M-10 196 Q66 138 140 160 T300 152 T415 168 V300 H-10 Z" fill="#8A5530" opacity=".65"/>
-   <path d="M-10 232 Q92 190 200 206 T415 214 V300 H-10 Z" fill="#5E3A1E"/>
-   <path d="M-10 268 Q116 246 230 256 T415 258 V300 H-10 Z" fill="#33200E"/>
-   <rect width="400" height="300" filter="url(#gr)" fill="transparent"/></g>
+ <g id="scQ"><rect width="400" height="300" fill="url(#skyQ)"/><circle cx="292" cy="98" r="30" fill="#F7E3B0" opacity=".9"/><path d="M-10 196 Q66 138 140 160 T300 152 T415 168 V300 H-10 Z" fill="#8A5530" opacity=".65"/><path d="M-10 232 Q92 190 200 206 T415 214 V300 H-10 Z" fill="#5E3A1E"/><path d="M-10 268 Q116 246 230 256 T415 258 V300 H-10 Z" fill="#33200E"/><rect width="400" height="300" filter="url(#gr)" fill="transparent"/></g>
  <linearGradient id="skyS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B2013"/><stop offset=".52" stop-color="#87591F"/><stop offset="1" stop-color="#E0B364"/></linearGradient>
- <g id="scS"><rect width="400" height="300" fill="url(#skyS)"/>
-   <path d="M22 300 V186 a40 40 0 0 1 80 0 V300 M162 300 V186 a40 40 0 0 1 80 0 V300 M302 300 V186 a40 40 0 0 1 80 0 V300" fill="#4A3016"/>
-   <path d="M22 186 a40 40 0 0 1 80 0 M162 186 a40 40 0 0 1 80 0 M302 186 a40 40 0 0 1 80 0" fill="none" stroke="#E8C070" stroke-width="2.2" opacity=".38"/>
-   <rect x="-10" y="276" width="425" height="24" fill="#2B2013"/>
-   <rect width="400" height="300" filter="url(#gr)" fill="transparent"/></g>
+ <g id="scS"><rect width="400" height="300" fill="url(#skyS)"/><path d="M22 300 V186 a40 40 0 0 1 80 0 V300 M162 300 V186 a40 40 0 0 1 80 0 V300 M302 300 V186 a40 40 0 0 1 80 0 V300" fill="#4A3016"/><path d="M22 186 a40 40 0 0 1 80 0 M162 186 a40 40 0 0 1 80 0 M302 186 a40 40 0 0 1 80 0" fill="none" stroke="#E8C070" stroke-width="2.2" opacity=".38"/><rect x="-10" y="276" width="425" height="24" fill="#2B2013"/><rect width="400" height="300" filter="url(#gr)" fill="transparent"/></g>
  <linearGradient id="skyL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2C4756"/><stop offset=".5" stop-color="#6E98A0"/><stop offset="1" stop-color="#DAE4D4"/></linearGradient>
- <g id="scL"><rect width="400" height="300" fill="url(#skyL)"/><circle cx="200" cy="104" r="26" fill="#F7EECB" opacity=".7"/>
-   <path d="M-10 182 Q120 168 246 178 T415 174 V300 H-10 Z" fill="#476E76" opacity=".92"/>
-   <path d="M-10 258 Q142 242 284 254 T415 252 V300 H-10 Z" fill="#2B443B"/>
-   <rect width="400" height="300" filter="url(#gr)" fill="transparent"/></g>
+ <g id="scL"><rect width="400" height="300" fill="url(#skyL)"/><circle cx="200" cy="104" r="26" fill="#F7EECB" opacity=".7"/><path d="M-10 182 Q120 168 246 178 T415 174 V300 H-10 Z" fill="#476E76" opacity=".92"/><path d="M-10 258 Q142 242 284 254 T415 252 V300 H-10 Z" fill="#2B443B"/><rect width="400" height="300" filter="url(#gr)" fill="transparent"/></g>
  <linearGradient id="skyJ" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3E5844"/><stop offset=".6" stop-color="#8FA372"/><stop offset="1" stop-color="#E6DCAC"/></linearGradient>
- <g id="scJ"><rect width="400" height="300" fill="url(#skyJ)"/><circle cx="308" cy="88" r="24" fill="#F6EDC8" opacity=".7"/>
-   <rect x="132" y="156" width="136" height="144" fill="#6E4E2E"/>
-   <path d="M132 160 C160 108 240 108 268 160 Z" fill="#5A3C20"/>
-   <rect x="98" y="100" width="17" height="200" fill="#5A3C20"/><path d="M98 100 a8.5 11 0 0 1 17 0 Z" fill="#42280F"/>
-   <path d="M-10 276 H415 V300 H-10 Z" fill="#3C4A2C"/>
-   <rect width="400" height="300" filter="url(#gr)" fill="transparent"/></g>
+ <g id="scJ"><rect width="400" height="300" fill="url(#skyJ)"/><circle cx="308" cy="88" r="24" fill="#F6EDC8" opacity=".7"/><rect x="132" y="156" width="136" height="144" fill="#6E4E2E"/><path d="M132 160 C160 108 240 108 268 160 Z" fill="#5A3C20"/><rect x="98" y="100" width="17" height="200" fill="#5A3C20"/><path d="M98 100 a8.5 11 0 0 1 17 0 Z" fill="#42280F"/><path d="M-10 276 H415 V300 H-10 Z" fill="#3C4A2C"/><rect width="400" height="300" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="skyR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3A2A44"/><stop offset=".5" stop-color="#9A6A3E"/><stop offset="1" stop-color="#E6C48A"/></linearGradient>
+ <g id="scR"><rect width="400" height="300" fill="url(#skyR)"/><rect x="60" y="150" width="30" height="150" fill="#4A3420"/><rect x="110" y="110" width="26" height="190" fill="#5A3E24"/><path d="M166 90 l16 -18 16 18 V300 h-32 Z" fill="#4A3420"/><rect x="228" y="130" width="26" height="170" fill="#5A3E24"/><rect x="284" y="160" width="30" height="140" fill="#4A3420"/><rect width="400" height="300" filter="url(#gr)" fill="transparent"/></g>
+ <g id="oasisMap"><rect width="400" height="620" fill="#E6D8BC"/>
+   <path d="M0 120 C90 108 180 140 260 122 C320 108 370 118 400 112" stroke="#D3C09C" stroke-width="10" fill="none"/>
+   <path d="M60 0 C80 130 60 280 110 400 C150 500 120 560 140 620" stroke="#D3C09C" stroke-width="8" fill="none"/>
+   <ellipse cx="120" cy="220" rx="86" ry="58" fill="#C6D2B0"/><ellipse cx="300" cy="420" rx="92" ry="66" fill="#C6D2B0"/>
+   <path d="M250 130 c30 -6 62 4 74 22 c8 14 2 30 -18 34 c-30 6 -60 -4 -70 -20 c-8 -14 -2 -30 14 -36z" fill="#A8C4C0"/></g>
 </defs></svg>
 
 <div class="phone" id="phone" dir="ltr">
   <div class="atmo"><div class="dune d1"></div><div class="dune d2"></div></div>
 
-  <!-- OB 1: language -->
+  <!-- OB 1 -->
   <div class="screen ob active" id="ob1">
     <div class="obscene"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use href="#scQ"/></svg><div class="obveil"></div></div>
     <div class="obin">
@@ -309,39 +378,44 @@
       </div>
     </div>
   </div>
-
-  <!-- OB 2: mode -->
+  <!-- OB 2: welcome (no mode question) -->
   <div class="screen ob" id="ob2">
     <div class="obscene"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use href="#scS"/></svg><div class="obveil"></div></div>
     <div class="obin">
-      <h1 id="obmT"></h1>
-      <p class="sub" id="obmS"></p>
-      <div class="obtns">
-        <div class="obtn dark" onclick="mode='here';finishOb()"><span id="obm1"></span><small id="obm1s"></small></div>
-        <div class="obtn glass" onclick="mode='plan';finishOb()"><span id="obm2"></span><small id="obm2s"></small></div>
-        <div class="obtn glass" onclick="mode='plan';finishOb()"><span id="obm3"></span><small id="obm3s"></small></div>
-      </div>
+      <h1 id="ob2T"></h1>
+      <p class="sub" id="ob2S"></p>
+      <div class="obtns"><div class="obtn dark" onclick="swap('today')" id="ob2B"></div></div>
     </div>
   </div>
 
   <!-- TODAY -->
   <div class="screen" id="today">
     <div class="scroll">
-      <div class="safetop"></div>
-      <div class="hd">
-        <div class="who"><small id="tHi"></small><b id="tCity"></b></div>
-        <div class="right">
-          <div class="modechip"><div id="mHere" onclick="mode='here';renderAll()"></div><div id="mPlan" onclick="mode='plan';renderAll()"></div></div>
-          <div class="langsw"><div id="swEn" class="on" onclick="setLang('en')">EN</div><div id="swAr" onclick="setLang('ar')">ع</div></div>
+      <div class="topbar">
+        <div class="city" onclick="openSheet('city')">
+          <div class="dot"><svg class="ic s"><use href="#i-pin"/></svg></div>
+          <div><b id="tCity"></b><small id="tCityS"></small></div>
+          <svg class="ic s" style="opacity:.8"><use href="#i-chev"/></svg>
+        </div>
+        <div class="hactions">
+          <div class="hbtn" onclick="toast(T.notifToast)"><svg class="ic s"><use href="#i-bell"/></svg><span class="bd"></span></div>
+          <div class="hbtn" onclick="swap('settings')"><svg class="ic s"><use href="#i-gear"/></svg></div>
         </div>
       </div>
-      <div class="ask glass" onclick="swap('chat')"><span id="askPh"></span><div class="go"><svg class="ic s flip"><use href="#i-arrow"/></svg></div></div>
+      <div class="hero"><div class="greet"><small id="tHi"></small><h1 id="tGreet"></h1></div></div>
+      <div class="ask-inline glass" onclick="swap('ask')"><svg class="ic s"><use href="#i-ask"/></svg><span id="tAsk"></span><div class="go"><svg class="ic s flip"><use href="#i-arrow"/></svg></div></div>
+
       <div class="story" id="featured"></div>
+
+      <div class="slabel"><span id="tEvents"></span></div>
+      <div class="events" id="eventRow"></div>
+
       <div class="sere glass" onclick="serendipity()">
         <span class="no" id="sereNo"></span>
         <div><b id="sereT"></b><small id="sereS"></small></div>
         <div class="dice"><svg class="ic"><use href="#i-dice"/></svg></div>
       </div>
+
       <div class="slabel"><span id="tRail"></span><a onclick="swap('explore')" id="tAll"></a></div>
       <div class="grid2" id="todayGrid"></div>
     </div>
@@ -351,21 +425,32 @@
   <!-- EXPLORE -->
   <div class="screen" id="explore">
     <div class="scroll">
-      <div class="safetop"></div>
-      <div class="bigt" id="xT"></div>
-      <div class="counter" id="xC"></div>
+      <div class="shead">
+        <div><h1 id="xT"></h1><div class="sub" id="xC"></div></div>
+        <div class="toggle"><div id="xList" class="on" onclick="xView='list';renderExplore()"><svg class="ic s"><use href="#i-list"/></svg></div><div id="xMap" onclick="xView='map';renderExplore()"><svg class="ic s"><use href="#i-map"/></svg></div></div>
+      </div>
       <div class="chips" id="xChips"></div>
-      <div class="grid2" id="xGrid"></div>
+      <div id="xBody"></div>
+      <div class="suggest glass" onclick="toast(T.suggestToast)"><svg class="ic s"><use href="#i-plus"/></svg><div><b id="sgT"></b><small id="sgS"></small></div></div>
     </div>
     <div class="navfade"></div><div class="tabbar" id="tb2"></div>
+  </div>
+
+  <!-- ASK (AI concierge) -->
+  <div class="screen" id="ask">
+    <div class="scroll" style="padding-bottom:calc(env(safe-area-inset-bottom,16px) + 30px)">
+      <div class="chead"><div class="ava">أ</div><div><b id="cN"></b><small id="cO"></small></div></div>
+      <div class="msgs" id="cMsgs"></div>
+      <div class="seeds" id="cSeeds"></div>
+      <div class="inputbar glass"><span id="cPh"></span><div class="send"><svg class="ic s flip"><use href="#i-arrow"/></svg></div></div>
+    </div>
+    <div class="navfade"></div><div class="tabbar" id="tb3"></div>
   </div>
 
   <!-- TRIP -->
   <div class="screen" id="trip">
     <div class="scroll">
-      <div class="safetop"></div>
-      <div class="bigt" id="trT"></div>
-      <div class="counter" id="trC"></div>
+      <div class="shead"><div><h1 id="trT"></h1><div class="sub" id="trC"></div></div></div>
       <div id="tripBody"></div>
       <div class="slabel"><span id="trRoutes"></span></div>
       <div class="routecard glass" onclick="startRoute()">
@@ -374,31 +459,47 @@
         <div class="startbtn" id="rGo"></div>
       </div>
     </div>
-    <div class="navfade"></div><div class="tabbar" id="tb3"></div>
+    <div class="navfade"></div><div class="tabbar" id="tb4"></div>
   </div>
 
-  <!-- MY ATLAS -->
-  <div class="screen" id="matlas">
+  <!-- SAVED -->
+  <div class="screen" id="saved">
     <div class="scroll">
-      <div class="safetop"></div>
-      <div class="bigt" id="maT"></div>
-      <div class="macount glass">
-        <div class="n"><b id="maN">0</b><span id="maOf"> / 71</span></div>
-        <small id="maSub"></small>
-      </div>
-      <div class="seg"><div class="on" id="segS" onclick="maSeg='saved';renderMa()"></div><div id="segB" onclick="maSeg='been';renderMa()"></div></div>
+      <div class="shead"><div><h1 id="maT"></h1></div></div>
+      <div class="macount glass"><div class="n"><b id="maN">0</b><span id="maOf"> / 71</span></div><small id="maSub"></small></div>
+      <div class="seg"><div class="on" id="segS" onclick="maSeg='saved';renderSaved()"></div><div id="segB" onclick="maSeg='been';renderSaved()"></div></div>
       <div id="maList"></div>
     </div>
-    <div class="navfade"></div><div class="tabbar" id="tb4"></div>
+    <div class="navfade"></div><div class="tabbar" id="tb5"></div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="screen" id="settings">
+    <div class="scroll">
+      <div class="shead"><div class="gbtn" style="background:rgba(20,14,6,.24)" onclick="swap('today')"><svg class="ic flip"><use href="#i-back"/></svg></div><h1 id="stT" style="flex:1;text-align:center;margin-inline-end:40px"></h1></div>
+      <div class="setgrp glass">
+        <div class="glabel" id="stLang"></div>
+        <div class="setrow"><svg class="ic s"><use href="#i-globe"/></svg><b id="stLangL"></b>
+          <div class="langpick"><div id="stEn" onclick="setLang('en')">EN</div><div id="stAr" onclick="setLang('ar')">عربي</div></div></div>
+      </div>
+      <div class="setgrp glass">
+        <div class="glabel" id="stMore"></div>
+        <div class="setrow" onclick="toast(T.shareToast)"><svg class="ic s"><use href="#i-share"/></svg><b id="stShare"></b><span class="val"><svg class="ic s flip"><use href="#i-chev"/></svg></span></div>
+        <div class="setrow" onclick="openSheet('tools')"><svg class="ic s"><use href="#i-tools"/></svg><b id="stTools"></b><span class="val"><svg class="ic s flip"><use href="#i-chev"/></svg></span></div>
+        <div class="setrow" onclick="openSheet('about')"><svg class="ic s"><use href="#i-info"/></svg><b id="stAbout"></b><span class="val"><svg class="ic s flip"><use href="#i-chev"/></svg></span></div>
+        <div class="setrow" onclick="openSheet('contact')"><svg class="ic s"><use href="#i-phone"/></svg><b id="stContact"></b><span class="val"><svg class="ic s flip"><use href="#i-chev"/></svg></span></div>
+      </div>
+      <div style="text-align:center;padding:20px;color:var(--stone);font-size:11px" id="stVer"></div>
+    </div>
   </div>
 
   <!-- DETAIL -->
   <div class="screen" id="detail">
-    <div class="scroll" style="padding-bottom:calc(env(safe-area-inset-bottom,16px) + 130px)">
+    <div class="scroll" style="padding-bottom:calc(env(safe-area-inset-bottom,16px) + 128px)">
       <div class="dhero">
         <svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use id="dScene" href="#scQ"/></svg>
         <div class="veil"></div>
-        <div class="dtop"><div class="gbtn" onclick="swap(lastTab)"><svg class="ic flip"><use href="#i-back"/></svg></div><div></div></div>
+        <div class="dtop"><div class="gbtn" onclick="swap(lastTab)"><svg class="ic flip"><use href="#i-back"/></svg></div><div class="gbtn" onclick="toast(T.shareToast)"><svg class="ic"><use href="#i-share"/></svg></div></div>
         <div class="dlock"><span class="kick" id="dKick"></span><h1 id="dTitle"></h1></div>
       </div>
       <div class="dgrid" id="dGrid"></div>
@@ -408,29 +509,31 @@
     <div class="stickybar">
       <div class="sb" id="dSave" onclick="toggleSave()"></div>
       <div class="sb" onclick="toast(T.dirToast)" id="dDir"></div>
-      <div class="sb primary" onclick="swap('chat')" id="dAsk"></div>
+      <div class="sb primary" onclick="swap('ask')" id="dAsk"></div>
     </div>
   </div>
 
-  <!-- FOLLOW MODE -->
+  <!-- FOLLOW -->
   <div class="screen" id="follow">
     <div class="fhero"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use id="fScene" href="#scQ"/></svg><div class="veil"></div>
       <div class="fprog"><span id="fProg"></span></div>
-      <div class="fclose"><div class="gbtn" onclick="swap('trip')"><svg class="ic"><use href="#i-x"/></svg></div></div>
+      <div class="fclose"><div class="gbtn" onclick="swap('trip')"><svg class="ic"><use href="#i-back"/></svg></div></div>
     </div>
     <div class="fbody" id="fBody"></div>
   </div>
 
-  <!-- CHAT -->
-  <div class="screen" id="chat">
-    <div class="scroll" style="padding-bottom:calc(env(safe-area-inset-bottom,16px) + 30px)">
-      <div class="safetop"></div>
-      <div class="dtop" style="position:static;padding:0 16px"><div class="gbtn" style="background:var(--glass2);color:var(--ink);border:1px solid var(--gbord)" onclick="swap(lastTab)"><svg class="ic flip"><use href="#i-back"/></svg></div><div></div></div>
-      <div class="chead"><div class="ava">أ</div><div><b id="cN"></b><small id="cO"></small></div></div>
-      <div class="msgs" id="cMsgs"></div>
-      <div class="seeds" id="cSeeds"></div>
-      <div class="inputbar glass"><span id="cPh"></span><div class="send"><svg class="ic s flip"><use href="#i-arrow"/></svg></div></div>
-    </div>
+  <!-- SHEETS -->
+  <div class="sheetwrap" id="sheet-city" onclick="if(event.target===this)closeSheet('city')">
+    <div class="sheet"><div class="grab"></div><h3 id="shCityT"></h3><div class="ssub" id="shCityS"></div><div id="cityList"></div></div>
+  </div>
+  <div class="sheetwrap" id="sheet-tools" onclick="if(event.target===this)closeSheet('tools')">
+    <div class="sheet"><div class="grab"></div><h3 id="shToolsT"></h3><div id="toolsList"></div></div>
+  </div>
+  <div class="sheetwrap" id="sheet-about" onclick="if(event.target===this)closeSheet('about')">
+    <div class="sheet"><div class="grab"></div><h3 id="shAboutT"></h3><div id="aboutBody" style="font-size:13px;line-height:1.75;color:#3A3225;padding:0 4px 8px"></div></div>
+  </div>
+  <div class="sheetwrap" id="sheet-contact" onclick="if(event.target===this)closeSheet('contact')">
+    <div class="sheet"><div class="grab"></div><h3 id="shContactT"></h3><div id="contactBody"></div></div>
   </div>
 
   <div class="toast" id="toast"><span id="toasttxt"></span></div>
@@ -438,232 +541,235 @@
 
 <script>
 const PLACES={
- qarah:{sc:"scQ",cat:"nature",dist:18,
-  en:{n:"Al-Qarah Mountain",kick:"UNESCO WORLD HERITAGE",m:"Caves at 20° · 18 min",open:"Open now",
-    grid:[["Caves","20°","Steady all summer","stok"],["Crowd","Quiet","Best before noon","stok"],["Entry","SAR 15","Per person","stmut"],["Drive","18 min","From city center","stmut"]],
-    story:"Two million palms, one mountain — and passages that stay cool while the desert burns. Caravans rested here; so should you.",book:"Guided cave tour · SAR 40"},
+ qarah:{sc:"scQ",cat:"heritage",dist:18,px:120,py:220,
+  en:{n:"Al-Qarah Mountain",kick:"UNESCO WORLD HERITAGE",m:"Caves 20° · 18 min",open:"Open now",
+   grid:[["Caves","20°","Steady all summer","stok"],["Crowd","Quiet","Best before noon","stok"],["Entry","SAR 15","Per person","stmut"],["Drive","18 min","From centre","stmut"]],
+   story:"Two million palms, one mountain — and passages that stay cool while the desert burns. Caravans rested here; so should you.",book:"Guided cave tour · SAR 40"},
   ar:{n:"جبل القارة",kick:"تراث عالمي — اليونسكو",m:"الكهوف ٢٠° · ١٨ دقيقة",open:"مفتوح الآن",
-    grid:[["الكهوف","٢٠°","ثابتة طوال الصيف","stok"],["الزحام","هادئ","الأفضل قبل الظهر","stok"],["الدخول","١٥ ريال","للشخص","stmut"],["المسافة","١٨ دقيقة","من وسط المدينة","stmut"]],
-    story:"مليونا نخلة وجبلٌ واحد — وممرات تبقى باردة والصحراء تشتعل. استراحت هنا القوافل، فاسترح أنت أيضاً.",book:"جولة الكهوف · ٤٠ ريال"}},
- souq:{sc:"scS",cat:"heritage",dist:9,
-  en:{n:"Souq Al-Qaisariya",kick:"TRADING SINCE 1822",m:"Lively evenings · 9 min",open:"Open till 11 PM",
-    grid:[["Stalls","Open","Until 11 PM","stok"],["Crowd","Lively","Evenings peak","stmut"],["Entry","Free","Walk right in","stmut"],["Drive","9 min","From city center","stmut"]],
-    story:"Two hundred years of bargaining under one arcade. Bisht tailors, date merchants, and gahwa poured the old way.",book:"Souq walking tour · SAR 30"},
-  ar:{n:"سوق القيصرية",kick:"تجارة منذ ١٨٢٢",m:"أمسيات نشِطة · ٩ دقائق",open:"حتى ١١ مساءً",
-    grid:[["المحلات","مفتوحة","حتى ١١ مساءً","stok"],["الزحام","نشِط","ذروة المساء","stmut"],["الدخول","مجاني","تفضل مباشرة","stmut"],["المسافة","٩ دقائق","من وسط المدينة","stmut"]],
-    story:"مئتا سنة من المساومة تحت رواقٍ واحد. خيّاطو البشوت وتجّار التمر وقهوةٌ تُصبّ على الطريقة الأولى.",book:"جولة السوق · ٣٠ ريال"}},
- lake:{sc:"scL",cat:"nature",dist:30,
+   grid:[["الكهوف","٢٠°","ثابتة طوال الصيف","stok"],["الزحام","هادئ","الأفضل قبل الظهر","stok"],["الدخول","١٥ ريال","للشخص","stmut"],["المسافة","١٨ دقيقة","من الوسط","stmut"]],
+   story:"مليونا نخلة وجبلٌ واحد — وممرات تبقى باردة والصحراء تشتعل. استراحت هنا القوافل، فاسترح أنت أيضاً.",book:"جولة الكهوف · ٤٠ ريال"}},
+ souq:{sc:"scS",cat:"shop",dist:9,px:300,py:420,
+  en:{n:"Souq Al-Qaisariya",kick:"TRADING SINCE 1822",m:"Lively · 9 min",open:"Open till 11 PM",
+   grid:[["Stalls","Open","Until 11 PM","stok"],["Crowd","Lively","Evenings peak","stmut"],["Entry","Free","Walk in","stmut"],["Drive","9 min","From centre","stmut"]],
+   story:"Two hundred years of bargaining under one arcade. Bisht tailors, date merchants, and gahwa poured the old way.",book:"Souq walking tour · SAR 30"},
+  ar:{n:"سوق القيصرية",kick:"تجارة منذ ١٨٢٢",m:"نشِط · ٩ دقائق",open:"حتى ١١ مساءً",
+   grid:[["المحلات","مفتوحة","حتى ١١ مساءً","stok"],["الزحام","نشِط","ذروة المساء","stmut"],["الدخول","مجاني","تفضل","stmut"],["المسافة","٩ دقائق","من الوسط","stmut"]],
+   story:"مئتا سنة من المساومة تحت رواقٍ واحد. خيّاطو البشوت وتجّار التمر وقهوةٌ تُصبّ على الطريقة الأولى.",book:"جولة السوق · ٣٠ ريال"}},
+ lake:{sc:"scL",cat:"nature",dist:30,px:200,py:150,
   en:{n:"Asfar Lake",kick:"THE DESERT'S QUIETEST HOUR",m:"Sunset 5:48 · 30 min",open:"Open access",
-    grid:[["Best hour","5:48","Golden light","stok"],["Crowd","Sparse","Weekdays quietest","stok"],["Entry","Free","Open access","stmut"],["Drive","30 min","Bring water","stmut"]],
-    story:"A lake where no lake should be — dunes on one shore, reeds on the other, and an hour each evening when the water turns to molten glass.",book:""},
+   grid:[["Best hour","5:48","Golden light","stok"],["Crowd","Sparse","Weekdays quietest","stok"],["Entry","Free","Open access","stmut"],["Drive","30 min","Bring water","stmut"]],
+   story:"A lake where no lake should be — dunes on one shore, reeds on the other, and an hour each evening when the water turns to molten glass.",book:""},
   ar:{n:"بحيرة الأصفر",kick:"أهدأ ساعات الصحراء",m:"الغروب ٥:٤٨ · ٣٠ دقيقة",open:"دخول حر",
-    grid:[["أجمل ساعة","٥:٤٨","الضوء الذهبي","stok"],["الزحام","قليل","أيام الأسبوع أهدأ","stok"],["الدخول","مجاني","دخول حر","stmut"],["المسافة","٣٠ دقيقة","خذ ماءً","stmut"]],
-    story:"بحيرة في غير موضع البحيرات — كثبان على ضفة وقصب على الأخرى، وساعةٌ كل مساء يتحول فيها الماء إلى زجاجٍ مذاب.",book:""}},
- jawatha:{sc:"scJ",cat:"heritage",dist:22,
+   grid:[["أجمل ساعة","٥:٤٨","الضوء الذهبي","stok"],["الزحام","قليل","أيام الأسبوع أهدأ","stok"],["الدخول","مجاني","دخول حر","stmut"],["المسافة","٣٠ دقيقة","خذ ماءً","stmut"]],
+   story:"بحيرة في غير موضع البحيرات — كثبان على ضفة وقصب على الأخرى، وساعةٌ كل مساء يتحول فيها الماء إلى زجاجٍ مذاب.",book:""}},
+ jawatha:{sc:"scJ",cat:"mosques",dist:22,px:180,py:470,
   en:{n:"Jawatha Mosque",kick:"SEVENTH CENTURY",m:"7th century · 22 min",open:"Open",
-    grid:[["Status","Open","Outside prayers","stok"],["Dress","Modest","Visitors welcome","stmut"],["Entry","Free","All welcome","stmut"],["Drive","22 min","Via palm groves","stmut"]],
-    story:"Among the oldest mosques in Eastern Arabia — the second Friday prayer in Islam's history was held on this ground, fourteen centuries ago.",book:""},
+   grid:[["Status","Open","Outside prayers","stok"],["Dress","Modest","Visitors welcome","stmut"],["Entry","Free","All welcome","stmut"],["Drive","22 min","Via groves","stmut"]],
+   story:"Among the oldest mosques in Eastern Arabia — the second Friday prayer in Islam's history was held on this ground, fourteen centuries ago.",book:""},
   ar:{n:"مسجد جواثا",kick:"القرن الأول الهجري",m:"القرن الأول · ٢٢ دقيقة",open:"مفتوح",
-    grid:[["الحالة","مفتوح","خارج أوقات الصلاة","stok"],["اللباس","محتشم","الزوّار مرحّب بهم","stmut"],["الدخول","مجاني","للجميع","stmut"],["المسافة","٢٢ دقيقة","عبر النخيل","stmut"]],
-    story:"من أقدم مساجد شرق الجزيرة — أُقيمت على هذه الأرض ثاني جمعة في تاريخ الإسلام، قبل أربعة عشر قرناً.",book:""}}
+   grid:[["الحالة","مفتوح","خارج الصلاة","stok"],["اللباس","محتشم","الزوّار مرحّب بهم","stmut"],["الدخول","مجاني","للجميع","stmut"],["المسافة","٢٢ دقيقة","عبر النخيل","stmut"]],
+   story:"من أقدم مساجد شرق الجزيرة — أُقيمت على هذه الأرض ثاني جمعة في تاريخ الإسلام، قبل أربعة عشر قرناً.",book:""}},
+ hofuf:{sc:"scS",cat:"eat",dist:6,px:150,py:330,
+  en:{n:"Beit Al-Hajji",kick:"HERITAGE KITCHEN",m:"Hasawi table · 6 min",open:"Open now",
+   grid:[["Kitchen","Open","Lunch & dinner","stok"],["Booking","Advised","Fri evenings","stmut"],["Price","SAR 60","Per head","stmut"],["Drive","6 min","Al-Mubarraz","stmut"]],
+   story:"Red rice, machboos, and dates from the family's own grove — the Hasawi table as it has been set for generations.",book:"Reserve a table · WhatsApp"},
+  ar:{n:"بيت الحاجي",kick:"مطبخ تراثي",m:"مائدة حساوية · ٦ دقائق",open:"مفتوح الآن",
+   grid:[["المطبخ","مفتوح","غداء وعشاء","stok"],["الحجز","يُنصح","مساء الجمعة","stmut"],["السعر","٦٠ ريال","للفرد","stmut"],["المسافة","٦ دقائق","المبرّز","stmut"]],
+   story:"أرزٌ أحمر ومكبوس وتمرٌ من نخل العائلة — المائدة الحساوية كما تُفرش منذ أجيال.",book:"احجز طاولة · واتساب"}},
+ honey:{sc:"scJ",cat:"nature",dist:15,px:250,py:520,
+  en:{n:"Date's Honey Factory",kick:"TASTE OF THE OASIS",m:"Tours 5 PM · 15 min",open:"Tours at 5 PM",
+   grid:[["Tour","5 PM","Daily · 45 min","stok"],["Tasting","Yes","Dibs & honey","stmut"],["Price","SAR 25","Per person","stmut"],["Drive","15 min","Al-Oyun","stmut"]],
+   story:"Where the oasis presses its dates into dark gold. Watch the old presses turn, then taste dibs still warm.",book:"Book the tour · SAR 25"},
+  ar:{n:"مصنع عسل التمر",kick:"مذاق الواحة",m:"الجولات ٥م · ١٥ دقيقة",open:"الجولات ٥ مساءً",
+   grid:[["الجولة","٥م","يومياً · ٤٥ دقيقة","stok"],["التذوق","نعم","دبس وعسل","stmut"],["السعر","٢٥ ريال","للشخص","stmut"],["المسافة","١٥ دقيقة","العيون","stmut"]],
+   story:"حيث تعصر الواحة تمرها ذهباً داكناً. شاهد المعاصر القديمة تدور، ثم ذُق الدبس دافئاً.",book:"احجز الجولة · ٢٥ ريال"}}
 };
 const ROUTE={stops:["qarah","souq","jawatha"],en:{n:"The Heritage Loop",tag:"CURATED",m:"3 stops · half a day · free",go:"Start route",
   legs:["Begin in the cool of the caves — 90 minutes before the crowds.","Drive 14 min to the souq — gahwa first, then the bisht arcade.","End at Jawatha as the sun drops behind the palms."]},
  ar:{n:"درب التراث",tag:"مُنسّق",m:"٣ محطات · نصف يوم · مجاني",go:"ابدأ المسار",
   legs:["ابدأ ببرودة الكهوف — ٩٠ دقيقة قبل الزحام.","١٤ دقيقة بالسيارة إلى السوق — القهوة أولاً ثم رواق البشوت.","اختم عند جواثا والشمس تغيب خلف النخيل."]}};
+const CITIES=[["alahsa","🇸🇦",0],["riyadh","🇸🇦",1],["alula","🇸🇦",1],["taif","🇸🇦",1],["jeddah","🇸🇦",1],["dubai","🇦🇪",1]];
+
 const STR={
- en:{tHi:"Good evening from",tCity:"Al-Ahsa",mHere:"I'm here",mPlan:"Planning",
-  askPh:"Ask Atlas — “quiet coffee near the springs?”",
-  featKick:"TONIGHT'S STORY",featCta:"Read the story",
+ en:{
+  ob2T:"A guide to the oasis, written by the people who live in it.",ob2S:"Stories, routes and hidden places — free, forever.",ob2B:"Explore Al-Ahsa",
+  tHi:"Good evening",tGreet:"Where to tonight?",tAsk:"Ask Atlas — “quiet coffee near the springs?”",
+  cityName:"Al-Ahsa",cityS:"71 places · UNESCO oasis",
+  featTag:"TONIGHT'S STORY",featH:"Tonight the oasis cools — and the caves keep their secret.",featCta:"Read the story",
+  tEvents:"HAPPENING NOW",tRail:"OPEN NOW · NEAREST FIRST",tAll:"All 71",
   sereT:"A place you don't know yet",sereS:"Tap the dice — let the oasis choose",
-  tRailHere:"OPEN NOW · NEAREST FIRST",tRailPlan:"START WITH THESE",tAll:"All 71",
-  xT:"Explore",xCount:(s,b)=>`<b>${b} been</b> · ${s} saved · 71 places`,
-  chips:[["all","All"],["heritage","Heritage"],["nature","Nature"]],
-  trT:"Your Al-Ahsa Trip",trCount:n=>n?`${n} places · auto-planned by geography`:"",
-  trEmptyP:"Your trip builds itself.",trEmptyS:"Save any place — it lands here, sequenced into a day plan.",trEmptyCta:"Find tonight's story",
-  trRoutes:"CURATED ROUTES",
-  maT:"My Atlas",maSub:"places of Al-Ahsa met so far",segS:"Saved",segB:"Been",
-  maEmptyS:"Nothing saved yet — stories you save land here.",maEmptyB:"Mark places “I was here” as you go — your map fills in.",
-  dSave:"Save",dSaved:"Saved ✓",dDir:"Directions",dAsk:"Ask Atlas",dSk:"The story",
-  exRoute:(r)=>[`On route: ${r}`,"Join the Heritage Loop here"],exNear:"Within 15 minutes",exBook:"Book this experience",exBookS:"Reply in minutes on WhatsApp",
-  savedToast:"Added to Your Al-Ahsa Trip",beenToast:"Marked as been — your map grows",dirToast:"Opening directions…",bookToast:"Pre-filled message ready in WhatsApp",
-  fStop:(i,n)=>`Stop ${i} of ${n}`,fArr:"I've arrived",fNext:"Next stop",fAskR:"Ask Atlas",
-  fDoneH:"The loop is closed.",fDoneP:"Three stories walked. Every stop is now on your Been map — 3 more places near this route are waiting.",fDoneCta:"See what's nearby",
-  cN:"Atlas Concierge",cO:"Knows all 71 places",cPh:"Ask about the oasis…",
-  seeds:["Plan my Friday evening","Best with kids?","Quiet coffee near the springs","Is the souq open after isha?"],
+  events:[["THIS WEEKEND","Hasa Dates Festival","Souq Al-Qaisariya · free"],["TONIGHT","Qarah sunset walk","Meet 5:15 at the gate"],["FRIDAY","Old Hofuf heritage tour","10am · 2 hours"]],
+  xT:"Explore",xC:n=>`${n} places · Al-Ahsa`,
+  chips:[["all","All"],["heritage","Heritage"],["nature","Nature"],["mosques","Mosques"],["eat","Eat"],["shop","Souqs & shops"]],
+  sgT:"Know a place we're missing?",sgS:"Suggest it — locals build this map",suggestToast:"Suggest a place — thank you! (demo)",
+  cN:"Atlas Concierge",cO:"Knows all 71 places · always free",cPh:"Ask about the oasis…",
+  seeds:["Plan my Friday evening","Best with kids?","Quiet coffee near the springs","Is the souq open after isha?","Where to watch the sunset?"],
   msgs:[["me","Friday afternoon with kids — what's the plan?"],
-   ["bot","Start at Al-Qarah at 3:30 — the caves hold twenty degrees and kids love the passages. Honey factory tastings at 5:00, then the lake for the 5:48 sunset.","Al-Qarah · Honey Factory · Asfar Lake"]]},
- ar:{tHi:"مساء الخير من",tCity:"الأحساء",mHere:"أنا هنا",mPlan:"أخطط",
-  askPh:"اسأل أطلس — «قهوة هادئة قرب العيون؟»",
-  featKick:"قصة الليلة",featCta:"اقرأ القصة",
+   ["bot","Start at Al-Qarah at 3:30 — the caves hold twenty degrees and kids love the passages. Honey-factory tastings at 5:00, then the lake for the 5:48 sunset.","Al-Qarah · Honey Factory · Asfar Lake"]],
+  trT:"My Trip",trC:n=>n?`${n} places · auto-planned by geography`:"Al-Ahsa",
+  trEmptyP:"Your trip builds itself.",trEmptyS:"Save any place — it lands here, sequenced into a day plan.",trEmptyCta:"Find tonight's story",trRoutes:"SUGGESTED PATHS",
+  maT:"Saved",maSub:"places of Al-Ahsa met so far",segS:"Favorites",segB:"Been",
+  maEmptyS:"Nothing saved yet — tap the bookmark on any place.",maEmptyB:"Mark places “I was here” as you go — your map fills in.",
+  dSave:"Save",dSaved:"Saved ✓",dDir:"Directions",dAsk:"Ask Atlas",dSk:"The story",
+  exRoute:r=>[`On the path: ${r}`,"Join the Heritage Loop here"],exNear:"Within 15 minutes",exBook:"Book this experience",exBookS:"Reply in minutes on WhatsApp",
+  savedToast:"Added to My Trip",beenToast:"Marked as been — your map grows",dirToast:"Opening directions…",bookToast:"Message ready in WhatsApp",notifToast:"3 new: a festival, a route, a story",shareToast:"Share Atlas — link copied",
+  fStop:(i,n)=>`Stop ${i} of ${n}`,fArr:"I've arrived",fDoneH:"The loop is closed.",fDoneP:"Three stories walked. Every stop is now on your Been map — 3 more places near this route are waiting.",fDoneCta:"See what's nearby",
+  stT:"Settings",stLang:"LANGUAGE",stLangL:"App language",stMore:"ATLAS",stShare:"Share Atlas",stTools:"Tools",stAbout:"About Atlas",stContact:"Contact us",stVer:"Atlas 1.0 · Al-Ahsa · made with love",
+  shCityT:"Choose a city",shCityS:"Al-Ahsa is live — more cities are joining",
+  shToolsT:"Tools",tools:[["Date converter","Hijri ⇄ Gregorian"],["Prayer times","Al-Ahsa today"],["How to use Atlas","A 60-second tour"]],
+  shAboutT:"About Atlas",about:"Atlas began as one family's gift to Al-Ahsa: a free, bilingual record of the oasis — its heritage, its farms, its stories. Everything free today stays free, forever. New cities join as their own people bring their places to the map.",
+  shContactT:"Contact us",contact:[["i-wa","WhatsApp","+966 50 017 7155"],["i-globe","Website","atlas-wat.com"],["i-phone","Email","hello@atlas-wat.com"]],
+  cities:{alahsa:["Al-Ahsa","71 places · UNESCO oasis"],riyadh:["Riyadh","Coming soon"],alula:["AlUla","Coming soon"],taif:["Taif","Coming soon"],jeddah:["Jeddah","Coming soon"],dubai:["Dubai","Coming soon"]},
+  cityToast:"Al-Ahsa is our first city — more are on the way",
+ },
+ ar:{
+  ob2T:"دليلٌ للواحة، كتبه أهلها.",ob2S:"قصص ومسارات وأماكن خفية — مجاناً، للأبد.",ob2B:"استكشف الأحساء",
+  tHi:"مساء الخير",tGreet:"إلى أين الليلة؟",tAsk:"اسأل أطلس — «قهوة هادئة قرب العيون؟»",
+  cityName:"الأحساء",cityS:"٧١ مكاناً · واحة اليونسكو",
+  featTag:"قصة الليلة",featH:"الليلة تبرد الواحة — والكهوف تحفظ سرّها.",featCta:"اقرأ القصة",
+  tEvents:"يحدث الآن",tRail:"مفتوح الآن · الأقرب أولاً",tAll:"الكل ٧١",
   sereT:"مكان لا تعرفه بعد",sereS:"اضغط النرد — دع الواحة تختار",
-  tRailHere:"مفتوح الآن · الأقرب أولاً",tRailPlan:"ابدأ بهذه",tAll:"الكل ٧١",
-  xT:"استكشف",xCount:(s,b)=>`<b>${b} زرتها</b> · ${s} محفوظة · ٧١ مكاناً`,
-  chips:[["all","الكل"],["heritage","تراث"],["nature","طبيعة"]],
-  trT:"رحلتك في الأحساء",trCount:n=>n?`${n} أماكن · مرتبة جغرافياً`:"",
-  trEmptyP:"رحلتك تبني نفسها.",trEmptyS:"احفظ أي مكان — يصل هنا مرتباً في خطة يوم.",trEmptyCta:"اقرأ قصة الليلة",
-  trRoutes:"مسارات منسقة",
-  maT:"أطلسي",maSub:"من أماكن الأحساء التقيت بها حتى الآن",segS:"محفوظة",segB:"زرتها",
-  maEmptyS:"لا محفوظات بعد — القصص التي تحفظها تصل هنا.",maEmptyB:"علّم الأماكن «كنت هنا» أثناء تجوالك — وخريطتك تكتمل.",
-  dSave:"احفظ",dSaved:"محفوظ ✓",dDir:"الاتجاهات",dAsk:"اسأل أطلس",dSk:"القصة",
-  exRoute:(r)=>[`على مسار: ${r}`,"انضم لدرب التراث من هنا"],exNear:"في حدود ١٥ دقيقة",exBook:"احجز هذه التجربة",exBookS:"يردّون خلال دقائق عبر واتساب",
-  savedToast:"أُضيف إلى رحلتك في الأحساء",beenToast:"سُجّلت زيارتك — خريطتك تكبر",dirToast:"جارٍ فتح الاتجاهات…",bookToast:"رسالة جاهزة في واتساب",
-  fStop:(i,n)=>`المحطة ${i} من ${n}`,fArr:"وصلت",fNext:"المحطة التالية",fAskR:"اسأل أطلس",
-  fDoneH:"اكتمل الدرب.",fDoneP:"ثلاث قصص مشيتها. كل محطة الآن على خريطة زياراتك — وثلاثة أماكن قرب هذا المسار بانتظارك.",fDoneCta:"ماذا يوجد قريباً؟",
-  cN:"مرشد أطلس",cO:"يعرف الأماكن الـ٧١ كلها",cPh:"اسأل عن الواحة…",
-  seeds:["خطط لي مساء الجمعة","الأفضل مع الأطفال؟","قهوة هادئة قرب العيون","هل السوق مفتوح بعد العشاء؟"],
+  events:[["نهاية الأسبوع","مهرجان تمور الأحساء","سوق القيصرية · مجاني"],["الليلة","مشية غروب القارة","اللقاء ٥:١٥ عند البوابة"],["الجمعة","جولة الهفوف التراثية","١٠ص · ساعتان"]],
+  xT:"استكشف",xC:n=>`${n} مكاناً · الأحساء`,
+  chips:[["all","الكل"],["heritage","تراث"],["nature","طبيعة"],["mosques","مساجد"],["eat","مطاعم"],["shop","أسواق ومتاجر"]],
+  sgT:"تعرف مكاناً ينقصنا؟",sgS:"اقترحه — أهل البلد يبنون هذه الخريطة",suggestToast:"اقترح مكاناً — شكراً لك! (تجريبي)",
+  cN:"مرشد أطلس",cO:"يعرف الأماكن الـ٧١ · مجاني دائماً",cPh:"اسأل عن الواحة…",
+  seeds:["خطط لي مساء الجمعة","الأفضل مع الأطفال؟","قهوة هادئة قرب العيون","هل السوق مفتوح بعد العشاء؟","أين أشاهد الغروب؟"],
   msgs:[["me","عصر الجمعة مع الأطفال — ما الخطة؟"],
-   ["bot","ابدأوا بجبل القارة عند ٣:٣٠ — الكهوف على عشرين درجة والأطفال يعشقون الممرات. تذوق العسل عند ٥:٠٠، ثم البحيرة لغروب ٥:٤٨.","جبل القارة · مصنع العسل · البحيرة"]]}
-};
-let lang="en",T=STR.en,mode="here",saved=[],been=[],cur="qarah",lastTab="today",maSeg="saved",xF="all",fIdx=0,fActive=false;
+   ["bot","ابدأوا بجبل القارة عند ٣:٣٠ — الكهوف على عشرين درجة والأطفال يعشقون الممرات. تذوق العسل عند ٥:٠٠، ثم البحيرة لغروب ٥:٤٨.","جبل القارة · مصنع العسل · البحيرة"]],
+  trT:"رحلتي",trC:n=>n?`${n} أماكن · مرتبة جغرافياً`:"الأحساء",
+  trEmptyP:"رحلتك تبني نفسها.",trEmptyS:"احفظ أي مكان — يصل هنا مرتباً في خطة يوم.",trEmptyCta:"اقرأ قصة الليلة",trRoutes:"مسارات مقترحة",
+  maT:"المحفوظات",maSub:"من أماكن الأحساء التقيت بها",segS:"المفضلة",segB:"زرتها",
+  maEmptyS:"لا محفوظات بعد — اضغط علامة الحفظ على أي مكان.",maEmptyB:"علّم الأماكن «كنت هنا» أثناء تجوالك — وخريطتك تكتمل.",
+  dSave:"احفظ",dSaved:"محفوظ ✓",dDir:"الاتجاهات",dAsk:"اسأل أطلس",dSk:"القصة",
+  exRoute:r=>[`على المسار: ${r}`,"انضم لدرب التراث من هنا"],exNear:"في حدود ١٥ دقيقة",exBook:"احجز هذه التجربة",exBookS:"يردّون خلال دقائق عبر واتساب",
+  savedToast:"أُضيف إلى رحلتي",beenToast:"سُجّلت زيارتك — خريطتك تكبر",dirToast:"جارٍ فتح الاتجاهات…",bookToast:"رسالة جاهزة في واتساب",notifToast:"٣ جديدة: مهرجان، مسار، قصة",shareToast:"شارك أطلس — نُسخ الرابط",
+  fStop:(i,n)=>`المحطة ${i} من ${n}`,fArr:"وصلت",fDoneH:"اكتمل الدرب.",fDoneP:"ثلاث قصص مشيتها. كل محطة الآن على خريطة زياراتك — وثلاثة أماكن قريبة بانتظارك.",fDoneCta:"ماذا يوجد قريباً؟",
+  stT:"الإعدادات",stLang:"اللغة",stLangL:"لغة التطبيق",stMore:"أطلس",stShare:"شارك أطلس",stTools:"الأدوات",stAbout:"عن أطلس",stContact:"تواصل معنا",stVer:"أطلس ١٫٠ · الأحساء · صُنع بحب",
+  shCityT:"اختر مدينة",shCityS:"الأحساء متاحة — ومدنٌ أخرى في الطريق",
+  shToolsT:"الأدوات",tools:[["محوّل التاريخ","هجري ⇄ ميلادي"],["أوقات الصلاة","الأحساء اليوم"],["كيف تستخدم أطلس","جولة في دقيقة"]],
+  shAboutT:"عن أطلس",about:"بدأ أطلس هديةً من عائلة إلى الأحساء: سجلٌّ مجاني بلغتين للواحة — تراثها ومزارعها وقصصها. كل ما هو مجاني اليوم يبقى مجاناً للأبد. وتنضم مدنٌ جديدة كلما حمل أهلها أماكنهم إلى الخريطة.",
+  shContactT:"تواصل معنا",contact:[["i-wa","واتساب","٩٦٦٥٠٠١٧٧١٥٥+"],["i-globe","الموقع","atlas-wat.com"],["i-phone","البريد","hello@atlas-wat.com"]],
+  cities:{alahsa:["الأحساء","٧١ مكاناً · واحة اليونسكو"],riyadh:["الرياض","قريباً"],alula:["العلا","قريباً"],taif:["الطائف","قريباً"],jeddah:["جدة","قريباً"],dubai:["دبي","قريباً"]},
+  cityToast:"الأحساء أول مدننا — والبقية في الطريق",
+ }};
+let lang="en",T=STR.en,saved=[],been=[],cur="qarah",lastTab="today",maSeg="saved",xF="all",xView="list",fIdx=0,city="alahsa";
 const $=id=>document.getElementById(id);
 const ARN=["٠","١","٢","٣","٤","٥","٦","٧","٨","٩"];
 const num=n=>lang==="ar"?String(n).split("").map(d=>ARN[+d]??d).join(""):String(n);
 
 function stOf(k){return been.includes(k)?"been":saved.includes(k)?"saved":"none"}
-function tile(k){
- const p=PLACES[k],L=p[lang];
- return `<div class="pt glass" onclick="openPlace('${k}')">
-   <div class="th"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use href="#${p.sc}"/></svg></div>
-   <span class="st ${stOf(k)}"></span><b>${L.n}</b><small>${mode==="here"?L.open+" · "+num(p.dist)+(lang==="ar"?" د":" min"):L.m}</small></div>`;
-}
+function tile(k){const p=PLACES[k],L=p[lang];
+ return `<div class="pt glass" onclick="openPlace('${k}')"><div class="th"><svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use href="#${p.sc}"/></svg></div>
+   <span class="st ${stOf(k)}"></span><b>${L.n}</b><small>${L.open+" · "+num(p.dist)+(lang==="ar"?" د":" min")}</small></div>`;}
 function tabbar(active){
- const items=[["today","i-today",lang==="ar"?"اليوم":"Today"],["explore","i-compass",lang==="ar"?"استكشف":"Explore"],["trip","i-trip",lang==="ar"?"رحلتي":"Trip"],["matlas","i-me",lang==="ar"?"أطلسي":"My Atlas"]];
- return items.map(([id,ic,lb])=>`<div class="ti ${active===id?"on":""}" onclick="swap('${id}')">
-   ${id==="trip"&&saved.length?`<span class="bdg">${num(saved.length)}</span>`:""}
-   <svg class="ic s"><use href="#${ic}"/></svg>${lb}</div>`).join("");
+ const items=[["today","i-today",lang==="ar"?"اليوم":"Today"],["explore","i-compass",lang==="ar"?"استكشف":"Explore"],["ask","i-ask",lang==="ar"?"اسأل":"Ask"],["trip","i-trip",lang==="ar"?"رحلتي":"Trip"],["saved","i-bmk",lang==="ar"?"محفوظاتي":"Saved"]];
+ return items.map(([id,ic,lb])=>`<div class="ti ${active===id?"on":""}" onclick="swap('${id}')">${id==="trip"&&saved.length?`<span class="bd">${num(saved.length)}</span>`:""}<svg class="ic s"><use href="#${ic}"/></svg>${lb}</div>`).join("");
 }
 function renderToday(){
- $("tHi").textContent=T.tHi;$("tCity").textContent=T.tCity;
- $("mHere").textContent=T.mHere;$("mPlan").textContent=T.mPlan;
- $("mHere").classList.toggle("on",mode==="here");$("mPlan").classList.toggle("on",mode==="plan");
- $("askPh").textContent=T.askPh;
- const f=PLACES.qarah[lang];
+ $("tCity").textContent=T.cityName;$("tCityS").textContent=T.cityS;
+ $("tHi").textContent=T.tHi;$("tGreet").textContent=T.tGreet;$("tAsk").textContent=T.tAsk;
  $("featured").innerHTML=`<svg class="bg" viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><use href="#scQ"/></svg><div class="veil"></div>
-  <div class="body"><span class="kick">${T.featKick}</span><h2>${lang==="ar"?"الليلة تبرد الواحة — والكهوف تحفظ سرّها.":"Tonight the oasis cools — and the caves keep their secret."}</h2>
-  <p>${f.story.slice(0,80)}…</p><span class="cta">${T.featCta} <svg class="ic s flip"><use href="#i-arrow"/></svg></span></div>`;
+  <span class="tag">${T.featTag}</span><div class="body"><h2>${T.featH}</h2><p>${PLACES.qarah[lang].story.slice(0,76)}…</p>
+  <span class="cta">${T.featCta} <svg class="ic s flip"><use href="#i-arrow"/></svg></span></div>`;
  $("featured").onclick=()=>openPlace("qarah");
- const unseen=Object.keys(PLACES).filter(k=>!been.includes(k)&&!saved.includes(k));
+ $("tEvents").textContent=T.tEvents;
+ $("eventRow").innerHTML=T.events.map(e=>`<div class="evc glass" onclick="toast('${e[1]}')"><div class="d">${e[0]}</div><b>${e[1]}</b><small>${e[2]}</small></div>`).join("");
+ const unseen=Object.keys(PLACES).filter(k=>stOf(k)==="none");
  $("sereNo").textContent=num(String(unseen.length?Object.keys(PLACES).indexOf(unseen[0])+7:12).padStart(2,"0"))+" / "+num(71);
  $("sereT").textContent=T.sereT;$("sereS").textContent=T.sereS;
- $("tRail").textContent=mode==="here"?T.tRailHere:T.tRailPlan;$("tAll").textContent=T.tAll;
- const keys=Object.keys(PLACES).sort((a,b)=>mode==="here"?PLACES[a].dist-PLACES[b].dist:0);
+ $("tRail").textContent=T.tRail;$("tAll").textContent=T.tAll;
+ const keys=Object.keys(PLACES).sort((a,b)=>PLACES[a].dist-PLACES[b].dist).slice(0,4);
  $("todayGrid").innerHTML=keys.map(tile).join("");
  $("tb1").innerHTML=tabbar("today");
 }
 function renderExplore(){
  $("xT").textContent=T.xT;
- $("xC").innerHTML=T.xCount(num(saved.length),num(been.length));
+ const list=Object.keys(PLACES).filter(k=>xF==="all"||PLACES[k].cat===xF);
+ $("xC").innerHTML=T.xC(num(list.length));
+ $("xList").classList.toggle("on",xView==="list");$("xMap").classList.toggle("on",xView==="map");
  $("xChips").innerHTML=T.chips.map(c=>`<div class="chip ${xF===c[0]?"on":""}" onclick="xF='${c[0]}';renderExplore()">${c[1]}</div>`).join("");
- $("xGrid").innerHTML=Object.keys(PLACES).filter(k=>xF==="all"||PLACES[k].cat===xF).map(tile).join("");
+ if(xView==="list"){
+  $("xBody").innerHTML=`<div class="grid2" style="margin-top:6px">${list.map(tile).join("")}</div>`;
+ }else{
+  $("xBody").innerHTML=`<div class="mapwrap glass">
+    <svg viewBox="0 0 400 620" preserveAspectRatio="xMidYMid slice"><use href="#oasisMap"/>
+    ${list.map((k,i)=>`<g class="mpin" onclick="mpinTap('${k}')" transform="translate(${PLACES[k].px},${PLACES[k].py})"><path d="M0 0 C-9 -12 -13 -18 -13 -25 a13 13 0 1 1 26 0 C13 -18 9 -12 0 0z" fill="${stOf(k)==='been'?'#3E7D5C':stOf(k)==='saved'?'#C6862F':'#B85C38'}"/><circle cy="-25" r="5" fill="#FDFBF6"/></g>`).join("")}</svg>
+    <div class="mdeck" id="mdeck">${list.map(k=>`<div class="mcard glass" id="mc-${k}" onclick="openPlace('${k}')"><b>${PLACES[k][lang].n}</b><small>${PLACES[k][lang].m}</small></div>`).join("")}</div>
+  </div>`;
+ }
+ $("sgT").textContent=T.sgT;$("sgS").textContent=T.sgS;
  $("tb2").innerHTML=tabbar("explore");
 }
-function renderTrip(){
- $("trT").textContent=T.trT;$("trC").textContent=T.trCount(num(saved.length));
- const R=ROUTE[lang];
- $("trRoutes").textContent=T.trRoutes;$("rN").textContent=R.n;$("rTag").textContent=R.tag;$("rM").textContent=R.m;$("rGo").textContent=R.go;
- if(!saved.length){
-  $("tripBody").innerHTML=`<div class="trip-empty glass"><p>${T.trEmptyP}</p><small>${T.trEmptyS}</small>
-   <span class="cta2" onclick="swap('today')">${T.trEmptyCta}</span></div>`;
- }else{
-  const seq=[...saved].sort((a,b)=>PLACES[a].dist-PLACES[b].dist);
-  $("tripBody").innerHTML=`<div class="plan glass">${seq.map((k,i)=>`
-   <div class="stop"><div class="rail"><div class="n">${num(i+1)}</div>${i<seq.length-1?'<div class="l"></div>':""}</div>
-   <div class="inf" onclick="openPlace('${k}')"><b>${PLACES[k][lang].n}</b><small>${PLACES[k][lang].m}</small></div>
-   <span class="x" onclick="unsave('${k}')">✕</span></div>`).join("")}</div>`;
- }
- $("tb3").innerHTML=tabbar("trip");
-}
-function renderMa(){
- $("maT").textContent=T.maT;$("maN").textContent=num(been.length);$("maOf").textContent=" / "+num(71);
- $("maSub").textContent=T.maSub;
- $("segS").textContent=T.segS+(saved.length?` · ${num(saved.length)}`:"");
- $("segB").textContent=T.segB+(been.length?` · ${num(been.length)}`:"");
- $("segS").classList.toggle("on",maSeg==="saved");$("segB").classList.toggle("on",maSeg==="been");
- const list=maSeg==="saved"?saved:been;
- $("maList").innerHTML=list.length?list.map(k=>`
-  <div class="marow glass" onclick="openPlace('${k}')"><span class="dotc" style="background:${maSeg==="been"?"var(--ok)":"var(--gold)"}"></span>
-  <b>${PLACES[k][lang].n}</b><small>${PLACES[k][lang].m}</small></div>`).join("")
-  :`<div class="maempty glass">${maSeg==="saved"?T.maEmptyS:T.maEmptyB}</div>`;
- $("tb4").innerHTML=tabbar("matlas");
-}
-function openPlace(k){
- cur=k;const p=PLACES[k],L=p[lang];
- const at=document.querySelector(".screen.active");if(at&&["today","explore","trip","matlas"].includes(at.id))lastTab=at.id;
- $("dScene").setAttribute("href","#"+p.sc);
- $("dKick").textContent=L.kick;$("dTitle").textContent=L.n;
- $("dGrid").innerHTML=L.grid.map(g=>`<div class="dcell glass"><span class="cb">${g[0]}</span><div class="nm">${g[1]}</div><div class="stt ${g[3]}">${g[2]}</div></div>`).join("");
- $("dSk").textContent=T.dSk;$("dStory").textContent=L.story;
- const R=ROUTE[lang];const onR=ROUTE.stops.includes(k);
- const near=Object.keys(PLACES).filter(x=>x!==k).slice(0,2);
- $("dExits").innerHTML=
-  (onR?`<div class="exit glass" onclick="startRoute()"><svg class="ic s"><use href="#i-trip"/></svg><div><b>${T.exRoute(R.n)[0]}</b><small>${T.exRoute(R.n)[1]}</small></div><svg class="ic s chev flip"><use href="#i-arrow"/></svg></div>`:"")+
-  `<div class="exit glass" onclick="openPlace('${near[0]}')"><svg class="ic s"><use href="#i-me"/></svg><div><b>${T.exNear}</b><small>${near.map(x=>PLACES[x][lang].n).join(" · ")}</small></div><svg class="ic s chev flip"><use href="#i-arrow"/></svg></div>`+
-  (L.book?`<div class="exit glass" onclick="toast(T.bookToast)"><svg class="ic s"><use href="#i-wa"/></svg><div><b>${T.exBook}</b><small>${L.book} — ${T.exBookS}</small></div><svg class="ic s chev flip"><use href="#i-arrow"/></svg></div>`:"");
- updSaveBtn();$("dDir").textContent=T.dDir;$("dAsk").textContent=T.dAsk;
- swap("detail");
-}
-function updSaveBtn(){const s=saved.includes(cur)||been.includes(cur);
- $("dSave").textContent=s?T.dSaved:T.dSave;$("dSave").classList.toggle("saved",s)}
-function toggleSave(){
- if(been.includes(cur))return;
- if(saved.includes(cur)){saved=saved.filter(x=>x!==cur);toast(lang==="ar"?"أُزيل من الرحلة":"Removed from trip")}
- else{saved.push(cur);toast(T.savedToast+" · "+num(saved.length))}
- updSaveBtn();
-}
-function unsave(k){saved=saved.filter(x=>x!==k);renderTrip()}
-function serendipity(){
- const keys=Object.keys(PLACES),pick=keys[Math.floor(Math.random()*keys.length)];
- openPlace(pick);
-}
-function startRoute(){fIdx=0;fActive=true;renderFollow();swap("follow")}
-function renderFollow(){
- const R=ROUTE[lang],n=ROUTE.stops.length;
- if(fIdx>=n){ // finish
-  $("fScene").setAttribute("href","#scJ");
-  $("fProg").textContent=num(n)+" / "+num(n);
-  $("fBody").innerHTML=`<div class="fdone"><div class="big">${num(n)}/${num(n)}</div><h2>${T.fDoneH}</h2><p>${T.fDoneP}</p></div>
-   <div class="fbtns"><div class="fb arr" onclick="swap('today')">${T.fDoneCta}</div></div>`;
-  return;
- }
- const k=ROUTE.stops[fIdx],L=PLACES[k][lang];
- $("fScene").setAttribute("href","#"+PLACES[k].sc);
- $("fProg").textContent=T.fStop(num(fIdx+1),num(n));
- $("fBody").innerHTML=`<span class="kick">${L.kick}</span><h1>${L.n}</h1><p>${R.legs[fIdx]}</p>
-  <div class="fbtns"><div class="fb ghost" onclick="toast(T.dirToast)">${T.dDir}</div>
-  <div class="fb arr" onclick="arrive()">${T.fArr}</div></div>`;
-}
-function arrive(){
- const k=ROUTE.stops[fIdx];
- if(!been.includes(k)){been.push(k);saved=saved.filter(x=>x!==k)}
- toast(T.beenToast+" · "+num(been.length)+" / "+num(71));
- fIdx++;renderFollow();
-}
-function renderChat(){
+function mpinTap(k){document.querySelectorAll(".mpin").forEach(p=>p.classList.remove("on"));event.currentTarget.classList.add("on");const c=$("mc-"+k);if(c)c.scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"})}
+function renderAsk(){
  $("cN").textContent=T.cN;$("cO").textContent=T.cO;$("cPh").textContent=T.cPh;
  $("cMsgs").innerHTML=T.msgs.map(m=>`<div class="msg ${m[0]} ${m[0]==="bot"?"glass":""}">${m[1]}${m[2]?`<span class="cite">${m[2]}</span>`:""}</div>`).join("");
  $("cSeeds").innerHTML=T.seeds.map(s=>`<div class="seed" onclick="toast('${s}')">${s}</div>`).join("");
+ $("tb3").innerHTML=tabbar("ask");
 }
-function renderAll(){renderToday();renderExplore();renderTrip();renderMa();renderChat()}
-function finishOb(){renderAll();swap("today")}
-function setLang(l){
- lang=l;T=STR[l];
- const ph=$("phone");
- ph.setAttribute("dir",l==="ar"?"rtl":"ltr");
- ph.classList.toggle("rtl",l==="ar");
- $("swEn").classList.toggle("on",l==="en");$("swAr").classList.toggle("on",l==="ar");
- $("obmT").textContent=l==="ar"?"الأحساء — متى؟":"Al-Ahsa — when?";
- $("obmS").textContent=l==="ar"?"سؤال واحد، ونرتب لك كل شيء.":"One question — we'll arrange everything around it.";
- $("obm1").textContent=l==="ar"?"أنا هنا الآن":"I'm here now";$("obm1s").textContent=l==="ar"?"رتّب ليلتي":"Sort my evening";
- $("obm2").textContent=l==="ar"?"أخطط لزيارة":"Planning a visit";$("obm2s").textContent=l==="ar"?"ابنِ رحلتي":"Build my trip";
- $("obm3").textContent=l==="ar"?"أحلم فقط":"Just dreaming";$("obm3s").textContent=l==="ar"?"أريني القصص":"Show me the stories";
- renderAll();
- const act=document.querySelector(".screen.active");
- if(act&&act.id==="detail")openPlace(cur);
- if(act&&act.id==="follow")renderFollow();
+function renderTrip(){
+ $("trT").textContent=T.trT;$("trC").textContent=T.trC(saved.length?num(saved.length):0);
+ const R=ROUTE[lang];$("trRoutes").textContent=T.trRoutes;$("rN").textContent=R.n;$("rTag").textContent=R.tag;$("rM").textContent=R.m;$("rGo").textContent=R.go;
+ if(!saved.length){$("tripBody").innerHTML=`<div class="empty glass"><p>${T.trEmptyP}</p><small>${T.trEmptyS}</small><span class="cta2" onclick="swap('today')">${T.trEmptyCta}</span></div>`;}
+ else{const seq=[...saved].sort((a,b)=>PLACES[a].dist-PLACES[b].dist);
+  $("tripBody").innerHTML=`<div class="plan glass">${seq.map((k,i)=>`<div class="stop"><div class="rail"><div class="n">${num(i+1)}</div>${i<seq.length-1?'<div class="l"></div>':""}</div><div class="inf" onclick="openPlace('${k}')"><b>${PLACES[k][lang].n}</b><small>${PLACES[k][lang].m}</small></div><span class="x" onclick="unsave('${k}')">✕</span></div>`).join("")}</div>`;}
+ $("tb4").innerHTML=tabbar("trip");
 }
+function renderSaved(){
+ $("maT").textContent=T.maT;$("maN").textContent=num(been.length);$("maOf").textContent=" / "+num(71);$("maSub").textContent=T.maSub;
+ $("segS").textContent=T.segS+(saved.length?` · ${num(saved.length)}`:"");$("segB").textContent=T.segB+(been.length?` · ${num(been.length)}`:"");
+ $("segS").classList.toggle("on",maSeg==="saved");$("segB").classList.toggle("on",maSeg==="been");
+ const list=maSeg==="saved"?saved:been;
+ $("maList").innerHTML=list.length?list.map(k=>`<div class="marow glass" onclick="openPlace('${k}')"><span class="dotc" style="background:${maSeg==="been"?"var(--ok)":"var(--gold)"}"></span><b>${PLACES[k][lang].n}</b><small>${PLACES[k][lang].m}</small></div>`).join(""):`<div class="maempty glass">${maSeg==="saved"?T.maEmptyS:T.maEmptyB}</div>`;
+ $("tb5").innerHTML=tabbar("saved");
+}
+function renderSettings(){
+ $("stT").textContent=T.stT;$("stLang").textContent=T.stLang;$("stLangL").textContent=T.stLangL;
+ $("stEn").classList.toggle("on",lang==="en");$("stAr").classList.toggle("on",lang==="ar");
+ $("stMore").textContent=T.stMore;$("stShare").textContent=T.stShare;$("stTools").textContent=T.stTools;$("stAbout").textContent=T.stAbout;$("stContact").textContent=T.stContact;$("stVer").textContent=T.stVer;
+}
+function openPlace(k){cur=k;const p=PLACES[k],L=p[lang];
+ const at=document.querySelector(".screen.active");if(at&&["today","explore","trip","saved","ask"].includes(at.id))lastTab=at.id;
+ $("dScene").setAttribute("href","#"+p.sc);$("dKick").textContent=L.kick;$("dTitle").textContent=L.n;
+ $("dGrid").innerHTML=L.grid.map(g=>`<div class="dcell glass"><span class="cb">${g[0]}</span><div class="nm">${g[1]}</div><div class="stt ${g[3]}">${g[2]}</div></div>`).join("");
+ $("dSk").textContent=T.dSk;$("dStory").textContent=L.story;
+ const R=ROUTE[lang],onR=ROUTE.stops.includes(k),near=Object.keys(PLACES).filter(x=>x!==k).sort((a,b)=>Math.abs(PLACES[a].dist-p.dist)-Math.abs(PLACES[b].dist-p.dist)).slice(0,2);
+ $("dExits").innerHTML=(onR?`<div class="exit glass" onclick="startRoute()"><svg class="ic s"><use href="#i-trip"/></svg><div><b>${T.exRoute(R.n)[0]}</b><small>${T.exRoute(R.n)[1]}</small></div><svg class="ic s chev flip"><use href="#i-arrow"/></svg></div>`:"")+
+  `<div class="exit glass" onclick="openPlace('${near[0]}')"><svg class="ic s"><use href="#i-pin"/></svg><div><b>${T.exNear}</b><small>${near.map(x=>PLACES[x][lang].n).join(" · ")}</small></div><svg class="ic s chev flip"><use href="#i-arrow"/></svg></div>`+
+  (L.book?`<div class="exit glass" onclick="toast(T.bookToast)"><svg class="ic s"><use href="#i-wa"/></svg><div><b>${T.exBook}</b><small>${L.book} — ${T.exBookS}</small></div><svg class="ic s chev flip"><use href="#i-arrow"/></svg></div>`:"");
+ updSave();$("dDir").textContent=T.dDir;$("dAsk").textContent=T.dAsk;swap("detail");
+}
+function updSave(){const s=saved.includes(cur)||been.includes(cur);$("dSave").textContent=s?T.dSaved:T.dSave;$("dSave").classList.toggle("saved",s)}
+function toggleSave(){if(been.includes(cur))return;if(saved.includes(cur)){saved=saved.filter(x=>x!==cur);toast(lang==="ar"?"أُزيل":"Removed")}else{saved.push(cur);toast(T.savedToast+" · "+num(saved.length))}updSave()}
+function unsave(k){saved=saved.filter(x=>x!==k);renderTrip()}
+function serendipity(){const keys=Object.keys(PLACES);openPlace(keys[Math.floor((Date.now()/1000)%keys.length)])}
+function startRoute(){fIdx=0;renderFollow();swap("follow")}
+function renderFollow(){const R=ROUTE[lang],n=ROUTE.stops.length;
+ if(fIdx>=n){$("fScene").setAttribute("href","#scJ");$("fProg").textContent=num(n)+" / "+num(n);
+  $("fBody").innerHTML=`<div class="fdone"><div class="big">${num(n)}/${num(n)}</div><h2>${T.fDoneH}</h2><p>${T.fDoneP}</p></div><div class="fbtns"><div class="fb arr" onclick="swap('today')">${T.fDoneCta}</div></div>`;return;}
+ const k=ROUTE.stops[fIdx],L=PLACES[k][lang];$("fScene").setAttribute("href","#"+PLACES[k].sc);$("fProg").textContent=T.fStop(num(fIdx+1),num(n));
+ $("fBody").innerHTML=`<span class="kick">${L.kick}</span><h1>${L.n}</h1><p>${R.legs[fIdx]}</p><div class="fbtns"><div class="fb ghost" onclick="toast(T.dirToast)">${T.dDir}</div><div class="fb arr" onclick="arrive()">${T.fArr}</div></div>`;
+}
+function arrive(){const k=ROUTE.stops[fIdx];if(!been.includes(k)){been.push(k);saved=saved.filter(x=>x!==k)}toast(T.beenToast+" · "+num(been.length)+" / "+num(71));fIdx++;renderFollow()}
+/* sheets */
+function openSheet(id){renderSheet(id);$("sheet-"+id).classList.add("open")}
+function closeSheet(id){$("sheet-"+id).classList.remove("open")}
+function renderSheet(id){
+ if(id==="city"){$("shCityT").textContent=T.shCityT;$("shCityS").textContent=T.shCityS;
+  $("cityList").innerHTML=CITIES.map(([k,fl,soon])=>`<div class="cityrow ${k===city?"on":""}" onclick="pickCity('${k}',${soon})"><span class="fl">${fl}</span><div><b>${T.cities[k][0]}</b><small>${T.cities[k][1]}</small></div>${soon?`<span class="soon">${lang==="ar"?"قريباً":"SOON"}</span>`:`<span class="live"><i></i>${lang==="ar"?"متاحة":"LIVE"}</span>`}</div>`).join("");}
+ if(id==="tools"){$("shToolsT").textContent=T.shToolsT;$("toolsList").innerHTML=T.tools.map(t=>`<div class="cityrow" onclick="toast('${t[0]}')"><svg class="ic" style="color:var(--acc)"><use href="#i-tools"/></svg><div><b>${t[0]}</b><small>${t[1]}</small></div></div>`).join("");}
+ if(id==="about"){$("shAboutT").textContent=T.shAboutT;$("aboutBody").textContent=T.about;}
+ if(id==="contact"){$("shContactT").textContent=T.shContactT;$("contactBody").innerHTML=T.contact.map(c=>`<div class="cityrow" onclick="toast('${c[2]}')"><svg class="ic" style="color:var(--acc)"><use href="#${c[0]}"/></svg><div><b>${c[1]}</b><small>${c[2]}</small></div></div>`).join("");}
+}
+function pickCity(k,soon){if(soon){toast(T.cityToast);return}city=k;closeSheet("city")}
+/* core */
+function renderAll(){renderToday();renderExplore();renderAsk();renderTrip();renderSaved();renderSettings()}
+function setLang(l){lang=l;T=STR[l];const ph=$("phone");ph.setAttribute("dir",l==="ar"?"rtl":"ltr");ph.classList.toggle("rtl",l==="ar");
+ $("ob2T").textContent=T.ob2T;$("ob2S").textContent=T.ob2S;$("ob2B").textContent=T.ob2B;
+ renderAll();const act=document.querySelector(".screen.active");if(act&&act.id==="detail")openPlace(cur);if(act&&act.id==="follow")renderFollow();}
 function swap(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));$(id).classList.add("active");
- if(["today","explore","trip","matlas"].includes(id)){lastTab=id;renderAll()}
+ if(["today","explore","ask","trip","saved"].includes(id)){lastTab=id;renderAll()}if(id==="settings")renderSettings();
  const sc=document.querySelector("#"+id+" .scroll");if(sc)sc.scrollTop=0}
 let tt;function toast(m){$("toasttxt").textContent=m;$("toast").classList.add("show");clearTimeout(tt);tt=setTimeout(()=>$("toast").classList.remove("show"),2100)}
 setLang("en");
