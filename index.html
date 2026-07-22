@@ -11,7 +11,7 @@
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="icon-180.png">
 <title>Atlas — أطلس</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&family=Alexandria:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=El+Messiri:wght@400;500;600&family=Hanken+Grotesk:wght@400;500;600;700&family=Alexandria:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
  :root{
    --acc:#B85C38; --ok:#3E7D5C; --warn:#C15B4A;
@@ -21,7 +21,7 @@
    --disp:"Playfair Display",Georgia,serif; --ui:"Hanken Grotesk",-apple-system,sans-serif;
    --ease:cubic-bezier(.32,.72,.24,1);
  }
- .rtl{--disp:"Alexandria","IBM Plex Sans Arabic",sans-serif;--ui:"IBM Plex Sans Arabic",-apple-system,sans-serif}
+ .rtl{--disp:"El Messiri","IBM Plex Sans Arabic",sans-serif;--ui:"IBM Plex Sans Arabic",-apple-system,sans-serif}
  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
  html,body{height:100%}
  body{background:#171209;font-family:"Hanken Grotesk",sans-serif;color:var(--ink);overscroll-behavior:none}
@@ -68,7 +68,7 @@
  .insight{margin:16px 24px 0;padding:26px 26px 24px;text-align:center;cursor:pointer}
  .insight .k{font-size:12.5px;font-weight:500;opacity:.75}
  .insight p{font-family:var(--disp);font-weight:400;font-size:24px;line-height:1.32;letter-spacing:-.2px;margin-top:10px}
- .rtl .insight p{font-size:18.5px;line-height:1.65;font-weight:500}
+ .rtl .insight p{font-size:17px;line-height:1.7;font-weight:500}
  .insight .go{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#F5EFE2;display:flex;align-items:center;justify-content:center;margin:20px auto 0;transition:transform .2s}
  .insight:hover .go{transform:scale(1.06)}
 
@@ -78,14 +78,14 @@
  .ptile .thumb{height:86px;border-radius:20px;overflow:hidden}
  .ptile .thumb svg{width:100%;height:100%;display:block}
  .ptile b{font-family:var(--disp);font-weight:500;font-size:14.5px;letter-spacing:-.1px;display:block;margin:10px 6px 0;line-height:1.2}
- .rtl .ptile b{font-weight:500;font-size:12.5px}
+ .rtl .ptile b{font-weight:500;font-size:12px}
  .ptile small{font-size:10.5px;color:var(--stone);display:block;margin:3px 6px 0}
  .ptile .st{font-size:10.5px;font-weight:700;display:block;margin:5px 6px 10px}
  .st-ok{color:var(--ok)} .st-warn{color:var(--warn)} .st-mut{color:var(--stone)}
 
  .shead{padding:8px 26px 0}
  .shead h1{font-family:var(--disp);font-weight:500;font-size:30px;letter-spacing:-.3px}
- .rtl .shead h1{font-weight:500;font-size:23px}
+ .rtl .shead h1{font-weight:500;font-size:20px}
  .searchp{margin:14px 24px 0;height:48px;border-radius:999px;display:flex;align-items:center;gap:10px;padding:0 18px;color:var(--stone);font-size:13px;cursor:text}
  .chips{display:flex;gap:8px;overflow-x:auto;padding:14px 24px 0}
  .chips::-webkit-scrollbar{display:none}
@@ -96,7 +96,7 @@
  .dhead .kick{font-size:10.5px;font-weight:600;letter-spacing:2.4px;color:var(--stone)}
  .rtl .dhead .kick{letter-spacing:0;font-size:12px}
  .dhead h1{font-family:var(--disp);font-weight:400;font-size:38px;letter-spacing:-.5px;line-height:1.05;margin-top:6px;text-wrap:balance}
- .rtl .dhead h1{font-weight:500;font-size:28px;line-height:1.4}
+ .rtl .dhead h1{font-weight:500;font-size:23px;line-height:1.45}
  .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px 24px 0}
  .dcell{padding:18px 14px 16px;text-align:center}
  .dcell .chipb{display:inline-block;background:rgba(253,250,242,.82);border:1px solid var(--gbord);border-radius:999px;font-size:10.5px;font-weight:600;padding:4px 12px}
@@ -181,7 +181,7 @@
  .obmosaic .m:nth-child(2){transform:translateY(16px)}
  .obmosaic .m:nth-child(5){transform:translateY(16px)}
  .ob h1{font-family:var(--disp);font-weight:400;font-size:34px;letter-spacing:-.4px;line-height:1.14;margin-top:14px;text-wrap:balance}
- .rtl .ob h1{font-weight:500;font-size:26px;line-height:1.5}
+ .rtl .ob h1{font-weight:500;font-size:22px;line-height:1.55}
  .ob .sub{font-size:14px;color:var(--stone);margin-top:12px;line-height:1.6;max-width:300px}
  .ob .langbtns{display:flex;gap:10px;margin-top:26px}
  .obbtn{flex:1;padding:16px;border-radius:999px;text-align:center;font-size:14.5px;font-weight:600;cursor:pointer;transition:transform .2s}
@@ -204,18 +204,46 @@
  .ccard .soon{position:absolute;top:16px;inset-inline-end:16px;background:rgba(253,250,242,.9);border-radius:999px;font-size:9px;font-weight:700;padding:3px 9px;color:var(--stone)}
  .ccard.sel{outline:2px solid var(--acc);outline-offset:2px}
 
+ /* rtl numeral & label refinements */
+ .rtl .tile .num{font-size:23px;font-weight:500}
+ .rtl .tile .lbl{font-size:10.5px}
+ .rtl .dcell .num{font-size:20px;font-weight:500;margin-top:8px}
+ .rtl .dcell .chipb{font-size:10px}
+ .rtl .dcell .state{font-size:10.5px}
+ .rtl .toprow .who b{font-size:17px}
+ .rtl .dstoryc p{font-size:14px}
+ .rtl .msg{font-size:13px;line-height:1.75}
  /* exploration home */
  .bigask{font-family:var(--disp);font-weight:400;font-size:34px;letter-spacing:-.4px;line-height:1.14;padding:16px 26px 0;text-wrap:balance}
- .rtl .bigask{font-weight:500;font-size:25px;line-height:1.5}
- .destcar{display:flex;gap:14px;overflow-x:auto;padding:16px 24px 6px;scroll-snap-type:x mandatory}
- .destcar::-webkit-scrollbar{display:none}
+ .rtl .bigask{font-weight:500;font-size:22px;line-height:1.55}
+ .ctabs{display:flex;gap:22px;padding:12px 28px 2px;overflow-x:auto}
+ .ctabs::-webkit-scrollbar{display:none}
+ .ctab{white-space:nowrap;font-size:13.5px;font-weight:600;color:var(--stone);cursor:pointer;padding-bottom:8px;border-bottom:2px solid transparent;transition:all .25s}
+ .ctab.on{color:var(--ink);border-bottom-color:var(--acc)}
+ .rtl .ctab{font-size:13px}
+ .citygrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:14px 24px 0}
+ .citycard{padding:9px 9px 4px;border-radius:28px;cursor:pointer;transition:transform .25s var(--ease);position:relative}
+ .citycard:hover{transform:translateY(-3px)}
+ .citycard .thumb{height:96px;border-radius:20px;overflow:hidden;position:relative}
+ .citycard .thumb svg{width:100%;height:100%;display:block}
+ .citycard.dim .thumb::after{content:"";position:absolute;inset:0;background:rgba(240,228,206,.42)}
+ .citycard b{font-family:var(--disp);font-weight:500;font-size:15px;display:block;margin:10px 6px 0}
+ .rtl .citycard b{font-size:13.5px}
+ .citycard small{font-size:10.5px;color:var(--stone);display:block;margin:3px 6px 10px}
+ .citycard .dot{position:absolute;top:17px;inset-inline-start:17px;display:flex;gap:6px;align-items:center;background:rgba(20,14,6,.4);backdrop-filter:blur(8px);border-radius:999px;font-size:9px;font-weight:700;padding:4px 10px;color:#fff}
+ .citycard .dot i{width:5px;height:5px;border-radius:50%;background:#7FC69B}
+ .citycard .soonb{position:absolute;top:17px;inset-inline-end:17px;background:rgba(253,250,242,.92);border-radius:999px;font-size:9px;font-weight:700;padding:4px 10px;color:var(--stone)}
+ .cempty{grid-column:1/-1;padding:30px 24px;text-align:center}
+ .cempty p{font-family:var(--disp);font-size:17px;line-height:1.55;color:#4A4438}
+ .rtl .cempty p{font-size:15px;line-height:1.8}
+ .cempty small{display:block;font-size:11.5px;color:var(--stone);margin-top:10px}
  .dest{min-width:262px;scroll-snap-align:start;border-radius:32px;overflow:hidden;position:relative;height:330px;cursor:pointer;box-shadow:0 18px 44px rgba(60,44,20,.2);transition:transform .3s var(--ease)}
  .dest:hover{transform:translateY(-4px)}
  .dest svg.bg{position:absolute;inset:0;width:100%;height:100%}
  .dest .veil{position:absolute;inset:0;background:linear-gradient(rgba(20,14,6,.05) 40%,rgba(20,14,6,.68))}
  .dest .body3{position:absolute;bottom:0;left:0;right:0;padding:20px;color:#fff}
  .dest .body3 .cn{font-family:var(--disp);font-weight:500;font-size:26px;letter-spacing:-.3px}
- .rtl .dest .body3 .cn{font-weight:500;font-size:19px}
+ .rtl .dest .body3 .cn{font-weight:500;font-size:17px}
  .dest .body3 .cs{font-size:11.5px;opacity:.85;margin-top:3px}
  .dest .body3 .cta3{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:rgba(253,250,242,.92);color:var(--ink);border-radius:999px;padding:9px 16px;font-size:12px;font-weight:700}
  .dest .soon3{position:absolute;top:16px;inset-inline-end:16px;background:rgba(253,250,242,.92);border-radius:999px;font-size:10px;font-weight:700;padding:5px 12px;color:var(--stone)}
@@ -357,9 +385,9 @@
       <div class="bigask" id="hAsk"></div>
       <div class="searchp glass" style="margin-top:14px" onclick="toast(T.xSearchT)"><svg class="ic s"><use href="#i-search"/></svg><span id="hSearch"></span></div>
 
-      <div class="cpills" id="countryRow" style="padding-top:16px"></div>
-
-      <div class="destcar" id="destCar"></div>
+      <div class="slabel2" style="padding-top:24px"><span id="tDest"></span></div>
+      <div class="ctabs" id="countryRow"></div>
+      <div class="citygrid" id="destCar"></div>
 
       <div class="insight glass" onclick="openPlace('qarah')">
         <div class="k" id="insK"></div><p id="insP"></p>
@@ -449,8 +477,10 @@ const STR={
   ob3T:"From the oasis, outward.",ob3S:"Al-Ahsa is live today. New cities and countries join as their people bring the stories.",ob3Go:"Start exploring",
   hAsk:"Where to next?",hSearch:"Search cities, places, stories…",
   tNear:"TONIGHT IN AL-AHSA",
-  dests:[["alahsa","scQ","Al-Ahsa","71 places · the UNESCO oasis",0,"Explore Al-Ahsa"],["alula","scU","AlUla","The rock-carved wonder",1,""],["taif","scT","Taif","Roses & mountain air",1,""],["qassim","scQm","Qassim","Capital of dates",1,""],["riyadh","scR","Riyadh","The capital",1,""]],
-  countries:[["🇸🇦","Saudi Arabia",0],["🇦🇪","UAE",1],["🇪🇬","Egypt",1],["🇯🇴","Jordan",1]],
+  tDest:"DESTINATIONS",
+  countries:[["sa","Saudi Arabia"],["ae","UAE"],["eg","Egypt"],["jo","Jordan"]],
+  citiesBy:{sa:[["alahsa","scQ","Al-Ahsa","71 places · UNESCO oasis",0],["alula","scU","AlUla","The rock-carved wonder",1],["taif","scT","Taif","Roses & mountain air",1],["qassim","scQm","Qassim","Capital of dates",1],["riyadh","scR","Riyadh","The capital",1],["jeddah","scL","Jeddah","Gate of the Red Sea",1]],ae:[],eg:[],jo:[]},
+  cempty:["One city at a time, done beautifully.","Atlas grows country by country as local storytellers join. Be first to know."],
   mosaic:[["scQ","Al-Ahsa",0],["scU","AlUla",1],["scT","Taif",1],["scQm","Qassim",1],["scR","Riyadh",1],["scL","+ more",1]],
   soonToast:"Launching with local partners — the platform is ready",
   xTitle:"Explore",xSearch:"Where to, today?",xSearchT:"Search all 71 places",
@@ -484,8 +514,10 @@ const STR={
   ob3T:"من الواحة إلى العالم.",ob3S:"الأحساء متاحة اليوم، ومدنٌ ودولٌ جديدة تنضم كلما حمل أهلها قصصهم.",ob3Go:"ابدأ الاستكشاف",
   hAsk:"إلى أين وجهتك القادمة؟",hSearch:"ابحث عن مدن وأماكن وقصص…",
   tNear:"الليلة في الأحساء",
-  dests:[["alahsa","scQ","الأحساء","٧١ مكاناً · واحة اليونسكو",0,"استكشف الأحساء"],["alula","scU","العلا","أعجوبة الصخور المنحوتة",1,""],["taif","scT","الطائف","الورد وهواء الجبال",1,""],["qassim","scQm","القصيم","عاصمة التمور",1,""],["riyadh","scR","الرياض","العاصمة",1,""]],
-  countries:[["🇸🇦","السعودية",0],["🇦🇪","الإمارات",1],["🇪🇬","مصر",1],["🇯🇴","الأردن",1]],
+  tDest:"الوجهات",
+  countries:[["sa","السعودية"],["ae","الإمارات"],["eg","مصر"],["jo","الأردن"]],
+  citiesBy:{sa:[["alahsa","scQ","الأحساء","٧١ مكاناً · واحة اليونسكو",0],["alula","scU","العلا","أعجوبة الصخور",1],["taif","scT","الطائف","الورد والجبال",1],["qassim","scQm","القصيم","عاصمة التمور",1],["riyadh","scR","الرياض","العاصمة",1],["jeddah","scL","جدة","بوابة البحر الأحمر",1]],ae:[],eg:[],jo:[]},
+  cempty:["مدينة واحدة في كل مرة، بإتقان.","أطلس ينمو بلداً بعد بلد كلما انضم رواة محليون. كن أول من يعرف."],
   mosaic:[["scQ","الأحساء",0],["scU","العلا",1],["scT","الطائف",1],["scQm","القصيم",1],["scR","الرياض",1],["scL","+ المزيد",1]],
   soonToast:"تُطلق مع شركاء محليين — المنصة جاهزة",
   xTitle:"استكشف",xSearch:"إلى أين اليوم؟",xSearchT:"ابحث في ٧١ مكاناً",
@@ -565,21 +597,25 @@ function tileHTML(p){
    <div class="thumb"><svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice"><use href="#${p[1]}"/></svg></div>
    <b>${p[2]}</b><small>${p[3]}</small><span class="st st-${p[5]}">${p[4]}</span></div>`;
 }
-function destHTML(d){
- const soon=d[4];
- return `<div class="dest ${soon?"soonc":""}" onclick="${soon?"toast(T.soonToast)":"swap('explore')"}">
-   <svg class="bg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice"><use href="#${d[1]}"/></svg>
-   <div class="veil"></div>
-   ${soon?`<span class="soon3">${lang==="ar"?"قريباً":"SOON"}</span>`
-        :`<span class="live3"><i></i>${lang==="ar"?"متاحة الآن":"LIVE"}</span>`}
-   <div class="body3"><div class="cn">${d[2]}</div><div class="cs">${d[3]}</div>
-     ${d[5]?`<span class="cta3">${d[5]} <svg class="ic s flip"><use href="#i-arrow"/></svg></span>`:""}</div>
- </div>`;
+let curCountry="sa";
+function cityCard(c){
+ const soon=c[4];
+ return `<div class="citycard glass ${soon?"dim":""}" onclick="${soon?"toast(T.soonToast)":"swap('explore')"}">
+   <div class="thumb"><svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice"><use href="#${c[1]}"/></svg></div>
+   ${soon?`<span class="soonb">${lang==="ar"?"قريباً":"SOON"}</span>`:`<span class="dot"><i></i>${lang==="ar"?"متاحة":"LIVE"}</span>`}
+   <b>${c[2]}</b><small>${c[3]}</small></div>`;
+}
+function renderDest(){
+ document.getElementById("countryRow").innerHTML=T.countries.map(c=>
+  `<div class="ctab ${curCountry===c[0]?"on":""}" onclick="curCountry='${c[0]}';renderDest()">${c[1]}</div>`).join("");
+ const cities=T.citiesBy[curCountry];
+ document.getElementById("destCar").innerHTML=cities.length?cities.map(cityCard).join(""):
+  `<div class="cempty glass"><p>${T.cempty[0]}</p><small>${T.cempty[1]}</small></div>`;
 }
 function renderHome(){
  ["tHi","tCity","insK","insP","hAsk","hSearch","tNear"].forEach(k=>{const el=document.getElementById(k);if(el)el.textContent=T[k]});
- document.getElementById("countryRow").innerHTML=T.countries.map(c=>`<div class="cpill ${c[2]?"":"on"}" onclick="${c[2]?"toast(T.soonToast)":""}"><span class="flag">${c[0]}</span>${c[1]}${c[2]?"":" ✓"}</div>`).join("");
- document.getElementById("destCar").innerHTML=T.dests.map(destHTML).join("");
+ document.getElementById("tDest").textContent=T.tDest;
+ renderDest();
  document.getElementById("homeGrid").innerHTML=T.places.slice(0,4).map(tileHTML).join("");
  // onboarding
  document.getElementById("ob2T").textContent=T.ob2T;
