@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Atlas">
+<meta name="theme-color" content="#171209">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<title>Atlas — أطلس</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500&family=Hanken+Grotesk:wght@400;500;600;700&family=Alexandria:wght@400;500;600;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+ :root{
+   --acc:#B85C38; --ok:#3E7D5C; --warn:#C15B4A;
+   --ink:#241F17; --stone:#7A7160;
+   --glass:rgba(253,250,242,.55); --glass2:rgba(253,250,242,.42);
+   --gbord:rgba(255,255,255,.68);
+   --disp:"Playfair Display",Georgia,serif; --ui:"Hanken Grotesk",-apple-system,sans-serif;
+   --ease:cubic-bezier(.32,.72,.24,1);
+ }
+ .rtl{--disp:"Alexandria","IBM Plex Sans Arabic",sans-serif;--ui:"IBM Plex Sans Arabic",-apple-system,sans-serif}
+ *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+ html,body{height:100%}
+ body{background:#171209;font-family:"Hanken Grotesk",sans-serif;color:var(--ink);overscroll-behavior:none}
+ .phone{width:100%;height:100dvh;overflow:hidden;position:relative;font-family:var(--ui);color:var(--ink)}
+ .atmo{position:absolute;inset:0;background:
+   radial-gradient(110% 60% at 80% 0%, rgba(248,211,158,.95), rgba(248,211,158,0) 52%),
+   radial-gradient(130% 90% at 10% 100%, rgba(103,133,116,.5), rgba(103,133,116,0) 62%),
+   linear-gradient(170deg,#F0E4CE 0%,#EBD6B4 32%,#DDBE94 58%,#C0AB8C 80%,#A5A08C 100%)}
+ .atmo .dune{position:absolute;left:-10%;right:-10%;height:34%;filter:blur(28px);opacity:.55;border-radius:50%}
+ .atmo .d1{bottom:20%;background:#CE9B62}
+ .atmo .d2{bottom:2%;background:#7E8E76;height:30%}
+ .atmo .grainy{position:absolute;inset:0;opacity:.5}
+
+ .screen{position:absolute;inset:0;display:none;flex-direction:column}
+ .screen.active{display:flex;animation:fade .32s ease}
+ @keyframes fade{from{opacity:.5}to{opacity:1}}
+ .scroll{flex:1;overflow-y:auto;padding-bottom:210px}
+ .scroll::-webkit-scrollbar{display:none}
+ .status{height:calc(env(safe-area-inset-top,14px) + 8px);flex-shrink:0}
+ .status *{display:none}
+
+ .ic{width:20px;height:20px;stroke:currentColor;stroke-width:1.7;fill:none;stroke-linecap:round;stroke-linejoin:round;flex-shrink:0}
+ .ic.s{width:15px;height:15px}
+ .rtl .flip{transform:scaleX(-1)}
+ .glass{background:var(--glass);backdrop-filter:blur(22px);border:1px solid var(--gbord);box-shadow:0 14px 34px rgba(60,44,20,.13), inset 0 1px 0 rgba(255,255,255,.7);border-radius:34px}
+
+ .toprow{padding:6px 26px 0;display:flex;align-items:center;justify-content:space-between}
+ .toprow .who small{font-size:11.5px;color:var(--stone);display:block}
+ .toprow .who b{font-family:var(--disp);font-weight:500;font-size:20px;letter-spacing:-.2px}
+ .langsw{display:flex;background:var(--glass2);backdrop-filter:blur(14px);border:1px solid var(--gbord);border-radius:999px;overflow:hidden;font-size:10.5px;font-weight:600}
+ .langsw div{padding:6px 12px;cursor:pointer;color:var(--stone)}
+ .langsw div.on{background:var(--ink);color:#F5EFE2}
+
+ .tiles{display:flex;gap:12px;padding:18px 24px 0}
+ .tile{flex:1;padding:18px 10px 15px;text-align:center;cursor:pointer;transition:transform .25s var(--ease)}
+ .tile:hover{transform:translateY(-3px)}
+ .tile svg.spark{width:74px;height:26px;margin:0 auto 10px;display:block;stroke:var(--ink);fill:none;stroke-width:1.6}
+ .tile svg.spark circle{fill:#FBF6EC;stroke:var(--ink)}
+ .tile svg.spark circle.end{fill:var(--ink)}
+ .tile .num{font-family:var(--disp);font-weight:400;font-size:31px;letter-spacing:-.5px;line-height:1}
+ .tile .num small{font-size:12px;color:var(--stone);margin-inline-start:2px}
+ .tile .lbl{font-size:11px;font-weight:500;color:var(--stone);margin-top:7px}
+
+ .insight{margin:16px 24px 0;padding:26px 26px 24px;text-align:center;cursor:pointer}
+ .insight .k{font-size:12.5px;font-weight:500;opacity:.75}
+ .insight p{font-family:var(--disp);font-weight:400;font-size:24px;line-height:1.32;letter-spacing:-.2px;margin-top:10px}
+ .rtl .insight p{font-size:18.5px;line-height:1.65;font-weight:500}
+ .insight .go{width:52px;height:52px;border-radius:50%;background:var(--ink);color:#F5EFE2;display:flex;align-items:center;justify-content:center;margin:20px auto 0;transition:transform .2s}
+ .insight:hover .go{transform:scale(1.06)}
+
+ .pgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px 24px 0}
+ .ptile{padding:9px 9px 4px;cursor:pointer;border-radius:28px;transition:transform .25s var(--ease)}
+ .ptile:hover{transform:translateY(-3px)}
+ .ptile .thumb{height:86px;border-radius:20px;overflow:hidden}
+ .ptile .thumb svg{width:100%;height:100%;display:block}
+ .ptile b{font-family:var(--disp);font-weight:500;font-size:14.5px;letter-spacing:-.1px;display:block;margin:10px 6px 0;line-height:1.2}
+ .rtl .ptile b{font-weight:500;font-size:12.5px}
+ .ptile small{font-size:10.5px;color:var(--stone);display:block;margin:3px 6px 0}
+ .ptile .st{font-size:10.5px;font-weight:700;display:block;margin:5px 6px 10px}
+ .st-ok{color:var(--ok)} .st-warn{color:var(--warn)} .st-mut{color:var(--stone)}
+
+ .shead{padding:8px 26px 0}
+ .shead h1{font-family:var(--disp);font-weight:500;font-size:30px;letter-spacing:-.3px}
+ .rtl .shead h1{font-weight:500;font-size:23px}
+ .searchp{margin:14px 24px 0;height:48px;border-radius:999px;display:flex;align-items:center;gap:10px;padding:0 18px;color:var(--stone);font-size:13px;cursor:text}
+ .chips{display:flex;gap:8px;overflow-x:auto;padding:14px 24px 0}
+ .chips::-webkit-scrollbar{display:none}
+ .chip{white-space:nowrap;padding:9px 15px;border-radius:999px;font-size:12px;font-weight:600;cursor:pointer;color:var(--stone);background:var(--glass2);backdrop-filter:blur(12px);border:1px solid var(--gbord);transition:all .2s}
+ .chip.on{background:var(--ink);color:#F5EFE2;border-color:var(--ink)}
+
+ .dheadwrap{padding:4px 26px 0}
+ .dhead .kick{font-size:10.5px;font-weight:600;letter-spacing:2.4px;color:var(--stone)}
+ .rtl .dhead .kick{letter-spacing:0;font-size:12px}
+ .dhead h1{font-family:var(--disp);font-weight:400;font-size:38px;letter-spacing:-.5px;line-height:1.05;margin-top:6px;text-wrap:balance}
+ .rtl .dhead h1{font-weight:500;font-size:28px;line-height:1.4}
+ .dgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px 24px 0}
+ .dcell{padding:18px 14px 16px;text-align:center}
+ .dcell .chipb{display:inline-block;background:rgba(253,250,242,.82);border:1px solid var(--gbord);border-radius:999px;font-size:10.5px;font-weight:600;padding:4px 12px}
+ .dcell .num{font-family:var(--disp);font-weight:400;font-size:29px;letter-spacing:-.4px;margin-top:10px}
+ .dcell .state{font-size:11px;font-weight:600;margin-top:6px}
+ .dstoryc{margin:16px 24px 0;padding:24px 26px;text-align:center}
+ .dstoryc .k{font-size:12px;font-weight:500;opacity:.72}
+ .dstoryc p{font-family:var(--disp);font-weight:400;font-size:19.5px;line-height:1.5;margin-top:9px}
+ .rtl .dstoryc p{font-family:"IBM Plex Sans Arabic",sans-serif;font-weight:400;font-size:15px;line-height:1.95}
+ .dcta{margin:16px 24px 0;padding:9px 9px 9px 24px;display:flex;align-items:center;border-radius:999px;cursor:pointer}
+ .rtl .dcta{padding:9px 24px 9px 9px}
+ .dcta b{font-size:14px;font-weight:600}
+ .dcta small{font-size:11px;color:var(--stone);display:block;margin-top:1px}
+ .dcta .btn{margin-inline-start:auto;background:var(--ink);color:#F5EFE2;border-radius:999px;padding:14px 24px;font-size:13px;font-weight:600}
+ .gbtnrow{padding:8px 20px 0;display:flex;justify-content:space-between}
+ .gbtn{width:42px;height:42px;border-radius:50%;background:var(--glass2);backdrop-filter:blur(14px);border:1px solid var(--gbord);display:flex;align-items:center;justify-content:center;cursor:pointer}
+ .gbtn.on{color:var(--acc)}
+
+ /* routes */
+ .rcard{margin:16px 24px 0;padding:20px 22px;cursor:pointer}
+ .rcard .toprow2{display:flex;align-items:baseline;justify-content:space-between}
+ .rcard b.nm{font-family:var(--disp);font-weight:500;font-size:19px;letter-spacing:-.2px}
+ .rtl .rcard b.nm{font-weight:500;font-size:15.5px}
+ .rcard .tag{font-size:10px;font-weight:700;border-radius:999px;padding:4px 11px;background:rgba(253,250,242,.85);border:1px solid var(--gbord)}
+ .rcard .tag.gold{color:#8A5E14}
+ .rcard .meta2{font-size:11.5px;color:var(--stone);margin-top:5px}
+ .tl{margin-top:16px;border-top:1px solid rgba(120,100,70,.16);padding-top:14px}
+ .tstop{display:flex;gap:13px}
+ .tstop .rail{display:flex;flex-direction:column;align-items:center}
+ .tnum{width:26px;height:26px;border-radius:50%;background:var(--ink);color:#F5EFE2;font-size:11.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+ .tline{width:2px;flex:1;border-inline-start:2px dotted rgba(120,100,70,.35);min-height:22px}
+ .tinfo{padding-bottom:14px}
+ .tinfo b{font-size:13.5px;font-weight:600;display:block}
+ .tinfo small{font-size:11px;color:var(--stone)}
+ .drivec{display:inline-block;font-size:10px;color:var(--ok);font-weight:700;margin-top:3px}
+
+ /* chat */
+ .chead{display:flex;align-items:center;gap:12px;padding:8px 24px 0}
+ .chead .ava{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#F0C98C;display:flex;align-items:center;justify-content:center;font-family:var(--disp);font-size:19px}
+ .chead b{font-size:15px;font-weight:600;display:block}
+ .chead small{font-size:11px;color:var(--ok);font-weight:600}
+ .msgs{padding:18px 24px 0;display:flex;flex-direction:column;gap:12px}
+ .msg{max-width:78%;padding:13px 17px;font-size:13.5px;line-height:1.6;border-radius:24px}
+ .msg.bot{align-self:flex-start;border-start-start-radius:8px}
+ .msg.me{align-self:flex-end;background:var(--ink);color:#F5EFE2;border-start-end-radius:8px;border-radius:24px;border-start-end-radius:8px}
+ .msg .cite{display:block;font-size:10.5px;color:var(--stone);margin-top:7px}
+ .msg.me .cite{color:#C9BFA8}
+ .inputbar{margin:16px 24px 0;height:52px;border-radius:999px;display:flex;align-items:center;gap:10px;padding:0 8px 0 20px;color:var(--stone);font-size:13px}
+ .rtl .inputbar{padding:0 20px 0 8px}
+ .inputbar .send{margin-inline-start:auto;width:38px;height:38px;border-radius:50%;background:var(--acc);color:#fff;display:flex;align-items:center;justify-content:center}
+
+ /* nav */
+ .navfade{position:absolute;bottom:0;left:0;right:0;height:130px;background:linear-gradient(transparent,rgba(196,178,146,.92) 78%);z-index:35;pointer-events:none}
+ .navwrap{position:absolute;bottom:calc(env(safe-area-inset-bottom,16px) + 12px);left:24px;right:24px;display:flex;justify-content:space-between;align-items:center;z-index:40}
+ .pillnav{display:flex;gap:2px;padding:7px;border-radius:999px}
+ .nitem{display:flex;flex-direction:column;align-items:center;gap:3px;border-radius:999px;padding:8px 13px;cursor:pointer;color:var(--stone);font-size:9.5px;font-weight:600;transition:all .25s}
+ .nitem .nic{width:28px;height:28px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+ .nitem.on{background:rgba(253,250,242,.88)}
+ .nitem.on .nic{background:var(--acc);color:#fff}
+ .nitem.on span{color:var(--acc)}
+ .chatb{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .2s}
+ .chatb:hover{transform:scale(1.06)}
+
+ /* onboarding */
+ .ob{justify-content:flex-end;padding:0;cursor:default}
+ .obscene{position:absolute;inset:0;z-index:1}
+ .obveil{position:absolute;inset:0;background:linear-gradient(rgba(240,228,206,0) 30%,rgba(240,228,206,.55) 62%,rgba(238,224,198,.96) 82%)}
+ .ob .obinner{position:relative;z-index:3;padding:0 26px 46px}
+ .ob .brandmark{font-family:"Alexandria",sans-serif;font-weight:700;font-size:46px;color:var(--ink);letter-spacing:-.5px;line-height:1}
+ .ob .brandsub{font-size:11px;font-weight:700;letter-spacing:6px;color:var(--stone);margin-top:6px}
+ .ob .arline{font-family:"IBM Plex Sans Arabic",sans-serif}
+ .obfloat{position:absolute;z-index:2;inset-inline-start:34px;top:120px;width:210px;border-radius:26px;padding:14px 16px;animation:obdrift 5s ease-in-out infinite alternate}
+ @keyframes obdrift{from{transform:translateY(0) rotate(-1.5deg)}to{transform:translateY(-14px) rotate(1deg)}}
+ .obfloat .k2{font-size:10px;font-weight:700;letter-spacing:1.8px;color:var(--stone)}
+ .obfloat p{font-family:var(--disp);font-size:16.5px;line-height:1.4;margin-top:6px}
+ .rtl .obfloat p{font-size:15px;line-height:1.7}
+ .obmosaic{position:absolute;z-index:2;top:96px;inset-inline-start:24px;inset-inline-end:24px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+ .obmosaic .m{border-radius:20px;overflow:hidden;height:86px;position:relative;box-shadow:0 10px 26px rgba(60,44,20,.18)}
+ .obmosaic .m svg{width:100%;height:100%;display:block}
+ .obmosaic .m span{position:absolute;bottom:6px;inset-inline-start:9px;color:#fff;font-size:10px;font-weight:700;text-shadow:0 1px 6px rgba(0,0,0,.5)}
+ .obmosaic .m.soon::after{content:"";position:absolute;inset:0;background:rgba(238,224,198,.45)}
+ .obmosaic .m:nth-child(2){transform:translateY(16px)}
+ .obmosaic .m:nth-child(5){transform:translateY(16px)}
+ .ob h1{font-family:var(--disp);font-weight:400;font-size:34px;letter-spacing:-.4px;line-height:1.14;margin-top:14px;text-wrap:balance}
+ .rtl .ob h1{font-weight:500;font-size:26px;line-height:1.5}
+ .ob .sub{font-size:14px;color:var(--stone);margin-top:12px;line-height:1.6;max-width:300px}
+ .ob .langbtns{display:flex;gap:10px;margin-top:26px}
+ .obbtn{flex:1;padding:16px;border-radius:999px;text-align:center;font-size:14.5px;font-weight:600;cursor:pointer;transition:transform .2s}
+ .obbtn:hover{transform:translateY(-2px)}
+ .obbtn.dark{background:var(--ink);color:#F5EFE2}
+ .obbtn .arf{font-family:"IBM Plex Sans Arabic",sans-serif;font-size:15.5px}
+ .obskip{text-align:center;margin-top:16px;font-size:12px;font-weight:600;color:var(--stone);cursor:pointer}
+ .obdots{display:flex;gap:6px;margin-top:26px}
+ .obdots i{width:6px;height:6px;border-radius:3px;background:rgba(36,31,23,.25);transition:all .3s}
+ .obdots i.on{width:18px;background:var(--ink)}
+ .citypick{margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:12px;max-height:400px;overflow-y:auto;padding-bottom:4px}
+ .citypick::-webkit-scrollbar{display:none}
+ .ccard{padding:9px 9px 4px;border-radius:26px;cursor:pointer;transition:transform .22s var(--ease);position:relative}
+ .ccard:hover{transform:translateY(-3px)}
+ .ccard .thumb{height:74px;border-radius:18px;overflow:hidden}
+ .ccard .thumb svg{width:100%;height:100%;display:block}
+ .ccard b{font-family:var(--disp);font-weight:500;font-size:14px;display:block;margin:9px 6px 0}
+ .rtl .ccard b{font-weight:500;font-size:12px}
+ .ccard small{font-size:10px;color:var(--stone);display:block;margin:2px 6px 9px}
+ .ccard .soon{position:absolute;top:16px;inset-inline-end:16px;background:rgba(253,250,242,.9);border-radius:999px;font-size:9px;font-weight:700;padding:3px 9px;color:var(--stone)}
+ .ccard.sel{outline:2px solid var(--acc);outline-offset:2px}
+
+ /* exploration home */
+ .bigask{font-family:var(--disp);font-weight:400;font-size:34px;letter-spacing:-.4px;line-height:1.14;padding:16px 26px 0;text-wrap:balance}
+ .rtl .bigask{font-weight:500;font-size:25px;line-height:1.5}
+ .destcar{display:flex;gap:14px;overflow-x:auto;padding:16px 24px 6px;scroll-snap-type:x mandatory}
+ .destcar::-webkit-scrollbar{display:none}
+ .dest{min-width:262px;scroll-snap-align:start;border-radius:32px;overflow:hidden;position:relative;height:330px;cursor:pointer;box-shadow:0 18px 44px rgba(60,44,20,.2);transition:transform .3s var(--ease)}
+ .dest:hover{transform:translateY(-4px)}
+ .dest svg.bg{position:absolute;inset:0;width:100%;height:100%}
+ .dest .veil{position:absolute;inset:0;background:linear-gradient(rgba(20,14,6,.05) 40%,rgba(20,14,6,.68))}
+ .dest .body3{position:absolute;bottom:0;left:0;right:0;padding:20px;color:#fff}
+ .dest .body3 .cn{font-family:var(--disp);font-weight:500;font-size:26px;letter-spacing:-.3px}
+ .rtl .dest .body3 .cn{font-weight:500;font-size:19px}
+ .dest .body3 .cs{font-size:11.5px;opacity:.85;margin-top:3px}
+ .dest .body3 .cta3{display:inline-flex;align-items:center;gap:8px;margin-top:12px;background:rgba(253,250,242,.92);color:var(--ink);border-radius:999px;padding:9px 16px;font-size:12px;font-weight:700}
+ .dest .soon3{position:absolute;top:16px;inset-inline-end:16px;background:rgba(253,250,242,.92);border-radius:999px;font-size:10px;font-weight:700;padding:5px 12px;color:var(--stone)}
+ .dest .live3{position:absolute;top:16px;inset-inline-start:16px;display:flex;gap:6px;align-items:center;background:rgba(20,14,6,.4);backdrop-filter:blur(8px);border-radius:999px;font-size:10px;font-weight:700;padding:5px 12px;color:#fff}
+ .dest .live3 i{width:6px;height:6px;border-radius:50%;background:#7FC69B}
+ .dest.soonc{filter:saturate(.75)}
+ .cityhero{margin:16px 24px 0;padding:22px 24px 20px;cursor:pointer;position:relative;overflow:hidden}
+ .cityhero .kick{font-size:10px;font-weight:700;letter-spacing:2.2px;color:var(--stone);display:block;padding-inline-end:58px}
+ .rtl .cityhero .kick{letter-spacing:0;font-size:11.5px}
+ .cityhero h2{font-family:var(--disp);font-weight:400;font-size:34px;letter-spacing:-.4px;margin-top:4px}
+ .rtl .cityhero h2{font-weight:600;font-size:30px}
+ .cityhero .sub2{font-size:12px;color:var(--stone);margin-top:3px}
+ .cityhero .vitals{display:flex;gap:18px;margin-top:16px}
+ .cityhero .v b{font-family:var(--disp);font-weight:400;font-size:19px;display:block}
+ .cityhero .v small{font-size:10px;color:var(--stone);font-weight:600}
+ .cityhero .goarr{position:absolute;inset-inline-end:20px;top:24px;width:42px;height:42px;border-radius:50%;background:var(--ink);color:#F5EFE2;display:flex;align-items:center;justify-content:center}
+ .hrow2{display:flex;gap:12px;overflow-x:auto;padding:14px 24px 4px;scroll-snap-type:x mandatory}
+ .hrow2::-webkit-scrollbar{display:none}
+ .hrow2 .ccard{min-width:150px;scroll-snap-align:start}
+ .slabel2{padding:22px 28px 2px;font-size:10.5px;font-weight:700;letter-spacing:2.2px;color:var(--stone);display:flex;justify-content:space-between}
+ .rtl .slabel2{letter-spacing:0;font-size:12px}
+ .cpills{display:flex;gap:8px;padding:12px 24px 0;overflow-x:auto}
+ .cpills::-webkit-scrollbar{display:none}
+ .cpill{display:flex;gap:8px;align-items:center;white-space:nowrap;padding:9px 15px;border-radius:999px;font-size:12px;font-weight:600;background:var(--glass2);backdrop-filter:blur(12px);border:1px solid var(--gbord);color:var(--stone);cursor:pointer}
+ .cpill.on{background:var(--ink);color:#F5EFE2;border-color:var(--ink)}
+ .cpill .flag{font-size:13px}
+
+ .toast{position:absolute;bottom:110px;left:0;right:0;display:flex;justify-content:center;z-index:60;pointer-events:none}
+ .toast span{background:rgba(36,31,23,.92);backdrop-filter:blur(8px);color:#F5EFE2;font-size:12px;font-weight:500;border-radius:999px;padding:10px 18px;opacity:0;transform:translateY(8px);transition:all .3s var(--ease)}
+ .toast.show span{opacity:1;transform:none}
+</style>
+</head>
+<body>
+<svg width="0" height="0"><defs>
+ <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5M5.5 9v11h13V9"/></symbol>
+ <symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></symbol>
+ <symbol id="i-route" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.5"/><circle cx="18" cy="6" r="2.5"/><path d="M8.5 18H15a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h6.5" stroke-dasharray="2.5 3"/></symbol>
+ <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 6.5A2.5 2.5 0 0 1 6.5 4h11A2.5 2.5 0 0 1 20 6.5v8a2.5 2.5 0 0 1-2.5 2.5H12l-4.5 3.5V17H6.5A2.5 2.5 0 0 1 4 14.5z" fill="currentColor" stroke="none"/></symbol>
+ <symbol id="i-back" viewBox="0 0 24 24"><path d="M14.5 5 8 12l6.5 7"/></symbol>
+ <symbol id="i-bmk" viewBox="0 0 24 24"><path d="M6.5 3.5h11V21L12 16.5 6.5 21z"/></symbol>
+ <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M4 12h15M13.5 6 19.5 12l-6 6"/></symbol>
+ <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></symbol>
+ <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/></symbol>
+ <filter id="gr"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="2" result="n"/><feColorMatrix in="n" type="matrix" values="0 0 0 0 0.25 0 0 0 0 0.2 0 0 0 0 0.12 0 0 0 0.05 0"/><feComposite operator="over" in2="SourceGraphic"/></filter>
+ <linearGradient id="phQ" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C9A16B"/><stop offset=".55" stop-color="#A97B4B"/><stop offset="1" stop-color="#7E5630"/></linearGradient>
+ <g id="scQ"><rect width="400" height="200" fill="url(#phQ)"/><path d="M-10 128 Q70 84 150 104 T320 96 T415 110 V200 H-10 Z" fill="#6E4526" opacity=".8"/><path d="M-10 162 Q100 132 210 146 T415 150 V200 H-10 Z" fill="#4A2D14"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="phS" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8A6A38"/><stop offset="1" stop-color="#4E3416"/></linearGradient>
+ <g id="scS"><rect width="400" height="200" fill="url(#phS)"/><path d="M30 200 V116 a34 34 0 0 1 68 0 V200 M166 200 V116 a34 34 0 0 1 68 0 V200 M302 200 V116 a34 34 0 0 1 68 0 V200" fill="#38220C"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="phL" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7C9FB0"/><stop offset="1" stop-color="#41707C"/></linearGradient>
+ <g id="scL"><rect width="400" height="200" fill="url(#phL)"/><path d="M-10 108 Q120 96 250 106 T415 102 V200 H-10 Z" fill="#37606A"/><path d="M-10 158 Q140 144 290 154 T415 152 V200 H-10 Z" fill="#25443C"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="phJ" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#93A46C"/><stop offset="1" stop-color="#4C5A30"/></linearGradient>
+ <g id="scJ"><rect width="400" height="200" fill="url(#phJ)"/><rect x="150" y="92" width="100" height="108" fill="#5E4426"/><path d="M150 95 C172 58 228 58 250 95 Z" fill="#4A3218"/><rect x="120" y="56" width="14" height="144" fill="#4A3218"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="phU" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C98F6A"/><stop offset="1" stop-color="#8A4E30"/></linearGradient>
+ <g id="scU"><rect width="400" height="200" fill="url(#phU)"/><path d="M60 200 V90 C60 60 90 52 104 78 C118 50 150 56 152 88 L156 200 Z" fill="#6E3A20"/><path d="M240 200 V110 C240 84 268 78 280 98 C292 76 320 82 322 108 L326 200 Z" fill="#5C2F16"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="phT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9BAB92"/><stop offset="1" stop-color="#5C7258"/></linearGradient>
+ <g id="scT"><rect width="400" height="200" fill="url(#phT)"/><path d="M-10 132 L70 70 L140 118 L210 58 L290 112 L360 76 L415 110 V200 H-10 Z" fill="#4C6248"/><path d="M-10 168 Q120 146 260 160 T415 156 V200 H-10 Z" fill="#38492F"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="phR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#C4A87E"/><stop offset="1" stop-color="#6E5A3A"/></linearGradient>
+ <g id="scR"><rect width="400" height="200" fill="url(#phR)"/><path d="M50 200 V120 h30 V200 M110 200 V88 h26 V200 M166 200 V60 l16 -18 16 18 V200 M228 200 V96 h26 V200 M284 200 V126 h30 V200" fill="#4A3A1E"/><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="obsky1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4A4152"/><stop offset=".4" stop-color="#B4674A"/><stop offset=".7" stop-color="#E2A75C"/><stop offset="1" stop-color="#EEDBB2"/></linearGradient>
+ <g id="obQarah"><rect width="400" height="480" fill="url(#obsky1)"/><circle cx="290" cy="140" r="34" fill="#F7E3B0" opacity=".9"/>
+   <path d="M-10 300 Q70 230 150 258 T330 246 T415 268 V480 H-10 Z" fill="#8A5530" opacity=".6"/>
+   <path d="M-10 352 Q100 300 220 322 T415 330 V480 H-10 Z" fill="#5E3A1E" opacity=".8"/>
+   <rect width="400" height="480" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="obsky2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2A1C10"/><stop offset=".6" stop-color="#7E5228"/><stop offset="1" stop-color="#D9A45C"/></linearGradient>
+ <g id="obCave"><rect width="400" height="480" fill="url(#obsky2)"/>
+   <path d="M-10 -10 H410 V480 H330 C316 340 300 260 258 200 C226 156 190 150 158 176 C110 216 90 330 84 480 H-10 Z" fill="#180E06"/>
+   <path d="M180 480 C186 350 206 270 248 226 C278 196 310 202 328 240 C352 290 360 400 362 480 Z" fill="#E8B96A" opacity=".28"/>
+   <rect width="400" height="480" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="obsky3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3E3548"/><stop offset=".5" stop-color="#A05F43"/><stop offset="1" stop-color="#EDD9AE"/></linearGradient>
+ <g id="obDusk"><rect width="400" height="480" fill="url(#obsky3)"/><circle cx="120" cy="150" r="26" fill="#F7E3B0" opacity=".8"/>
+   <path d="M-10 380 Q120 350 260 366 T415 362 V480 H-10 Z" fill="#5E3A1E" opacity=".7"/>
+   <rect width="400" height="480" filter="url(#gr)" fill="transparent"/></g>
+ <linearGradient id="phQm" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D2B478"/><stop offset="1" stop-color="#8A6C36"/></linearGradient>
+ <g id="scQm"><rect width="400" height="200" fill="url(#phQm)"/><g stroke="#5C4A1E" stroke-width="2.4" fill="none"><path d="M60 200 c2 -30 2 -50 0 -70 M60 130 c-12 -10 -24 -12 -34 -8 M60 130 c12 -10 24 -12 34 -8 M60 130 c-8 -16 -18 -20 -28 -20 M60 130 c8 -16 18 -20 28 -20"/><path d="M200 200 c2 -34 2 -56 0 -78 M200 122 c-13 -11 -26 -13 -37 -9 M200 122 c13 -11 26 -13 37 -9 M200 122 c-9 -17 -20 -22 -31 -22 M200 122 c9 -17 20 -22 31 -22"/><path d="M330 200 c2 -28 2 -46 0 -64 M330 136 c-11 -9 -22 -11 -31 -7 M330 136 c11 -9 22 -11 31 -7"/></g><rect width="400" height="200" filter="url(#gr)" fill="transparent"/></g>
+</defs></svg>
+
+<div class="phone" id="phone" dir="ltr">
+  <div class="atmo"><div class="dune d1"></div><div class="dune d2"></div>
+    <svg class="grainy" width="100%" height="100%"><rect width="100%" height="100%" filter="url(#gr)" fill="transparent"/></svg>
+  </div>
+
+  <!-- ONBOARDING 1: brand + language -->
+  <div class="screen ob active" id="ob1">
+    <div class="obscene">
+      <svg viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%"><use href="#obQarah"/></svg>
+      <div class="obveil"></div>
+    </div>
+    <div class="obinner">
+      <div class="brandmark">أطلس</div>
+      <div class="brandsub">ATLAS</div>
+      <h1>The places you haven't<br>met yet.</h1>
+      <p class="sub arline">أماكن لم تلتقِ بها بعد</p>
+      <div class="langbtns">
+        <div class="obbtn dark" onclick="setLang('en');swap('ob2')">Continue in English</div>
+        <div class="obbtn glass" onclick="setLang('ar');swap('ob2')"><span class="arf">المتابعة بالعربية</span></div>
+      </div>
+      <div class="obdots"><i class="on"></i><i></i><i></i></div>
+    </div>
+  </div>
+
+  <!-- ONBOARDING 2: stories not pins -->
+  <div class="screen ob" id="ob2" onclick="swap('ob3')">
+    <div class="obscene">
+      <svg viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%"><use href="#obCave"/></svg>
+      <div class="obveil"></div>
+    </div>
+    <div class="obfloat glass" id="obCard2"></div>
+    <div class="obinner">
+      <h1 id="ob2T"></h1>
+      <p class="sub" id="ob2S"></p>
+      <div class="obdots"><i></i><i class="on"></i><i></i></div>
+      <div class="obskip" id="ob2Tap"></div>
+    </div>
+  </div>
+
+  <!-- ONBOARDING 3: the world -->
+  <div class="screen ob" id="ob3">
+    <div class="obscene">
+      <svg viewBox="0 0 400 480" preserveAspectRatio="xMidYMid slice" style="width:100%;height:100%"><use href="#obDusk"/></svg>
+      <div class="obveil"></div>
+    </div>
+    <div class="obmosaic" id="obMosaic"></div>
+    <div class="obinner">
+      <h1 id="ob3T"></h1>
+      <p class="sub" id="ob3S"></p>
+      <div class="obbtn dark" style="margin-top:22px" id="ob3Go" onclick="swap('home')"></div>
+      <div class="obdots"><i></i><i></i><i class="on"></i></div>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <div class="screen" id="home">
+    <div class="scroll">
+      <div class="status"><span>9:41</span><svg viewBox="0 0 40 12"><path d="M1 8.5c2.6-2.4 6-2.4 8.6 0" stroke="currentColor" fill="none" stroke-linecap="round"/><circle cx="5.3" cy="10.6" r="1.2" fill="currentColor"/><rect x="15" y="2" width="20" height="9" rx="2.5" fill="none" stroke="currentColor"/><rect x="16.8" y="3.8" width="13" height="5.4" rx="1.2" fill="currentColor"/><rect x="36" y="4.6" width="2.4" height="3.8" rx="1.1" fill="currentColor"/></svg></div>
+      <div class="toprow">
+        <div class="who"><small id="tHi"></small><b id="tCity"></b></div>
+        <div class="langsw"><div id="swEn" class="on" onclick="setLang('en')">EN</div><div id="swAr" onclick="setLang('ar')">عربي</div></div>
+      </div>
+      <div class="bigask" id="hAsk"></div>
+      <div class="searchp glass" style="margin-top:14px" onclick="toast(T.xSearchT)"><svg class="ic s"><use href="#i-search"/></svg><span id="hSearch"></span></div>
+
+      <div class="cpills" id="countryRow" style="padding-top:16px"></div>
+
+      <div class="destcar" id="destCar"></div>
+
+      <div class="insight glass" onclick="openPlace('qarah')">
+        <div class="k" id="insK"></div><p id="insP"></p>
+        <div class="go"><svg class="ic flip"><use href="#i-arrow"/></svg></div>
+      </div>
+      <div class="slabel2"><span id="tNear"></span></div>
+      <div class="pgrid" id="homeGrid" style="padding-top:12px"></div>
+    </div>
+    <div class="navfade"></div>
+    <div class="navwrap">
+      <div class="pillnav glass" id="navHome"></div>
+      <div class="chatb glass" onclick="swap('chat')"><svg class="ic"><use href="#i-chat"/></svg></div>
+    </div>
+  </div>
+
+  <!-- EXPLORE -->
+  <div class="screen" id="explore">
+    <div class="scroll">
+      <div class="status"><span>9:41</span><span></span></div>
+      <div class="shead"><h1 id="xTitle"></h1></div>
+      <div class="searchp glass" onclick="toast(T.xSearchT)"><svg class="ic s"><use href="#i-search"/></svg><span id="xSearch"></span></div>
+      <div class="chips" id="xChips"></div>
+      <div class="pgrid" id="xGrid"></div>
+    </div>
+    <div class="navfade"></div>
+    <div class="navwrap">
+      <div class="pillnav glass" id="navExplore"></div>
+      <div class="chatb glass" onclick="swap('chat')"><svg class="ic"><use href="#i-chat"/></svg></div>
+    </div>
+  </div>
+
+  <!-- ROUTES -->
+  <div class="screen" id="routes">
+    <div class="scroll">
+      <div class="status"><span>9:41</span><span></span></div>
+      <div class="shead"><h1 id="rTitle"></h1></div>
+      <div id="rCards"></div>
+    </div>
+    <div class="navfade"></div>
+    <div class="navwrap">
+      <div class="pillnav glass" id="navRoutes"></div>
+      <div class="chatb glass" onclick="swap('chat')"><svg class="ic"><use href="#i-chat"/></svg></div>
+    </div>
+  </div>
+
+  <!-- CHAT -->
+  <div class="screen" id="chat">
+    <div class="scroll" style="padding-bottom:120px">
+      <div class="status"><span>9:41</span><span></span></div>
+      <div class="gbtnrow"><div class="gbtn" onclick="swap('home')"><svg class="ic flip"><use href="#i-back"/></svg></div><div></div></div>
+      <div class="chead"><div class="ava">أ</div><div><b id="cName"></b><small id="cOn"></small></div></div>
+      <div class="msgs" id="cMsgs"></div>
+      <div class="inputbar glass"><span id="cPh"></span><svg class="ic s" style="margin-inline-start:auto;color:var(--stone)"><use href="#i-mic"/></svg><div class="send"><svg class="ic s flip"><use href="#i-arrow"/></svg></div></div>
+    </div>
+  </div>
+
+  <!-- DETAIL -->
+  <div class="screen" id="detail">
+    <div class="scroll">
+      <div class="status"><span>9:41</span><span></span></div>
+      <div class="gbtnrow">
+        <div class="gbtn" onclick="swap(lastList)"><svg class="ic flip"><use href="#i-back"/></svg></div>
+        <div class="gbtn" onclick="saveTap(event,this)"><svg class="ic"><use href="#i-bmk"/></svg></div>
+      </div>
+      <div class="dheadwrap"><div class="dhead"><span class="kick" id="dKick"></span><h1 id="dTitle"></h1></div></div>
+      <div class="dgrid" id="dGrid"></div>
+      <div class="dstoryc glass"><div class="k" id="dSk"></div><p id="dStory"></p></div>
+      <div class="dcta glass" onclick="toast(T.bookToast)"><div><b id="dCtaT"></b><small id="dCtaS"></small></div><div class="btn" id="dCtaB"></div></div>
+    </div>
+    <div class="navfade"></div>
+    <div class="navwrap">
+      <div class="pillnav glass" id="navDetail"></div>
+      <div class="chatb glass" onclick="swap('chat')"><svg class="ic"><use href="#i-chat"/></svg></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"><span id="toasttxt"></span></div>
+</div>
+
+<script>
+const STR={
+ en:{tHi:"Good evening from",tCity:"Al-Ahsa",u1:"°C",l1:"Caves",l2:"Golden hour",l3:"Places",
+  insK:"Today in the Oasis",insP:"Golden hour is at 5:48. The caves will hold twenty degrees.",
+  nav:["Home","Explore","Routes"],
+  ob2T:"Stories, not pins.",ob2S:"Every place opens with what makes it matter — told by the people who live there.",ob2Tap:"Tap anywhere to continue",
+  obCard2:["AL-QARAH · THE STORY","Passages that stay cool while the desert burns. Caravans rested here…"],
+  ob3T:"From the oasis, outward.",ob3S:"Al-Ahsa is live today. New cities and countries join as their people bring the stories.",ob3Go:"Start exploring",
+  hAsk:"Where to next?",hSearch:"Search cities, places, stories…",
+  tNear:"TONIGHT IN AL-AHSA",
+  dests:[["alahsa","scQ","Al-Ahsa","71 places · the UNESCO oasis",0,"Explore Al-Ahsa"],["alula","scU","AlUla","The rock-carved wonder",1,""],["taif","scT","Taif","Roses & mountain air",1,""],["qassim","scQm","Qassim","Capital of dates",1,""],["riyadh","scR","Riyadh","The capital",1,""]],
+  countries:[["🇸🇦","Saudi Arabia",0],["🇦🇪","UAE",1],["🇪🇬","Egypt",1],["🇯🇴","Jordan",1]],
+  mosaic:[["scQ","Al-Ahsa",0],["scU","AlUla",1],["scT","Taif",1],["scQm","Qassim",1],["scR","Riyadh",1],["scL","+ more",1]],
+  soonToast:"Launching with local partners — the platform is ready",
+  xTitle:"Explore",xSearch:"Where to, today?",xSearchT:"Search all 71 places",
+  chips:[["all","All"],["heritage","Heritage"],["nature","Nature"],["mosques","Mosques"],["services","Eat & Stay"]],
+  rTitle:"Routes",bookToast:"Your request goes to the host on WhatsApp",
+  cName:"Atlas Concierge",cOn:"Knows all 71 places",cPh:"Ask about the oasis…",
+  msgs:[["me","Friday afternoon with kids — what's the plan?"],
+        ["bot","Start at Al-Qarah at 3:30 — the caves stay at twenty degrees, and kids love the passages. Then the Honey Factory tour at 5:00 (they do tastings). Finish at the lake for sunset at 5:48.","Al-Qarah · Honey Factory · Asfar Lake"],
+        ["me","Is the souq open after isha?"],
+        ["bot","Yes — Al-Qaisariya stays lively until 11 PM. Fridays peak after 8. The gahwa stalls near the west arcade are the ones locals queue for.","Souq Al-Qaisariya · open till 11 PM"]],
+  routes:[
+   {n:"The Heritage Loop",tag:"Free",gold:0,meta:"4 stops · half a day · 34 km",
+    stops:[["Al-Qarah Mountain","Caves & viewpoints · 90 min","14 min drive"],["Al-Ahsa Museum","The oasis story · 60 min","9 min drive"],["Mohairos Castle","Fortress history · 45 min","11 min drive"],["Jawatha Mosque","Finish at sunset",""]]},
+   {n:"The Oasis Farm Trail",tag:"Sponsored",gold:1,meta:"5 stops · 4 hrs · tastings included",stops:[]},
+   {n:"Three Perfect Days",tag:"Atlas Pass",gold:1,meta:"14 stops · offline & audio",stops:[]}],
+  places:[
+   ["qarah","scQ","Al-Qarah Mountain","Natural wonder · 18 min","Quiet now","ok","nature"],
+   ["souq","scS","Souq Al-Qaisariya","Heritage souq · 9 min","Lively","warn","heritage"],
+   ["lake","scL","Asfar Lake","Desert lake · 30 min","Sunset 5:48","ok","nature"],
+   ["jawatha","scJ","Jawatha Mosque","7th century · 22 min","Open","ok","mosques"],
+   ["palace","scS","Ibrahim Palace","Fortress · 7 min","Open now","ok","heritage"],
+   ["honey","scJ","Date's Honey Factory","Tour & tasting · 15 min","Tours 5 PM","mut","services"],
+   ["farm","scL","Hasawi Farm","Farm visit · 12 min","Booking","mut","services"],
+   ["castle","scQ","Mohairos Castle","Heritage fort · 11 min","Open now","ok","heritage"]],
+ },
+ ar:{tHi:"مساء الخير من",tCity:"الأحساء",u1:"°م",l1:"الكهوف",l2:"الساعة الذهبية",l3:"الأماكن",
+  insK:"اليوم في الواحة",insP:"الساعة الذهبية عند ٥:٤٨، والكهوف على عشرين درجة.",
+  nav:["الرئيسية","استكشف","المسارات"],
+  ob2T:"قصصٌ، لا مجرد نقاط على خريطة.",ob2S:"كل مكان يبدأ بما يجعله يستحق الزيارة — بكلمات أهله.",ob2Tap:"اضغط في أي مكان للمتابعة",
+  obCard2:["جبل القارة · القصة","ممرات تبقى باردة والصحراء تشتعل. استراحت هنا القوافل…"],
+  ob3T:"من الواحة إلى العالم.",ob3S:"الأحساء متاحة اليوم، ومدنٌ ودولٌ جديدة تنضم كلما حمل أهلها قصصهم.",ob3Go:"ابدأ الاستكشاف",
+  hAsk:"إلى أين وجهتك القادمة؟",hSearch:"ابحث عن مدن وأماكن وقصص…",
+  tNear:"الليلة في الأحساء",
+  dests:[["alahsa","scQ","الأحساء","٧١ مكاناً · واحة اليونسكو",0,"استكشف الأحساء"],["alula","scU","العلا","أعجوبة الصخور المنحوتة",1,""],["taif","scT","الطائف","الورد وهواء الجبال",1,""],["qassim","scQm","القصيم","عاصمة التمور",1,""],["riyadh","scR","الرياض","العاصمة",1,""]],
+  countries:[["🇸🇦","السعودية",0],["🇦🇪","الإمارات",1],["🇪🇬","مصر",1],["🇯🇴","الأردن",1]],
+  mosaic:[["scQ","الأحساء",0],["scU","العلا",1],["scT","الطائف",1],["scQm","القصيم",1],["scR","الرياض",1],["scL","+ المزيد",1]],
+  soonToast:"تُطلق مع شركاء محليين — المنصة جاهزة",
+  xTitle:"استكشف",xSearch:"إلى أين اليوم؟",xSearchT:"ابحث في ٧١ مكاناً",
+  chips:[["all","الكل"],["heritage","تراث"],["nature","طبيعة"],["mosques","مساجد"],["services","مطاعم وإقامة"]],
+  rTitle:"المسارات",bookToast:"طلبك يصل للمضيف عبر واتساب",
+  cName:"مرشد أطلس",cOn:"يعرف الأماكن الـ٧١ كلها",cPh:"اسأل عن الواحة…",
+  msgs:[["me","عصر الجمعة مع الأطفال — ما الخطة؟"],
+        ["bot","ابدأوا بجبل القارة عند ٣:٣٠ — الكهوف على عشرين درجة والأطفال يعشقون الممرات. ثم جولة مصنع عسل التمر عند ٥:٠٠ (فيها تذوق). واختموا عند البحيرة لغروبٍ عند ٥:٤٨.","جبل القارة · مصنع العسل · بحيرة الأصفر"],
+        ["me","هل السوق مفتوح بعد العشاء؟"],
+        ["bot","نعم — القيصرية نشِطة حتى ١١ مساءً، وذروة الجمعة بعد الثامنة. أكشاك القهوة عند الرواق الغربي هي التي يصطف عليها أهل البلد.","سوق القيصرية · حتى ١١ مساءً"]],
+  routes:[
+   {n:"درب التراث",tag:"مجاني",gold:0,meta:"٤ محطات · نصف يوم · ٣٤ كم",
+    stops:[["جبل القارة","الكهوف والمطلات · ٩٠ دقيقة","١٤ دقيقة بالسيارة"],["متحف الأحساء","قصة الواحة · ٦٠ دقيقة","٩ دقائق بالسيارة"],["قلعة محيرس","تاريخ القلعة · ٤٥ دقيقة","١١ دقيقة بالسيارة"],["مسجد جواثا","الختام مع الغروب",""]]},
+   {n:"درب مزارع الواحة",tag:"برعاية",gold:1,meta:"٥ محطات · ٤ ساعات · يشمل التذوق",stops:[]},
+   {n:"ثلاثة أيام مثالية",tag:"أطلس باس",gold:1,meta:"١٤ محطة · بدون إنترنت وصوتيات",stops:[]}],
+  places:[
+   ["qarah","scQ","جبل القارة","أعجوبة طبيعية · ١٨ دقيقة","هادئ الآن","ok","nature"],
+   ["souq","scS","سوق القيصرية","سوق تراثي · ٩ دقائق","نشِط","warn","heritage"],
+   ["lake","scL","بحيرة الأصفر","بحيرة صحراوية · ٣٠ دقيقة","الغروب ٥:٤٨","ok","nature"],
+   ["jawatha","scJ","مسجد جواثا","القرن الأول الهجري · ٢٢ دقيقة","مفتوح","ok","mosques"],
+   ["palace","scS","قصر إبراهيم","قلعة · ٧ دقائق","مفتوح الآن","ok","heritage"],
+   ["honey","scJ","مصنع عسل التمر","جولة وتذوق · ١٥ دقيقة","الجولات ٥م","mut","services"],
+   ["farm","scL","مزرعة حساوي","زيارة مزرعة · ١٢ دقيقة","بالحجز","mut","services"],
+   ["castle","scQ","قلعة محيرس","قلعة تراثية · ١١ دقيقة","مفتوح الآن","ok","heritage"]],
+ }};
+const PL={
+ qarah:{en:{kick:"UNESCO WORLD HERITAGE",title:"Al-Qarah Mountain",
+   grid:[["Caves","20°C","Steady","ok"],["Crowd","Quiet","Best before noon","ok"],["Entry","SAR 15","Per person","mut"],["Drive","18 min","From city center","mut"]],
+   sk:"The story",story:"Two million palms, one mountain — and passages that stay cool while the desert burns. Caravans rested here; so should you.",
+   ctaT:"Guided cave tour",ctaS:"45 min · local guide",ctaB:"Reserve"},
+  ar:{kick:"موقع تراث عالمي — اليونسكو",title:"جبل القارة",
+   grid:[["الكهوف","٢٠ درجة","ثابتة","ok"],["الزحام","هادئ","الأفضل قبل الظهر","ok"],["الدخول","١٥ ريال","للشخص","mut"],["المسافة","١٨ دقيقة","من وسط المدينة","mut"]],
+   sk:"القصة",story:"مليونا نخلة وجبلٌ واحد — وممرات تبقى باردة والصحراء تشتعل. استراحت هنا القوافل، فاسترح أنت أيضاً.",
+   ctaT:"جولة الكهوف مع مرشد",ctaS:"٤٥ دقيقة · مرشد محلي",ctaB:"احجز"}},
+ souq:{en:{kick:"TRADING SINCE 1822",title:"Souq Al-Qaisariya",
+   grid:[["Stalls","Open","Until 11 PM","ok"],["Crowd","Lively","Evenings peak","warn"],["Entry","Free","Walk right in","mut"],["Drive","9 min","From city center","mut"]],
+   sk:"The story",story:"Two hundred years of bargaining under one arcade. Bisht tailors, date merchants, and gahwa poured the old way.",
+   ctaT:"Souq walking tour",ctaS:"60 min · evenings",ctaB:"Reserve"},
+  ar:{kick:"تجارة منذ عام ١٨٢٢",title:"سوق القيصرية",
+   grid:[["المحلات","مفتوحة","حتى ١١ مساءً","ok"],["الزحام","نشِط","ذروة المساء","warn"],["الدخول","مجاني","تفضل مباشرة","mut"],["المسافة","٩ دقائق","من وسط المدينة","mut"]],
+   sk:"القصة",story:"مئتا سنة من المساومة تحت رواقٍ واحد. خيّاطو البشوت وتجّار التمر وقهوةٌ تُصبّ على الطريقة الأولى.",
+   ctaT:"جولة السوق سيراً",ctaS:"٦٠ دقيقة · مساءً",ctaB:"احجز"}},
+ lake:{en:{kick:"THE DESERT'S QUIETEST HOUR",title:"Asfar Lake",
+   grid:[["Best hour","5:48","Golden light","ok"],["Crowd","Sparse","Weekdays quietest","ok"],["Entry","Free","Open access","mut"],["Drive","30 min","Bring water","mut"]],
+   sk:"The story",story:"A lake where no lake should be — dunes on one shore, reeds on the other, and an hour each evening when the water turns to molten glass.",
+   ctaT:"Sunset photo spot",ctaS:"Pin & parking",ctaB:"Directions"},
+  ar:{kick:"أهدأ ساعات الصحراء",title:"بحيرة الأصفر",
+   grid:[["أجمل ساعة","٥:٤٨","الضوء الذهبي","ok"],["الزحام","قليل","أيام الأسبوع أهدأ","ok"],["الدخول","مجاني","دخول حر","mut"],["المسافة","٣٠ دقيقة","خذ معك ماءً","mut"]],
+   sk:"القصة",story:"بحيرة في غير موضع البحيرات — كثبان على ضفة وقصب على الأخرى، وساعةٌ كل مساء يتحول فيها الماء إلى زجاجٍ مذاب.",
+   ctaT:"موقع الغروب للتصوير",ctaS:"الموقع والمواقف",ctaB:"الاتجاهات"}},
+ jawatha:{en:{kick:"SEVENTH CENTURY",title:"Jawatha Mosque",
+   grid:[["Status","Open","Outside prayers","ok"],["Dress","Modest","Visitors welcome","mut"],["Entry","Free","All welcome","mut"],["Drive","22 min","Via palm groves","mut"]],
+   sk:"The story",story:"Among the oldest mosques in Eastern Arabia — the second Friday prayer in Islam's history was held on this ground, fourteen centuries ago.",
+   ctaT:"Heritage Loop route",ctaS:"Final stop · sunset",ctaB:"View route"},
+  ar:{kick:"القرن الأول الهجري",title:"مسجد جواثا",
+   grid:[["الحالة","مفتوح","خارج أوقات الصلاة","ok"],["اللباس","محتشم","الزوّار مرحّب بهم","mut"],["الدخول","مجاني","للجميع","mut"],["المسافة","٢٢ دقيقة","عبر النخيل","mut"]],
+   sk:"القصة",story:"من أقدم مساجد شرق الجزيرة — أُقيمت على هذه الأرض ثاني جمعة في تاريخ الإسلام، قبل أربعة عشر قرناً.",
+   ctaT:"درب التراث",ctaS:"المحطة الأخيرة · الغروب",ctaB:"عرض المسار"}}
+};
+let lang="en",T=STR.en,curPlace="qarah",xFilter="all",lastList="home";
+function navHTML(active){
+ return T.nav.map((lbl,i)=>{
+  const id=["home","explore","routes"][i];
+  return `<div class="nitem ${active===id?"on":""}" onclick="swap('${id}')">
+    <div class="nic"><svg class="ic s"><use href="#i-${["home","compass","route"][i]}"/></svg></div><span>${lbl}</span></div>`;
+ }).join("");
+}
+function renderNavs(active){
+ ({home:"navHome",explore:"navExplore",routes:"navRoutes",detail:"navDetail"});
+ document.getElementById("navHome").innerHTML=navHTML("home");
+ document.getElementById("navExplore").innerHTML=navHTML("explore");
+ document.getElementById("navRoutes").innerHTML=navHTML("routes");
+ document.getElementById("navDetail").innerHTML=navHTML("explore");
+}
+function tileHTML(p){
+ return `<div class="ptile glass" onclick="openPlace('${p[0]}')">
+   <div class="thumb"><svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice"><use href="#${p[1]}"/></svg></div>
+   <b>${p[2]}</b><small>${p[3]}</small><span class="st st-${p[5]}">${p[4]}</span></div>`;
+}
+function destHTML(d){
+ const soon=d[4];
+ return `<div class="dest ${soon?"soonc":""}" onclick="${soon?"toast(T.soonToast)":"swap('explore')"}">
+   <svg class="bg" viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice"><use href="#${d[1]}"/></svg>
+   <div class="veil"></div>
+   ${soon?`<span class="soon3">${lang==="ar"?"قريباً":"SOON"}</span>`
+        :`<span class="live3"><i></i>${lang==="ar"?"متاحة الآن":"LIVE"}</span>`}
+   <div class="body3"><div class="cn">${d[2]}</div><div class="cs">${d[3]}</div>
+     ${d[5]?`<span class="cta3">${d[5]} <svg class="ic s flip"><use href="#i-arrow"/></svg></span>`:""}</div>
+ </div>`;
+}
+function renderHome(){
+ ["tHi","tCity","insK","insP","hAsk","hSearch","tNear"].forEach(k=>{const el=document.getElementById(k);if(el)el.textContent=T[k]});
+ document.getElementById("countryRow").innerHTML=T.countries.map(c=>`<div class="cpill ${c[2]?"":"on"}" onclick="${c[2]?"toast(T.soonToast)":""}"><span class="flag">${c[0]}</span>${c[1]}${c[2]?"":" ✓"}</div>`).join("");
+ document.getElementById("destCar").innerHTML=T.dests.map(destHTML).join("");
+ document.getElementById("homeGrid").innerHTML=T.places.slice(0,4).map(tileHTML).join("");
+ // onboarding
+ document.getElementById("ob2T").textContent=T.ob2T;
+ document.getElementById("ob2S").textContent=T.ob2S;
+ document.getElementById("ob2Tap").textContent=T.ob2Tap;
+ document.getElementById("obCard2").innerHTML=`<div class="k2">${T.obCard2[0]}</div><p>${T.obCard2[1]}</p>`;
+ document.getElementById("ob3T").textContent=T.ob3T;
+ document.getElementById("ob3S").textContent=T.ob3S;
+ document.getElementById("ob3Go").textContent=T.ob3Go;
+ document.getElementById("obMosaic").innerHTML=T.mosaic.map(m=>`<div class="m ${m[2]?"soon":""}"><svg viewBox="0 0 400 200" preserveAspectRatio="xMidYMid slice"><use href="#${m[0]}"/></svg><span>${m[1]}</span></div>`).join("");
+}
+function renderExplore(){
+ document.getElementById("xTitle").textContent=T.xTitle;
+ document.getElementById("xSearch").textContent=T.xSearch;
+ document.getElementById("xChips").innerHTML=T.chips.map(c=>`<div class="chip ${xFilter===c[0]?"on":""}" onclick="xFilter='${c[0]}';renderExplore()">${c[1]}</div>`).join("");
+ document.getElementById("xGrid").innerHTML=T.places.filter(p=>xFilter==="all"||p[6]===xFilter).map(tileHTML).join("");
+}
+function renderRoutes(){
+ document.getElementById("rTitle").textContent=T.rTitle;
+ document.getElementById("rCards").innerHTML=T.routes.map((r,i)=>`
+  <div class="rcard glass" onclick="${r.stops.length?"":"toast(T.routes["+i+"].n)"}">
+   <div class="toprow2"><b class="nm">${r.n}</b><span class="tag ${r.gold?"gold":""}">${r.tag}</span></div>
+   <div class="meta2">${r.meta}</div>
+   ${r.stops.length?`<div class="tl">${r.stops.map((s,j)=>`
+     <div class="tstop"><div class="rail"><div class="tnum">${lang==="ar"?["١","٢","٣","٤"][j]:j+1}</div>${j<r.stops.length-1?'<div class="tline"></div>':""}</div>
+     <div class="tinfo"><b>${s[0]}</b><small>${s[1]}</small>${s[2]?`<span class="drivec">→ ${s[2]}</span>`:""}</div></div>`).join("")}</div>`:""}
+  </div>`).join("");
+}
+function renderChat(){
+ document.getElementById("cName").textContent=T.cName;
+ document.getElementById("cOn").textContent=T.cOn;
+ document.getElementById("cPh").textContent=T.cPh;
+ document.getElementById("cMsgs").innerHTML=T.msgs.map(m=>`
+  <div class="msg ${m[0]} ${m[0]==="bot"?"glass":""}">${m[1]}${m[2]?`<span class="cite">${m[2]}</span>`:""}</div>`).join("");
+}
+function openPlace(k){
+ if(!PL[k]){toast(lang==="ar"?"الصفحة الكاملة مع الدليل الكامل":"Full page ships with the full catalog");return}
+ lastList=document.querySelector(".screen.active").id;if(lastList==="detail")lastList="home";
+ curPlace=k;const L=PL[k][lang];
+ document.getElementById("dKick").textContent=L.kick;
+ document.getElementById("dTitle").textContent=L.title;
+ document.getElementById("dGrid").innerHTML=L.grid.map(g=>`<div class="dcell glass"><span class="chipb">${g[0]}</span><div class="num">${g[1]}</div><div class="state st-${g[3]}">${g[2]}</div></div>`).join("");
+ document.getElementById("dSk").textContent=L.sk;
+ document.getElementById("dStory").textContent=L.story;
+ document.getElementById("dCtaT").textContent=L.ctaT;
+ document.getElementById("dCtaS").textContent=L.ctaS;
+ document.getElementById("dCtaB").textContent=L.ctaB;
+ swap("detail");
+}
+function renderAll(){renderNavs();renderHome();renderExplore();renderRoutes();renderChat()}
+function setLang(l){
+ lang=l;T=STR[l];
+ const ph=document.getElementById("phone");
+ ph.setAttribute("dir",l==="ar"?"rtl":"ltr");
+ ph.classList.toggle("rtl",l==="ar");
+ document.getElementById("swEn").classList.toggle("on",l==="en");
+ document.getElementById("swAr").classList.toggle("on",l==="ar");
+ renderAll();
+ if(document.getElementById("detail").classList.contains("active"))openPlace(curPlace);
+}
+function swap(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");
+ const sc=document.querySelector("#"+id+" .scroll");if(sc)sc.scrollTop=0}
+function saveTap(e,el){e.stopPropagation();el.classList.toggle("on")}
+let tt;function toast(m){const t=document.getElementById("toast");document.getElementById("toasttxt").textContent=m;
+ t.classList.add("show");clearTimeout(tt);tt=setTimeout(()=>t.classList.remove("show"),2100)}
+renderAll();
+</script>
+</body>
+</html>
